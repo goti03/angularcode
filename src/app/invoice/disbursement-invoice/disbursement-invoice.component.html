@@ -1,0 +1,75 @@
+<div class="body">
+<div class="wrapper">
+    <div class="page">
+        <div class="page-content">
+            <div class="page-content-inside">
+                <div class="page-title-head">FinAGG Invoice Disbursement </div>
+                <div class="welcome-note">ABC Kirana</div>
+                <div class="card mt-10">
+                    <div class="green-box-pat clearfix">
+                        <div class="icon-cash-back"><i class="fas fa-check-circle tick-green"></i></div>
+                        <div class="amount-text">
+                            <div class="amount-text1">FinAGG Avaialable Limit</div>
+                            <div class="amount-final">&#8377; 10000000.00</div>
+                            <!--<div class="amount-text1">( Last update on 16/06/2021 )</div>-->
+                        </div>
+                    </div>
+                </div>
+                <form (ngSubmit)="submit()">
+                    <div class="scrollbar">
+                <div class="card1 mt-20" *ngIf="!otpcheck&&!done">
+                    <div class="green-box-pat1 clearfix">
+                        <div class="amount-features"><span class="amount-text1">Order  No</span> <span ><input type="text"  value="" placeholder="Order Number" [(ngModel)]="OrderNo"[ngModelOptions]="{standalone: true}" ></span></div>
+                    </div>
+                    <div class="green-box-pat1 clearfix">
+                        <div class="amount-features"><span class="amount-text1" >Order Date</span> <span  ><input type="date"style="background-color: white; width: 230px; border-color: black;" value="" [(ngModel)]="OrderDate" [ngModelOptions]="{standalone: true}" (keypress)="preventTyping()"></span></div>
+                    </div>
+                    <div class="green-box-pat1 clearfix">
+                        <div class="amount-features"><span class="amount-text1">Order Amount</span> <span ><input type="text" value="" placeholder="Order Amount"  [(ngModel)]="orderAmount"[ngModelOptions]="{standalone: true}" ></span></div>
+                    </div>
+                    <div class="green-box-pat1 clearfix">
+                        <div class="amount-features"><span class="amount-text1">Fund Amount</span> <span ><input type="text" value="" placeholder="Fund Amount" [(ngModel)]="fundAmount" [ngModelOptions]="{standalone: true}"></span></div>
+                    </div>
+                    <div class="green-box-pat1 clearfix">
+                        <div class="amount-features"><span class="amount-text1">Bene Id</span> <span><input type="text" value="" placeholder="Bene Id" [(ngModel)]="Beneid" [ngModelOptions]="{standalone: true}"></span></div>
+                        
+                      
+                    </div>
+                </div>
+           
+                <div class="funding-sub-heading mt-20" *ngIf="!otpcheck&&!done">Upload DOC</div>
+                <div class="input-group mb-3" *ngIf="!otpcheck">
+                    <input id="file" type="file" class="form-control" style="width: auto;overflow: hidden;" (change)="fileSelection($event.target.files)"
+                    accept="application/pdf, image/jpeg" >
+                  <div class="input-group-append" *ngIf="!otpcheck">
+                    <button class="btn btn-outline-secondary new-button" type="submit" style="margin-left: 40px; margin-top: 10px;">Upload</button>
+                  </div>
+                </div>
+                </div>
+                </form>
+                <div class="form-group" *ngIf="otpcheck&&!done" style="margin-left: 50px;"> 
+                    <label class="label-text-bold" style="margin-left: 25px;">Enter OTP </label>	
+                    <input type="password" class="form-control otp-textbox" id="exampleInputEmail1" (keypress)="keyPress($event)" [(ngModel)]="otp1" [ngModelOptions]="{standalone: true}" maxlength="1">
+                    <input type="password" class="form-control otp-textbox" id="exampleInputEmail2" maxlength="1" (keypress)= "keyPress($event)" [(ngModel)]="otp2" [ngModelOptions]="{standalone: true}">
+                    <input type="password" class="form-control otp-textbox" id="exampleInputEmail3" maxlength="1" (keypress)="keyPress($event)" [(ngModel)]="otp3" [ngModelOptions]="{standalone: true}">
+                    <input type="password" class="form-control otp-textbox" id="exampleInputEmail4" maxlength="1" (keypress)="keyPress($event)" [(ngModel)]="otp4" [ngModelOptions]="{standalone: true}">
+                  
+                  </div>
+                  <label *ngIf="resent&&otpcheck&&!done">Resend OTP will be enabled in {{timer}} seconds</label>
+                  <button class="btn btn-outline-secondary new-button" *ngIf="otpcheck&&!done" (click)="verifyOTP()"style="margin-left: 40px; margin-top: 10px;">Verify</button>
+                  <button class="btn btn-outline-secondary new-button" *ngIf="!resent&&otpcheck&&!done" (click)="generateOTP()"style="margin-left: 40px; margin-top: 10px;">Resend OTP</button>
+                  <div class="card pb-20"  *ngIf="done"style="background-color: lightgreen; color: white; border-radius: 20px; text-align: center; margin-top: 10px;"  >
+                    <img src="assets/images/handshake.png" alt="FinAgg Quick Cash Flow" >
+                              <p>INVOICE SUCCESSFULLY DISBURSED</p>  <br>
+                        
+                              <!-- <button (click)="goforward()"  class="btn btn-primary w-100 fin-btn-green" style="  color: white;">PROCEED</button> -->
+                </div>
+                <div class="footer-help mt-20">
+                    <a href="#" class="help-text"><i class="fa fa-question-circle"></i> Need Help</a>
+                    <a href="#" class="help-text"><i class="fa fa-sign-in"></i> How to Disbusrement</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

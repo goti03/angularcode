@@ -1,0 +1,253 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <h3>Update Sourcing Partner</h3>
+        <div style="width: 1000px;">
+          <form (ngSubmit)="onSubmit()" [formGroup]="sourceupdateForm">
+            <table class="table table-striped table-striped">
+              <tr>
+                <td>
+                  <font style="color: red;">*</font>Sourcing Partner Name
+                </td>
+                <td>
+                  <input type="text" class="form-control box-size" id="sourcingName" 
+                    [(ngModel)]="sourcing.sourcingName" name="sourcingName" formControlName="spName">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['spName'].touched && sourceupdateForm.controls['spName'].invalid) || (submitted && sourceupdateForm.controls['spName'].invalid))"
+                    class="invalid-feedback">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['spName'].errors) && (sourceupdateForm.controls['spName'].errors.required)">
+                      Required Field
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <font style="color: red;">*</font>Address
+                </td>
+                <td>
+                  <input type="text" class="form-control box-size" id="address" required [(ngModel)]="sourcing.address"
+                    name="address" formControlName="address">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['address'].touched && sourceupdateForm.controls['address'].invalid) || (submitted && sourceupdateForm.controls['address'].invalid))"
+                    class="invalid-feedback">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['address'].errors) && (sourceupdateForm.controls['address'].errors.required)">
+                      Required Field
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <font style="color: red;">*</font>Contact Name
+                </td>
+                <td>
+                  <input type="text" class="form-control box-size" id="contactName" required
+                    [(ngModel)]="sourcing.contactName" name="contactName" formControlName="contactName">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['contactName'].touched && sourceupdateForm.controls['contactName'].invalid) || (submitted && sourceupdateForm.controls['contactName'].invalid))"
+                    style="color:red">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['contactName'].errors) && (sourceupdateForm.controls['contactName'].errors.required)">
+                      Required Field
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <font style="color: red;">*</font>Mobile No
+                </td>
+                <td>
+                  <input type="number" class="form-control box-size" id="mobileNo" required
+                    [(ngModel)]="sourcing.mobileNo" name="mobileNo" formControlName="mobileNo">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['mobileNo'].touched && sourceupdateForm.controls['mobileNo'].invalid) || (submitted && sourceupdateForm.controls['mobileNo'].invalid))"
+                    style="color:red">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['mobileNo'].errors) && (sourceupdateForm.controls['mobileNo'].errors.required)">
+                      Required Field
+                    </div>
+                    <div
+                      *ngIf="(sourceupdateForm.controls['mobileNo'].errors) && (sourceupdateForm.controls['mobileNo'].errors.pattern)">
+                      Invalid Phone Number
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <font style="color: red;">*</font>State
+                </td>
+                <td>  <select class="form-control" id="programTypeId" required [(ngModel)]="sourcing.state"  (change)="selectcity($event.target.value)"[ngClass]="{standalone: true}" formControlName="state">
+                  <option *ngFor="let ptl of stateList" [value]="ptl.stateId">{{ptl.stateName}}
+                  </option>
+              </select>
+          </td> 
+                <td>
+                  <font style="color: red;">*</font>City
+                </td>
+                <td>  <select class="form-control" id="programTypeId" required [(ngModel)]="sourcing.city" [ngClass]="{standalone: true}" formControlName="city">
+                  <option *ngFor="let pt of cityList" [value]="pt.cityName">{{pt.cityName}}
+                  </option>
+              </select>
+          </td> 
+              </tr>
+              <tr>
+                <td>Landmark</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="landmark" [(ngModel)]="sourcing.landmark"
+                    name="landmark" formControlName="landMark" [ngClass]="{standalone: true}">
+                </td>
+                <td>
+                  <font style="color: red;">*</font>Pincode
+                </td>
+                <td>
+                  <input type="text" (keypress)="keyPress($event)" class="form-control box-size" id="pincode" required
+                    [(ngModel)]="sourcing.pincode" name="pincode" formControlName="pinCode"
+                    (change)="pin($event.target.value)">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['pinCode'].touched && sourceupdateForm.controls['pinCode'].invalid) || (submitted && sourceupdateForm.controls['pinCode'].invalid))"
+                    class="invalid-feedback">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['pinCode'].errors) && (sourceupdateForm.controls['pinCode'].errors.required)">
+                      Required Field
+                    </div>
+                    <div
+                      *ngIf="(sourceupdateForm.controls['pinCode'].errors) && (sourceupdateForm.controls['pinCode'].errors.pattern)">
+                      Invalid PIN CODE
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>Email Id</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="emailId" [(ngModel)]="sourcing.emailId"
+                    name="emailId" formControlName="emailId" [ngClass]="{standalone: true}">
+                </td>
+
+                <td style="white-space: nowrap;">  <font style="color: red;">*</font>Anchor Code</td>
+                <td>
+                  <input type="text" (keypress)="alphakeyPress($event)" style="text-transform: uppercase"  class="form-control box-size" id="anchorCode" [(ngModel)]="sourcing.anchorCode"
+                    name="anchorCode" maxlength="3"  formControlName="anchorCode" [ngClass]="{standalone: true}">
+                </td>
+                
+                <td></td>
+                <td></td>
+              </tr>
+
+              <br>
+              <h3>Bank Details</h3>
+              <tr>
+                <td>Bank Name</td>
+                <td>
+                  <select formControlName="bankName" class="form-control box-size" [(ngModel)]="sourcing.bankName"
+                    id="bankName" [ngClass]="{standalone: true}">
+                    <option></option>
+                    <option *ngFor="let bank of bankList" [value]="bank.bankName">{{bank.bankName}}</option>
+                  </select>
+                </td>
+                <td>Branch</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="bankBranch" [(ngModel)]="sourcing.bankBranch"
+                    name="bankBranch" formControlName="branchName" [ngClass]="{standalone: true}">
+                </td>
+              </tr>
+              <tr>
+                <td>Account No</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="accountNo" [(ngModel)]="sourcing.accountNo"
+                    name="accountNo" formControlName="accountNo" [ngClass]="{standalone: true}">
+                </td>
+                <td>IFSC Code</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="ifscCode" [(ngModel)]="sourcing.ifscCode"
+                    name="ifscCode" formControlName="ifscCode" [ngClass]="{standalone: true}" minlength="11" maxlength="11">
+                </td>
+              </tr>
+              <br>
+              <h3>Registration Details</h3>
+              <tr>
+                <td>Registration No</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="registrationNo"
+                    [(ngModel)]="sourcing.registrationNo" name="registrationNo" formControlName="registrationNo"
+                    [ngClass]="{standalone: true}">
+                </td>
+                <td>
+                  <font style="color: red;">*</font>Billing State
+                </td>
+                <td>
+                  <input type="text" class="form-control box-size" id="billingState" required
+                    [(ngModel)]="sourcing.billingState" name="billingState" formControlName="billingState">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['billingState'].touched && sourceupdateForm.controls['billingState'].invalid) || (submitted && sourceupdateForm.controls['billingState'].invalid))"
+                    class="invalid-feedback">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['billingState'].errors) && (sourceupdateForm.controls['billingState'].errors.required)">
+                      Required Field
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <font style="color: red;">*</font>PAN No
+                </td>
+                <td>
+                  <input type="text" class="form-control box-size" id="panNo" required [(ngModel)]="sourcing.panNo"
+                    name="panNo" formControlName="panNo">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['panNo'].touched && sourceupdateForm.controls['panNo'].invalid) || (submitted && sourceupdateForm.controls['panNo'].invalid))"
+                    class="invalid-feedback">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['panNo'].errors) && (sourceupdateForm.controls['panNo'].errors.required)">
+                      Required Field
+                    </div>
+                    <div
+                      *ngIf="(sourceupdateForm.controls['panNo'].errors) && (sourceupdateForm.controls['panNo'].errors.pattern)">
+                      Invalid PAN Number
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <font style="color: red;">*</font>GST No
+                </td>
+                <td>
+                  <input type="text" class="form-control box-size" id="gstNo" required [(ngModel)]="sourcing.gstNo"
+                    name="gstNo" formControlName="gstNo">
+                  <div
+                    *ngIf="((sourceupdateForm.controls['gstNo'].touched && sourceupdateForm.controls['gstNo'].invalid) || (submitted && sourceupdateForm.controls['gstNo'].invalid))"
+                    class="invalid-feedback">
+                    <div
+                      *ngIf="(sourceupdateForm.controls['gstNo'].errors) && (sourceupdateForm.controls['gstNo'].errors.required)">
+                      Required Field
+                    </div>
+                    <div
+                      *ngIf="(sourceupdateForm.controls['gstNo'].errors) && (sourceupdateForm.controls['gstNo'].errors.pattern)">
+                      Invalid GST Number
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>stale Days</td>
+                <td>
+                  <input type="text" (keypress)="stalekeyPress($event)" class="form-control box-size" id="staleDays" [ngClass]="{standalone: true}"
+                    [(ngModel)]="sourcing.staleDays" name="staleDays" formControlName="staleDays">
+                </td>
+              </tr>
+              <tr align="center">
+                <td colspan="4"><button type="submit" class="btn btn-success">Submit</button></td>
+              </tr>
+            </table>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

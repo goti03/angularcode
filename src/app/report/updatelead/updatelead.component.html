@@ -1,0 +1,109 @@
+<div class="row">
+    <div class="">
+        <div class="card" style="align-content: center; margin-left: 20px;">
+            <div class="card-body">
+
+                <div class="row mb-3">
+                    <div class="col"><h4 class="card-title">Lead Details</h4></div>
+                    <div class="col"><div class="search-hero">
+                        <input class="form-control" type="text" name="search" [(ngModel)]="leadlist" autocomplete="off"
+                            placeholder="&#61442;  Start searching ">
+                            
+                    </div></div>
+                    <div class="col"><button class="btn btn-primary"
+                        (click)="sourcingPartner(sourcingpartner)" *ngIf="roleId != 15">ADD NEW LEAD</button>
+                        <button class="btn btn-primary"
+                        (click)="routing()" *ngIf="roleId == 15">ADD NEW LEAD</button>
+                    </div>
+                </div>
+                
+                
+               
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr class="table-info">
+                            <th>Sno</th>
+                            <th *ngIf="roleId != 15">Sourcing Partner Name</th>
+                            <th>Company Name</th>
+
+                            <th>GST Number</th>
+                            <th>Pan Number</th>
+                            <th>Converted to Loan</th>
+                            <th>Mobile Number</th>
+                            <th>Pin Code</th>
+                            <th>Creditline Amount</th>
+                            <th>Business Turnover</th>
+                            <th>Created On</th>
+                            <th>Created By</th>
+                            <th>Similar Applicants</th>
+                            <th>Remarks</th>
+                            <th>Save Remarks</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr
+                            *ngFor="let bdata of requestList  | filter:leadlist | paginate: { itemsPerPage: p1, currentPage: p }; let i = index">
+         
+                             <td>{{((p-1)*p1)+i+1}}</td>
+
+                            <td *ngIf="roleId != 15">{{bdata.spName}}</td>
+
+                            <td>{{bdata.orgName}}</td>
+                            <td>
+                                {{bdata.GSTNo}}
+                            </td>
+                            <td *ngIf="roleId==15">{{bdata.panNo}}</td>
+                            <td button class="btn btn-link" (click)="gotoList(bdata.panNo,bdata.loanIdCount)" *ngIf="roleId!=15">{{bdata.panNo}}</td>
+                            <td>{{bdata.converter}}</td>
+                            <td>{{bdata.mobileNo}}</td>
+                            <td >{{bdata.pincode}}</td>
+
+                            <td>{{bdata.creditLineAmount}}</td>
+                            <td>{{bdata.turnOver}}</td>
+                            <td>{{bdata.createdOn}}</td>
+                            <td>{{bdata.userName}}</td>
+                           <td>{{bdata.loanIdCount}}</td>
+                            <td><input type="text" class="form-control"  [(ngModel)]="bdata.remarks" id="remarks{{i}}"/></td>
+                            <td>  <button class="btn btn-primary"  style="height: 30px ;width:80px; font-size: 13px; padding:5px" (click)="save(bdata.lmsId,bdata.remarks)">SAVE</button></td>
+                            
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+        
+      
+        </div>
+    </div>
+</div>
+<ng-template let-modal #sourcingpartner>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Select Sourcing Partner</h4>
+        <h4>{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+        <div class="col">
+            <label for="sp">Sourcing Partner</label>
+            <select class="form-control" style="width: 240px;" [(ngModel)]="sourcingPartnerId"
+                name="sp" id="sourcingPartnerId">
+                <option *ngFor="let spl of sourcingPartnerList" [value]="spl.orgId">
+                    {{spl.name}}
+                </option>
+            </select>
+        </div>
+        </div>
+            <!-- <div class="red mt-10">Please download, sign the form and upload it.</div> -->
+        
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" (click)="Add()" (click)="modal.dismiss('Cross click')">Proceed</button>
+    </div>
+
+</ng-template>

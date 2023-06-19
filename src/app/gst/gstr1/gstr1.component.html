@@ -1,0 +1,268 @@
+<!-- <div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{h.loanAmount}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col text-center">
+                        <h3>GST R1</h3>
+                    </div>
+                </div>
+
+                <div class="row mt-5 justify-content-center">
+                    <div class="col-2">
+                        <label>
+                            GST No:
+                        </label>
+                    </div>
+                    <div class="col-2">
+                        <select class="form-control" (change)="changeGstNo($event)">
+                            <option *ngFor="let gst of gstList" value="{{gst.gstNo}}">{{gst.gstNo}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center mt-5">
+                    <div class="col-4">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>
+                                    Last Return Period
+                                </th>
+                                <th>
+                                    Last Filed Period
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="date" class="form-control" [ngModel]="returnPeriod | date : 'yyyy-MM-dd' " (ngModelChange)="returnPeriod=$event"></td>
+                                    <td><input type="date" class="form-control" [ngModel]="filedDate | date : 'yyyy-MM-dd' " (ngModelChange)="filedDate=$event"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mt-5" *ngIf="hide">
+                    <div class="col">
+                        <h3>R1</h3>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Period</th>
+                                    <th>Total Taxable</th>
+                                    <th>Total IGST</th>
+                                    <th>Total CGST</th>
+                                    <th>Total SGST</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let r1 of r1List; let i =index">
+                                    <td>{{i+1}}</td>
+                                    <td><input type="month" class="form-control" [ngModel]="period[i] | date : 'yyyy-MM' " (ngModelChange)="period[i]=$event" required>
+                                    </td>
+                                    <td><input type="text" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalval"></td>
+                                    <td><input type="text" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalIgst"></td>
+                                    <td><input type="text" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalCgst"></td>
+                                    <td><input type="text" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalSgst"></td>
+                                    <td>
+                                        <button class="btn" (click)="delR1(i)" *ngIf="r1.headerId==''" title="Delete">
+                                            <i class="fa fa-trash fa-2x" style="color: #fc120e;"></i></button>
+                                        <i class="fa fa-ban fa-2x" *ngIf="r1.headerId!=''" aria-hidden="true"></i>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-primary" (click)="addR1()">Add Button</button>
+                    </div>
+
+                </div>
+                <div class="row" *ngIf="hide">
+                    <div class="col text-center">
+                        <button class="btn btn-success" (click)="save()">Save</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="fin-row">
+    <div class="fin-card">
+        <div class="table-responsive">
+            <table class="table fin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="fin-card mt-20 clearfix">
+    <div class="clearfix fin-heading">GST R1</div>
+    <div class="fin-col-left">
+        <div class="table-responsive mt-30">
+            <table class="table fin-table-green nowrap" >
+                <tbody>
+                    <tr>
+                        <td style="border-bottom:0px none;">Enter PAN No.</td>
+                        <td style="border-bottom:0px none;">
+                            <select class="form-select"(change)="changeGstNo($event)">
+                                <option *ngFor="let gst of gstList" value="{{gst.gstNo}}">{{gst.gstNo}}</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="fin-col-right">
+        <div class="table-responsive">
+            <table class="table table fin-table-blue">
+                <thead>
+                    <tr>
+                        <th>Last Return Period</th>
+                        <th>Last Filed Period</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="fin-date-textbox">
+                                <input type="date" class="form-control" [disabled]="roleId!=1" [ngModel]="returnPeriod | date : 'yyyy-MM-dd' " (ngModelChange)="returnPeriod=$event" (keypress)="preventTyping()">
+                                <!-- <span><i class="far fa-calendar-alt"></i></span> -->
+                            </div>
+                        </td>
+                        <td>
+                            <div class="fin-date-textbox">
+                                <input type="date" class="form-control" [disabled]="roleId!=1" [ngModel]="filedDate | date : 'yyyy-MM-dd' " (ngModelChange)="filedDate=$event" (keypress)="preventTyping()">
+                                <!-- <span><i class="far fa-calendar-alt"></i></span> -->
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="fin-card mt-20">
+    <div class="clearfix fin-heading">R1</div>
+    <div class="table-responsive mt-10">
+        <table class="table table-striped table-bordered fin-table-blue fin-custom-table">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Period</th>
+                    <th>Total Taxable</th>
+                    <th>Total IGST</th>
+                    <th>Total CGST</th>
+                    <th>Total SGST</th>
+                  
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let r1 of r1List; let i =index">
+                    <td>{{i+1}}</td>
+                    <td>
+                        <div class="fin-date-textbox">
+                            <!-- <input type="month" [disabled]="roleId!=1" class="form-control" max={{maxdate}} [ngModel]="period[i] | date : 'yyyy-MM'" (change)="updateMonth(r1)" (ngModelChange)="period[i]=$event" required> -->
+                            <input type="month" [disabled]="true" (keypress)="preventTyping()" class="form-control" max={{maxdate}} [ngModel]="r1.period | date : 'yyyy-MM'" (change)="updateMonth(r1,$event)" (ngModelChange)="r1.period=$event" required>
+                        </div>
+                    </td>
+                    <td><input type="text" [disabled]="true" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalval" (change)="gstR1UpdateFlag(r1)"></td>
+                    <td><input type="text" [disabled]="true" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalIgst" (change)="gstR1UpdateFlag(r1)"></td>
+                    <td><input type="text" [disabled]="true" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalCgst" (change)="gstR1UpdateFlag(r1)"></td>
+                    <td><input type="text" [disabled]="true" class="form-control" (keypress)="keyPress($event)" [(ngModel)]="r1.totalSgst" (change)="gstR1UpdateFlag(r1)"></td>
+                   
+                </tr>
+                
+            </tbody>
+        </table>
+        <!-- <nav aria-label="...">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+              <span class="page-link">
+                2
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav> -->
+    </div>
+   
+</div>
+
+<app-action-tab *ngIf="tab1" (toggle)="toggle()" ></app-action-tab>

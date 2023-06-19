@@ -1,0 +1,165 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        
+        <!-- <div  style="width: 1000px;"> -->
+          <form (ngSubmit)="onSubmit()" [formGroup]="lenderaddForm">
+            <h3 class="mb-4">Create Lender</h3>
+            <table class="table table-striped table-striped">
+              <tr>
+                <td><font style="color: red;">*</font>Lender Name</td>
+                <td>
+                  <input type="text" class="form-control box-size " id="lenderName" required [(ngModel)]="lender.lenderName"
+                    name="lenderName" formControlName="lenderName">
+                    <div *ngIf="((lenderaddForm.controls['lenderName'].touched && lenderaddForm.controls['lenderName'].invalid) || (submitted && lenderaddForm.controls['lenderName'].invalid))" class="invalid-feedback">
+                      <div *ngIf="(lenderaddForm.controls['lenderName'].errors) && (lenderaddForm.controls['lenderName'].errors.required)">
+                             Required Field
+                       </div>
+                   </div>
+                </td>
+                <td><font style="color: red;">*</font>Lender Address</td>
+                <td>
+                  <input type="text" class="form-control box-size " id="lenderAddress" required [(ngModel)]="lender.lenderAddress"
+                name="lenderAddress" formControlName="lenderAddress">
+                <div *ngIf="((lenderaddForm.controls['lenderAddress'].touched && lenderaddForm.controls['lenderAddress'].invalid) || (submitted && lenderaddForm.controls['lenderAddress'].invalid))" class="invalid-feedback">
+                  <div *ngIf="(lenderaddForm.controls['lenderAddress'].errors) && (lenderaddForm.controls['lenderAddress'].errors.required)">
+                         Required Field
+                   </div>
+               </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><font style="color: red;">*</font>Contact Person</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="contactName" required [(ngModel)]="lender.contactName"
+                name="contactName" formControlName="lenderContact">
+                <div *ngIf="((lenderaddForm.controls['lenderContact'].touched && lenderaddForm.controls['lenderContact'].invalid) || (submitted && lenderaddForm.controls['lenderContact'].invalid))" class="invalid-feedback">
+                  <div *ngIf="(lenderaddForm.controls['lenderContact'].errors) && (lenderaddForm.controls['lenderContact'].errors.required)">
+                         Required Field
+                   </div>
+               </div>
+                </td>
+                <td><font style="color: red;">*</font>Certificate No</td>
+                <td>
+                  <input type="text" class="form-control box-size " id="certificateNo" required [(ngModel)]="lender.certificateNo"
+                name="certificateNo" formControlName="certificateNo">
+                <div *ngIf="((lenderaddForm.controls['certificateNo'].touched && lenderaddForm.controls['certificateNo'].invalid) || (submitted && lenderaddForm.controls['certificateNo'].invalid))" class="invalid-feedback">
+                  <div *ngIf="(lenderaddForm.controls['certificateNo'].errors) && (lenderaddForm.controls['certificateNo'].errors.required)">
+                         Required Field
+                   </div>
+               </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td><font style="color: red;">*</font>Mobile No</td>
+                <td>
+                  <input type="text" (keypress)="keyPress($event)" class="form-control box-size" id="mobileNo" required [(ngModel)]="lender.mobileNo"
+                name="mobileNo" formControlName="mobileNo" minlength="10" maxlength="10">
+                <div *ngIf="((lenderaddForm.controls['mobileNo'].touched && lenderaddForm.controls['mobileNo'].invalid) || (submitted && lenderaddForm.controls['mobileNo'].invalid))" class="invalid-feedback">
+                  <div *ngIf="(lenderaddForm.controls['mobileNo'].errors) && (lenderaddForm.controls['mobileNo'].errors.required)">
+                         Required Field
+                   </div>
+                   <div *ngIf="(lenderaddForm.controls['mobileNo'].errors) && (lenderaddForm.controls['mobileNo'].errors.pattern)">
+                    Invalid Phone Number
+              </div>
+               </div>
+                </td>
+                <td>&emsp;</td>
+                <td>&emsp; </td>
+              </tr>
+              <br>
+              <h3 class="mb-4">Bank Details</h3>
+              <tr>
+                <td>Bank Name</td>
+                <td>
+                    <select formControlName="bankName" class="form-control box-size" [(ngModel)]="lender.bankName" name="bankName">
+                      <option></option>
+                      <option *ngFor="let bank of bankList" [value]="bank.bankName">{{bank.bankName}}</option>
+                    </select>
+                </td>
+                <td>Branch</td>
+                <td>
+                  <input type="text" class="form-control box-size " id="bankBranch"  [(ngModel)]="lender.bankBranch"
+                name="bankBranch" formControlName="branchName">
+                </td>
+              </tr>
+              <tr>
+                <td>Account No</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="accountNo"  [(ngModel)]="lender.accountNo"
+                    name="accountNo" formControlName="accountNo" maxlength="20">
+                </td>
+                <td>IFSC Code</td>
+                <td>
+                  <input type="text"  class="form-control box-size" id="ifscCode"  [(ngModel)]="lender.ifscCode"
+                name="ifscCode" formControlName="ifscCode" maxlength="11" minlength="11" style="text-transform: uppercase;">
+                </td>
+              </tr>
+              <br>
+              <h3 class="mb-4">Registration Details</h3>
+              <tr>
+                <td>Registration No</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="registrationNo"  [(ngModel)]="lender.registrationNo"
+                    name="registrationNo" formControlName="registrationNo">
+                </td>
+                <td><font style="color: red;">*</font>Billing State</td>
+                <td>
+                  <select class="form-control box-size" id="billingState" [(ngModel)]="lender.billingState" name="billingState" formControlName="billingState">
+                    <option></option>
+                    <option *ngFor="let state of stateList" [value]="state.stateName">{{state.stateName}}</option>
+                  </select>
+                <div *ngIf="((lenderaddForm.controls['billingState'].touched && lenderaddForm.controls['billingState'].invalid) || (submitted && lenderaddForm.controls['billingState'].invalid))" class="invalid-feedback">
+                  <div *ngIf="(lenderaddForm.controls['billingState'].errors) && (lenderaddForm.controls['billingState'].errors.required)">
+                         Required Field
+                   </div>
+               </div>
+                </td>
+              </tr>
+              <tr>
+                <td><font style="color: red;">*</font>PAN No</td>
+                <td>
+                  <input type="text"  class="form-control box-size" id="panNo" required [(ngModel)]="lender.panNo"
+                    name="panNo" formControlName="panNo" minlength="10" maxlength="10" style="text-transform: uppercase;">
+                    <div *ngIf="((lenderaddForm.controls['panNo'].touched && lenderaddForm.controls['panNo'].invalid) || (submitted && lenderaddForm.controls['panNo'].invalid))" class="invalid-feedback">
+                      <div *ngIf="(lenderaddForm.controls['panNo'].errors) && (lenderaddForm.controls['panNo'].errors.required)">
+                             Required Field
+                       </div>
+                       <div *ngIf="(lenderaddForm.controls['panNo'].errors) && (lenderaddForm.controls['panNo'].errors.pattern)">
+                        Invalid PAN Number
+                  </div>
+                   </div>
+                </td>
+                <td><font style="color: red;">*</font>GST No</td>
+                <td>
+                  <input type="text" class="form-control box-size" id="gstNo" required [(ngModel)]="lender.gstNo"
+                name="gstNo" formControlName="gstNo" minlength="15" maxlength="15" style="text-transform: uppercase;">
+                <div *ngIf="((lenderaddForm.controls['gstNo'].touched && lenderaddForm.controls['gstNo'].invalid) || (submitted && lenderaddForm.controls['gstNo'].invalid))" class="invalid-feedback">
+                  <div *ngIf="(lenderaddForm.controls['gstNo'].errors) && (lenderaddForm.controls['gstNo'].errors.required)">
+                         Required Field
+                   </div>
+                   <div *ngIf="(lenderaddForm.controls['gstNo'].errors) && (lenderaddForm.controls['gstNo'].errors.pattern)">
+                    Invalid GST Number
+              </div>
+               </div>
+                </td>
+              </tr>
+              <tr align="center">
+                <td colspan="4"><button type="submit" class="btn btn-success">Submit</button></td>
+              </tr>
+            </table>
+          </form>
+        <!-- </div> -->
+
+        <!-- <div [hidden]="!submitted">
+          <h4>You submitted successfully!</h4>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>
+  

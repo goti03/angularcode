@@ -1,0 +1,119 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Beneficiary Details</h3>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-10">
+                        <table class="table table-striped" style="width: 100% !important;">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Sourcing Partner</th>
+                                    <th>Organization Name</th>
+                                    <th>Beneficiary Name</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>BERGER ROCK PAINTS PRIVATE LIMITED</td>
+                                    <td>Negi Store</td>
+                                    <td>Name</td>
+                                    <td><button class="btn btn-primary" (click)="view(details)">View</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #details let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Beneficiary Details</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Organization Name</h3>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mt-2 justify-content-center">
+                    <div class="col-10">
+                        <table class="" style="width: 100% !important;">
+                            <tr>
+                                <th>Bank Name</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Account No.</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Account type</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>IFSC Code</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Account Holder Name</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Beneficiary Name</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Beneficiary ID</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Beneficiary Mail</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Beneficiary Mobile No.</th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Document</th>
+                                <td><a class="btn btn-link">View</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer" style="justify-content: center !important;">
+        <div class="row justify-content-around">
+            <div class="col-2"><button class="btn btn-success">Approve</button></div>
+            <div class="col-2"><button class="btn btn-danger">Reject</button></div>
+            <div class="col-2"><button class="btn btn-primary">Refer</button></div>
+        </div>
+    </div>
+</ng-template>

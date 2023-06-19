@@ -1,0 +1,28 @@
+﻿<html>
+<head>
+    <title>Finagg E-Mandate</title>
+    <script type="text/javascript">
+       var emandate =  function() {
+            var d = window.location.href.split('?')[1];
+            if(d){
+                document.getElementById("data").value = d;
+                document.getElementById("mandate").submit();
+            }else{
+                alert("Url is not valid.");
+            }
+        }
+    </script>
+</head>
+<body onload="emandate()"">
+    <!-- Production -->
+   <form id="mandate" action="https://partner.idfcfirstbank.com/Emandate/EMandateB2BPaynimmo.aspx" method="post">
+        <input id="merchant" style="visibility: hidden" type="text" name="MERCHENTCODE" value="FINAGG" />
+        <input id="data"   style="visibility: hidden"  type="text" name="DATA" />
+    </form> 
+    <!-- Testing -->
+    <!--  <form action="https://cflreporting.capfirst.com/Merchent_Integrtion/EMandateB2BPaynimmo.aspx" method="post">
+        <input style="visibility: hidden" type="text" name="MERCHENTCODE" value="FINAGG" />
+        <input style="visibility: hidden" type="text" name="DATA" value="" />
+    </form>  -->
+</body>
+</html>

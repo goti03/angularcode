@@ -1,0 +1,199 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-body">
+
+        <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+          <tr>
+            <th>#</th>
+            <th>Company Name</th>
+            <th>Program Name</th>
+            <th>Customer Name</th>
+            <th>Pan</th>
+            <th>Application ID</th>
+            <th>Application Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Remarks</th>
+          </tr>
+          <tr *ngFor="let h of HeaderDetails">
+            <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+            <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+            <td>{{h.programName}}</td>
+            <td>{{h.customerName}}</td>
+            <td>{{h.panNo}}</td>
+            <td>{{h.applicationNo}}</td>
+            <td>{{h.applicationDate}}</td>
+            <td>{{indianCurrency(h.loanAmount)}}</td>
+            <td>{{h.status}}</td>
+            <td>{{h.remarks}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card" *ngIf="errorMSG">
+  <div class="card-body">
+    <p *ngIf="errorMSG" class="text-center"> <span style="color: red;"> No Data Available</span> </p>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-12">
+
+            <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+              <thead>
+                <tr>
+                  <th>S no</th>
+                  <th>Time Period</th>
+                  <th>sales</th>
+                  <th>Purchase</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let g of gstnList;let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{g.month}}-{{g.year}}</td>
+                  <!-- <td> <input type="text" [(ngModel)]="g.sales" (keypress)="keyPress($event)" (change)="getvalue()"
+                      class="form-control"></td> -->
+                  <td>{{g.sales}}</td>
+                  <!-- <td><input type="text" [(ngModel)]=" g.purchase" (keypress)="keyPress($event)" (change)="getvalue()"
+                      class="form-control"> </td> -->
+                  <td>{{g.purchase}}</td>
+                </tr>
+                <!-- <button (click)="calculateTotal()" class="btn btn-primary">total</button> -->
+              </tbody>
+            </table>
+
+            <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+              <tr>
+                <th> Six Month Total</th>
+                <th> Six Month Average</th>
+                <th> 40% of Average</th>
+              </tr>
+              <tr>
+                <td>{{sixmonthsale | number : '1.2-2'}}</td>
+                <td>{{average | number : '1.2-2'}}</td>
+                <td>{{fortypercent_average | number : '1.2-2'}}</td>
+              </tr>
+            </table>
+
+            <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Sales</th>
+                  <th> Purchase</th>
+                  <th>Profit </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th>Year one </th>
+                  <td> {{yearonesale | number : '1.2-2'}}</td>
+                  <td> {{yearonepurchase | number : '1.2-2' }}</td>
+                </tr>
+                <tr>
+                  <th>Year one pro:</th>
+                  <td>{{yearoneprosale | number : '1.2-2'}}</td>
+                  <td>{{yearonepropurchase | number : '1.2-2'}}</td>
+                  <td>{{yearoneproprofit | number : '1.2-2'}}</td>
+                </tr>
+                <tr>
+                  <th>Year two </th>
+                  <td>{{yeartwosale | number : '1.2-2'}}</td>
+                  <td>{{yeartwopurchase | number : '1.2-2'}}</td>
+                </tr>
+                <tr>
+                  <th>Year two Pro</th>
+                  <td>{{yeartwoprosale | number : '1.2-2'}}</td>
+                  <td>{{yeartwopropurchase | number : '1.2-2'}}</td>
+                  <td>{{yeartwoproprofit | number : '1.2-2'}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+              <thead>
+                <tr>
+                  <th>Sales Dip : </th>
+                  <th>Profit Dip : </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="!infinityFlag; else error">
+                  <td>{{turnoverdip | number : '1.2-2'}}%</td>
+                  <td>{{profitdip | number : '1.2-2'}}% </td>
+                </tr>
+                <ng-template #error>
+                  <tr class="invalid">
+                    <td>Sales of a year cannot be Zero</td>
+                  </tr>
+                </ng-template>
+
+              </tbody>
+            </table>
+
+
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div *ngIf="(profitdip<-20)">
+            <button class="btn btn-info" (click)="dip('p')">Update Profit DIP</button>
+          </div>
+          <div *ngIf="(!(profitdip<-20)) && (turnoverdip<-20)">
+            <button class="btn btn-info" (click)="dip('s')">Update Sales DIP</button>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th>Max Limit Allowed</th>
+              <td>{{maxLimit}}</td>
+            </tr>
+            <tr>
+              <th>Max limit possible based on Average Bank Credit</th>
+              <td>{{maxAvg}}</td>
+            </tr>
+            <tr>
+              <th>Current set Limit</th>
+              <td>{{currentLimit}}</td>
+            </tr>
+            <tr>
+              <th>Expected limit</th>
+              <td><input type="number" (change)="max($event)" class="form-control" [(ngModel)]="expectedLimit"
+                  name="expectedLimit" id="expectedLimit"></td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="errorSet" style="color: red; text-align: center;">{{msg}}</div>
+
+        <div class="text-center" *ngIf="!(turnoverdip<-20) && !(profitdip<-20)">
+          <button class="btn btn-primary" (click)="update()" [disabled]="errorSet">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<app-action-tab *ngIf="tab1" (toggle)="toggle()" ></app-action-tab>

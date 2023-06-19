@@ -1,0 +1,76 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-sm-12">
+        <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+          <tr>
+            <th>#</th>
+            <th>Company Name</th>
+            <th>Program Name</th>
+            <th>Customer Name</th>
+            <th>Pan</th>
+            <th>Application ID</th>
+            <th>Application Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Remarks</th>
+          </tr>
+
+          <tr *ngFor="let h of HeaderDetails">
+            <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+            <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+            <td>{{h.programName}}</td>
+            <td>{{h.customerName}}</td>
+            <td>{{h.panNo}}</td>
+            <td>{{h.applicationNo}}</td>
+            <td>{{h.applicationDate}}</td>
+            <td>{{indianCurrency(h.loanAmount)}}</td>
+            <td>{{h.status}}</td>
+            <td>{{h.remarks}}</td>
+          </tr>
+          <!-- <tr *ngIf="HeaderDetails">
+            <td colspan="9"> Invalid Request</td>
+        </tr> -->
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col-1 font-weight-bold">Status</div>
+          <div class="col-2 ml-2">
+            <select class="form-control" id="stausId"  name="stausId" [(ngModel)]="stausId"
+              (change)="getsubStatusList()">
+              <option value="0">Selelct Status </option>
+              <option *ngFor="let doc of statusList" value="{{doc.id}}">{{doc.name}}</option>
+            </select>
+          </div>
+          <div class="col-1 font-weight-bold">Sub Status</div>
+          <div class="col-2 ml-2"> <select class="form-control" id="substatusId"  name="substatusId"
+              [(ngModel)]="substatusId" (change)="getStatusList()">
+              <option value="0">selelct Sub Status</option>
+              <option *ngFor="let doc of substatusList" value="{{doc.id}}">{{doc.name}}</option>
+            </select></div>
+            <div class="col-1 font-weight-bold">
+              Remarks
+            </div>
+            <div class="col-2 ml-2">
+              <textarea class="form-control" [(ngModel)]="remark" name="remark" id="remark"></textarea>
+            </div>
+        </div>
+        <div class="col text-center mt-3">
+          <button [hidden]="saveButton" type="button" style="height:40px;width:150px" class="btn btn-success mb-2"
+            (click)="save()">save
+          </button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()" ></app-action-tab>

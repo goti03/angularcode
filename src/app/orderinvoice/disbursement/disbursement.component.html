@@ -1,0 +1,53 @@
+<body class="innerpages">
+    <div class="wrapper">
+        <div class="page">
+            <div class="page-content">
+                <div class="page-content-inside">
+                    <div class="page-title-head">FinAGG Order Invoice Disbursement</div>
+                    <div class="welcome-note">Welcome ! {{companyname}}</div>
+                    <h4 style="color:red">{{errormsg}}</h4>
+                    <div class="card mt-10">
+                        <div class="green-box-pat clearfix">
+                            <div class="icon-cash-back fixed-height"><i class="fa fa-check-circle tick-green"></i></div>
+                            <div class="amount-text">
+                                <div class="amount-text1">FinAGG Available Limit</div>
+                                <div class="amount-final">₹ {{availlimit}}</div>
+                            </div>
+                        </div>
+                        <label>*Order Number</label>
+                        <div class="form-row" style="margin-bottom: 3px;">
+                            <input class="form-control" type="text" placeholder="Order Number" [(ngModel)]="OrderNo">
+                        </div>
+                        <label>*Order Date	</label><span><i class="fa fa-calendar"></i></span>
+                        <div class="form-row" style="margin-bottom: 3px;">
+                            <input class="form-control" type="date" style=" width: 310px; " [(ngModel)]="date" min={{datemin}} max={{date}} (keypress)="preventTyping()">
+                        </div>
+                        <label>Order Amount</label>
+                        <div class="form-row" style="margin-bottom: 3px;">
+                            <input class="form-control" type="text" placeholder="Order Amount" [(ngModel)]="orderAmount">
+                        </div>
+                        <label>Fund Amount</label>
+                        <div class="form-row" style="margin-bottom: 3px;">
+                            <input class="form-control" type="text" placeholder="Fund Amount" [(ngModel)]="fundAmount">
+                        </div>
+                        <label>Beni ID</label>
+                        <div class="form-row" style="margin-bottom: 3px;">
+                            <select class="form-control" style="width: 310px;" [(ngModel)]="Beneid" name="sp" id="benelistId">
+								<option [value]="0">Choose BeneId</option>
+								<option *ngFor="let spl of Beneidlist" [value]="spl.beneId">{{spl.beneId}}-{{spl.bankAccountNo}}</option>
+                        </select>
+                        </div>
+                        <div class="form-row">
+                            <label>Upload Doc</label>
+                            <input id="file" type="file" class="form-control" style="width: auto;overflow: hidden;" (change)="fileSelection($event.target.files)"
+                            accept="application/pdf, image/jpeg">
+                        </div>
+                        <div class="row justify-content-center ''form-row">
+                            <button class="btn btn-outline-secondary new-button" (click)="submit()" style="background-color:#1fad3c ; margin-top: 10px; ">Proceed</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

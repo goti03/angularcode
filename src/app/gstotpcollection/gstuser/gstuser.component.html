@@ -1,0 +1,103 @@
+
+<div class="card" style="margin-bottom: 10px;">
+    <div class="card-mb-6" style="background-color:orange; color:#000; height: 130px">
+        <!-- <img src="assets/images/logo.png" alt="user" width="100" height="50" style="margin-left: 10px; margin-top: 20px;"> -->
+        <div class="col" style="text-align: center;  font-size: 25px; margin-top: 5px;">
+            {{companyNames}}
+       
+        </div>
+    </div>
+    </div>
+
+<div class="card" style="border-radius: 20px; margin-bottom: 10px; margin-top: -30px; border-width:2px;border-color: black; margin-left: 20px;margin-right: 20px;">
+    <div class="card-body" style="margin-left: 20px; margin-right: 20px; border-radius: 2px;border-color: green; background-color: white;">
+      
+    <div class="col" style="border-radius:5px; border-color:black;font-size: 20px; color: #000; text-align: center;">
+        <div *ngIf="errormsg!=''" style="color: red; font-weight: bold;">
+            {{errormsg}}
+        </div>
+        <!-- <img src="/src/assets/images/finagg-logo.png" width="20" height="20"> -->
+       FinAGG GST Verification
+    </div>
+</div>
+<div class="card-body" style="background-color:#67b44c; margin-top: -15px; color:#fff; height: 30px; margin-right:20px; margin-left:20px;border-radius: 10px;">
+    <div class="col" style="margin-top: -10px; text-align: center;">
+                                 We have found {{size}} GST
+    </div>
+</div>
+</div>
+
+
+            
+            <div class="scrollbar">
+           
+            <div class="card mb-4" *ngFor="let c of gstList ; let i = index" style="background-color: #ccc;color: black; margin-left:10px;margin-right:10px; border-radius: 15px">
+            
+
+                <div class="row m-3">
+                    <table style="width:100%;" >
+                     
+                        <tr style="font-size: 13px;">GSTN&nbsp;Registered&nbsp;in&nbsp;</tr>
+                        <tr style="font-size: 13px;">{{c.state}}</tr>
+                        
+                        <tr style="margin-top: 3px;">
+                            <td  style="font-size: 13px;">GSTNo</td>
+                            <td style="font-size: 13px; color: black;"> {{c.gstNo}}</td>
+                        </tr>
+                    
+                        <tr *ngIf="!c.gstcheck==1&&!c.done==1"  >
+                            <td  style="font-size: 13px;">USER NAME:&nbsp;
+                    
+                            <input type="text" id="gstuser{{i}}" [(ngModel)] ="c.gstuser"  style="width: 90px; margin-left:-6px;  background-color: #fff;"/></td><td *ngIf="!c.passcheck==1&&otppass"><button (click)="getOTP(i,c.gstuser,c.gstNo)"   style="background-color: #ccc; color:blue; width: 110px; border-color: transparent; font-size:13px;border-radius: 10px;">Request OTP</button>
+                        </td></tr>
+                        <tr *ngIf="!c.gstcheck==1&&!c.done==1"  >
+                            <td  style="font-size: 13px; color: #ccc;">USER NAME:&nbsp;
+                    
+                            <input type="text" id="gstuser{{i}}" [(ngModel)] ="c.gstuser"  style="width: 50px; margin-left:-6px; border-color: transparent; color: #ccc;  background-color: #ccc;"/></td><td *ngIf="!c.passcheck==1&&retailercheck&&gstpassword"><button (click)="password(i,c.gstuser)"   style="background-color: #ccc; color:blue; width: 130px; border-color: transparent; font-size:13px;border-radius: 10px;">Enter password</button>
+                        </td></tr>
+                        
+                        <tr *ngIf="c.otpcheck==1&&!c.done==1">
+                         <!-- *ngIf="c.otpcheck==1" -->
+                            <td >OTP:&nbsp;
+                    
+                            <input type="password" id="gstotp{{i}}"  [(ngModel)]="c.gstotp" style="width: 90px;  background-color: #fff;"/><td *ngIf="c.otpcheck==1"><button (click)="submit(i,c.gstuser,c.gstNo,c.gstotp)" style="background-color: blue; color:white; width:80px;">DONE</button></td></tr>
+                           <tr *ngIf="c.passcheck==1&&retailercheck&&gstpassword">
+                         <!-- *ngIf="c.otpcheck==1" -->
+                            <td  style="font-size: 13px;">PASSWORD:&nbsp;
+                    
+                            <input type="password" id="gstotp{{i}}"  [(ngModel)]="c.passwords" style="width: 90px; margin-left: -6px;  background-color: #fff;"/></td><td *ngIf="c.passcheck==1"><button (click)="verifypassword(i,c.gstuser,c.gstNo,c.passwords)" style="background-color: blue; color:white; width:80px; ">DONE</button></td></tr>
+                   
+                           <!-- <button *ngIf = "!c.otpcheck==1&&c.gstcheck==1" (click)="uncheck(i) " style="width:80px;background-color: #14c11997; color:yellow;">Share</button> -->
+                             
+                           <tr *ngIf="!c.otpcheck==1&&c.gstcheck==1"  >
+                            <td style="color: #ccc;" >USER ID
+                            <input type="text" id="gmtuser" style="width: 90px; border-color: transparent; margin-left:-20px; margin-right: 20px; background-color: #ccc;"/></td><td><button (click)="uncheck(i)"   style="background-color: #14c11997; color:yellow; width: 90px;">SHARE GSTN</button>
+                        </td></tr><!-- <tr><td></td><td><button (click)="checked(i) " style="width:80px ;font-size:15px;background-color: #14c11997; color:yellow; margin-left:10px; position: right;">Unshare</button></td></tr> --> 
+                              <tr *ngIf="!c.otpcheck==1&&!c.gstcheck==1"  >
+                                <td style="color: #ccc;" >USER ID
+                                <input type="text" id="gtuser" style="width: 90px; border-color: transparent; margin-left:-20px; margin-right: 40px; background-color: #ccc;"/></td><td><button (click)="checked(i)"   style="background-color: #14c11997; color:yellow; font-size: 13px; margin-left: 10px; width: 90px;">SUPPRESS</button>
+                            </td></tr>
+                    
+                    
+                    
+                    </table>
+   
+                </div>
+              
+                </div>
+                <div class="card-body" style="text-align: center;">
+                <button (click)="complete()" style="margin-left: 40px;background-color: #67b44c;; color:yellow; border-color: black;">Complete</button>
+                </div>
+                </div>
+                <div class="card-body" style="margin-top: 25px; text-align: center;">
+                    <p style="margin-left: 40px; font-size: 13px;">For any queries please contact</p>
+                    <p style="margin: top -22px;margin-left:14px;font-size: 13px;">FinAGG Customer Care: +91 81860 81830</p>
+                   <p style="margin-left: 8px; margin-top: -14px; font-size: 13px;" >Email id: hello@finagg.in</p>
+                   <p style="margin-left: 8px;margin-top: -14px; font-size: 13px;">Website: www.finagg.in</p>
+                    </div>
+
+      
+    
+
+      
+    

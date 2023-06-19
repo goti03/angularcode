@@ -1,0 +1,169 @@
+
+
+<div class="row bg" *ngIf="!expired && !otpVerified">
+    <div class="col">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row mt-3 sticky" *ngIf="err" style="color: red;">
+                    <div class="col">
+                        {{message1}}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Disbursement</h3>
+                    </div>
+                </div>
+                <hr />
+
+
+
+                <div class="row mt-3 mb-3">
+                    <div class="col">
+                        Dear {{customerName}}, the followings are Invoice list, that you can disburse, by choosing the particular and trigger OTP.
+                    </div>
+                </div>
+
+                <div class="row mt-5 mb-3 text-center">
+                    <div class="col-6">Available Limit</div>
+                    <div class="col-6">{{availLimit | currency:'INR'}}</div>
+                    <div class="col-6">Allowed Tranch Limit</div>
+                    <div class="col-6">{{trachLimit | currency:'INR'}}</div>
+                    <div class="col-6 mt-3" >Total Amount to Disburse</div>
+                    <div class="col-6 mt-3" >{{sumAmount | currency:'INR'}}</div>
+                </div>
+
+                
+
+                <div class="row mb-3 mt-5 text-center">
+                    <div class="col-9">Invoice Number</div>
+                    <div class="col-3">Action</div>
+                </div>
+
+
+                <mat-expansion-panel *ngFor="let a of invoiceList; let i = index" class="mb-2">
+                    <mat-expansion-panel-header class="row text-center align-items-center">
+                        <div class="col-9">{{a.invoiceNo}}</div>
+                        <input type="checkbox" class="col-3" [(ngModel)]="a.mark" (ngModelChange)="singleMark(a.fundingAmount,i)"/>
+                    </mat-expansion-panel-header>
+                    <div class="row text-center justify-content-around">
+                        <div class="col">
+                        <table class="table table-striped mt-3">
+                            <tr>
+                                <th>Invoice Date</th>
+                                <td>{{a.invoiceDate}}</td>
+                            </tr>
+                            <tr>
+                                <th>Invoice Amount</th>
+                                <td>{{a.invoiceAmount | currency:'INR'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Funding Amount</th>
+                                <td>{{a.fundingAmount | currency:'INR'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Distributor Name</th>
+                                <td>{{a.distName}}</td>
+                            </tr>
+                            <tr>
+                                <th>Free Credit days</th>
+                                <td>{{a.freeCreditDays}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    </div>
+                    
+                </mat-expansion-panel>
+
+                <div class="row mt-5 mb-3 text-center">
+                    <div class="col-6">Available Limit</div>
+                    <div class="col-6">{{availLimit | currency:'INR'}}</div>
+                    <div class="col-6">Allowed Tranch Limit</div>
+                    <div class="col-6">{{trachLimit | currency:'INR'}}</div>
+                    <div class="col-6 mt-3" >Total Amount to Disburse</div>
+                    <div class="col-6 mt-3" >{{sumAmount | currency:'INR'}}</div>
+                </div>
+
+                <div class="row text-center mt-3" *ngIf="!otpRequested">
+                    <div class="col">
+                        <button class="btn btn-success" (click)="getOtp()">Get OTP</button>
+                    </div>
+                </div>
+
+                <div class="row text-center mt-3" *ngIf="otpRequested">
+                    <label class="col">
+                        Enter OTP   
+                    </label>
+                </div>
+
+                <div class="row justify-content-center mt-3" *ngIf="otpRequested">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o1" id="otp_1" (ngModelChange)="move(2)">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o2" id="otp_2" (ngModelChange)="move(3)">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o3" id="otp_3" (ngModelChange)="move(4)">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o4" id="otp_4" (ngModelChange)="blur(4)">
+                        
+                </div>
+
+                <div class="row mt-3 text-center" *ngIf="emptyOtp">
+                    <div class="col-12" style="color: red;">
+                        Enter otp
+                    </div>
+                </div>
+
+                <div class="row mt-3 text-center" *ngIf="otpRequested">
+                    <div class="col-12">
+                            <button class="btn btn-success" (click)="verifyOtp()" >Submit</button>
+                        </div>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row bg" *ngIf="expired">
+    <div class="col">
+        
+        <div class="card">
+            <div class="card-body">
+                {{message}}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row bg" *ngIf="!expired && otpVerified" >
+    <div class="col">
+
+        <div class="card">
+            <div class="card-body" style="background-image: url('assets/images/background/success.png'); height: 650px;">
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Sucsessful Disbursement</h3>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row justify-content-center mt-5">
+                        <img src="assets/images/gallery/wallet.png" class="col" height="250" width="80"/>
+                </div>
+
+                <div class="row text-center mt-5">
+                    <div class="col" style="color: #00ee00;">
+                        <i class="fa fa-check-circle" style="color: green;"></i>
+                        Invoices of total {{indianCurrency(sumAmount)}}, is disbursed successfully.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

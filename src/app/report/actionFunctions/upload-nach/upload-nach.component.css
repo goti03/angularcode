@@ -1,0 +1,27 @@
+image-cropper {
+    filter: gray; /* IE */
+    -webkit-filter: grayscale(1); /* Old WebKit */
+    -webkit-filter: grayscale(100%); /* New WebKit */
+     filter: grayscale(100%); /* Current draft standard */
+}
+
+::ng-deep .my-class .modal-dialog { 
+    max-width: 80%;
+    width: 80%;
+}
+
+.fin-btn {
+	color: #fff !important;
+	box-shadow: 0 3px #999;
+}
+
+.btn-info {
+	color: #000;
+	background-color: #0dcaf0;
+	border-color: #0dcaf0;
+	border-radius: 0.25rem;
+}
+
+.pointer {
+    cursor: pointer;
+}

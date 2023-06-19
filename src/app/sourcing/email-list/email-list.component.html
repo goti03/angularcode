@@ -1,0 +1,106 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2>Clicked Email List</h2>
+          </div>
+
+          <table style="font-style:normal;font-size:10pt;width: 100%;">
+            <tr>
+              <td>Campaign</td>
+              <td><select class="form-control" style="width: 240px;" [(ngModel)]="typeId" name="typeId" >
+                <option [value]="0">Choose Campaign</option>
+                <option *ngFor="let c of campaignTypeList" [value]="c.id">{{c.name}}
+                </option>
+            </select></td>
+              <td>Click Status</td>
+              <td>
+
+                <select class="form-control" name="emailClick" id="emailClick" [(ngModel)]="clickStatus" style="width: 240px;">
+                  <option value="1">click</option>
+                  <option value="0">Not click</option>
+                </select>
+
+              </td>
+              <td>Start Date</td>
+              <td>
+                <input type="date" class="form-control" placeholder="yyyy-mm-dd"  required
+                  [(ngModel)]="firstDate" name="firstDate"   max="{{endDate}}"
+                  autocomplete="off" (keypress)="preventTyping()">
+
+              </td>
+              <td>End Date</td>
+              <td>
+                <input type="date" class="form-control" placeholder="yyyy-mm-dd" id="endDate" required [(ngModel)]="endDate"
+                  name="endDate" min="{{firstDate}}" style="width: 200px;" autocomplete="off" (keypress)="preventTyping()" />
+              </td>
+              <td><button (click)="submit()" href="/images/myw3schoolsimage.jpg" download class="btn btn-primary mb-2"
+                  style="margin-left: 6px"><i class="fa fa-submit"></i>Submit</button></td>
+            </tr>
+          </table>
+          <br>
+          
+          <!-- <div class="panel-body"> -->
+            <table class="table table-striped" id="exportTable">
+              <tr>
+                <td colspan="9">
+                  <div class="search-hero">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="searchEmailList" autocomplete="off" width="400px"
+                      placeholder="&#61442;  Start searching ">
+                  </div>
+                  
+                </td>
+              </tr>
+              <tr>
+                <!--<th>Sno</th>-->
+                <th>Status</th>
+                <th>Contact Name</th>
+                <th>Contact NO</th>
+                <th>Sent On</th>
+                <th>Clicked On</th>
+                <th>Org Name</th>
+                <th>Pan No</th>
+                <th>Email Id1</th>
+                <th>Email Id2</th>
+                <!-- <th>Total</th> -->
+              </tr>
+              <tr
+                *ngFor="let e of emailList | filter:searchEmailList | paginate: { itemsPerPage: 20, currentPage: p }">
+                <!-- <td>{{i+1}}</td>-->
+                <td>
+                  <ng-container *ngIf="e.Status==1">
+                    Clicked
+                  </ng-container>
+                  <ng-container *ngIf="e.Status==0">
+                    Not Clicked
+                  </ng-container>
+                </td>
+                <td>{{e.contactName}}</td>
+                <td>{{e.contactNo}}</td>
+                <td>{{e.mailSentOn}}</td>
+                <td>{{e.clickedOn}}</td>
+                <td>{{e.OrgName}}</td>
+                <td>{{e.PanNo}}</td>
+                <td>{{e.EmailId1}}</td>
+                <td>{{e.EmailId2}}</td>
+                <!-- <td>{{e.total}}</td> -->
+
+              </tr>
+            </table>
+
+          <!-- </div> -->
+          <div class="col text-center">
+            <button type="button" style="height:35px;width:250px" class="btn btn-primary mb-2" (click)="exportExcel()">
+              Export Excel
+            </button>
+          </div>
+        </div>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>

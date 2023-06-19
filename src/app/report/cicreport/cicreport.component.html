@@ -1,0 +1,120 @@
+<div class="contentpanel">
+        
+    <div class="col-12">
+        <div class="table-responsive">
+                      <div class="col-sm-15">       
+            <h4 class="card-title">CIBIL Summary Of Application</h4>
+            <table  class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;">
+            <thead><tr class="table-info">
+            <th rowspan="2">Name</th>
+            <th rowspan="2">CASE ROLE</th>
+            <th rowspan="2">AGE</th>
+            <th rowspan="2">SCORE</th>
+            <th colspan="2">TOTAL LOAN	</th>
+            <th colspan="2">BUSINESS LOAN	</th>
+            <th colspan="2">PROP LOAN</th>
+            <th colspan="2">VEHICLE LOAN</th>
+            <th colspan="2">OTHER LOAN</th>
+            <th colspan="2">NON FUND BASED LOAN	</th>
+            </tr>
+    
+            <tr class="table-info">
+            <th>LIVE</th>
+            <th>CLOSED</th>
+            <th>LIVE</th>
+            <th>CLOSED</th>
+            <th>LIVE</th>
+            <th>CLOSED</th>
+            <th>LIVE</th>
+            <th>CLOSED</th>
+            <th>LIVE</th>
+            <th>CLOSED</th>
+            <th>LIVE</th>
+            <th>CLOSED</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let cic of cicSummaryData;">
+                <tr>
+                        <td>{{cic.name}}</td>
+                        <td>Applicant</td>                        
+                        <td>{{cic.age}}</td>
+                        <td>{{cic.score}}</td>
+                        <td>{{cic.totalActive}}</td>
+                        <td>{{cic.totalClosed}}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>{{cic.propertyLive}}</td>
+                        <td>{{cic.propertyClosed}}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>{{cic.otherLive}}</td>
+                        <td>{{cic.otherClosed}}</td>
+
+                        <td>0</td>
+                        <td>0</td></tr>
+            </tbody>
+    
+            </table>
+        </div>
+        </div>
+    <br>
+    <div class="col-12">
+        <div class="table-responsive">
+                      <div class="col-sm-15">
+    
+    <h4 class="card-title">LOAN REPAYMNET HISTORY</h4>
+    <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;">
+        <!-- <thead >
+            <tr >                
+            <th >SEARCH FILERS</th>
+            <th></th>
+            <th></th>
+            <th>LOAN WITH DELAY</th>
+            <th>LOAN WITH DELAY- 30 days</th>
+            <th>LOAN WITH DELAY- 60 days</th>
+            <th>LOAN WITH DELAY- 90 days</th>
+            <th>LIVE LOAN</th>
+            <th>BUSINESS LOAN</th>
+            <th>PROP LOAN</th>
+            <th>VEHICLE LOAN</th>
+            <th>OTHER LOAN</th>
+            </tr>
+        </thead> -->
+    
+        <thead>
+            <tr class="table-info">
+            <th>LOAN NO</th>
+            <th>TYPE</th>
+            <th>LOAN AMOUNT</th>
+            <th>OVERDUE AMOUNT</th>
+            <th>CURRENT BALANCE</th>
+            <th>EMI AMOUNT</th>
+            <th>OPENING DATE</th>
+            <th>CLOSING DATE</th>
+            <th>REPORTING DATE</th>
+            <th>OWNERSHIP</th>
+            <th>COMMENT</th>
+            <th>DELIQUNCY TREND (LAST 6 MONTH)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let cd of cicSummaryDetails;">
+            <td>{{cd.loanAccountNo}}</td>
+            <td>{{cd.loanType}}</td>
+            <td>{{cd.loanAmount}}</td>
+            <td>{{cd.overDue}}</td>
+            <td>{{cd.balance}}</td>
+            <td>{{cd.emiAmount}}</td>
+            <td>{{cd.openDate}}</td>
+            <td>{{cd.closeDate}}</td>
+            <td>{{cd.reportDate}}</td>
+            <td>{{cd.ownership}}</td>
+            <td>{{cd.comments}}</td>
+            <td>-</td>
+</tr>
+</tbody>
+      </table>
+            </div>
+        </div>
+     </div> 
+    </div> 

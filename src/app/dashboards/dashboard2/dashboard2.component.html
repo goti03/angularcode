@@ -1,0 +1,777 @@
+<!-- <div class="wrapper"> -->
+<!-- <div class="page"> -->
+<!-- <div class="page-content"> -->
+<div class="card">
+    <div class="card-body text-family" style="color: rgb(226, 226, 228);">
+
+        <div class="row">
+            <div class="col">
+
+                <div class="row">
+                    <h3 class="col-3" style="color: black !important;"><b>Dashboard</b></h3>
+                    <select class="col-9 form-control" [(ngModel)]="orgId" (change)="resetOrgId()">
+                        <option>Select Brand</option>
+                        <option *ngFor="let a of dashboardBrandList" [value]="a.orgId">{{a.orgName}}</option>
+                    </select>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-3" style="font-size: 12px !important;">
+                        <div class="card" style="padding: 2px;">
+                            <div class="row">
+                                <div class="col-6 " style="color: green !important;">Total Customer(s)</div>
+                                <div class="col-6" style="color: black;">{{invoiceList.length}}</div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-6 " style="color: green !important;">Total No. of Invoice(s)</div>
+                                <div class="col-6" style="color: black;">{{totalInvoiceList.length}}</div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-6 " style="color: green !important;">Total Invoice Amount</div>
+                                <div class="col-6" style="color: black;">{{indianCurrency(overallInvoiceAmount)}}</div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mt-2 ">
+                            <input type="text" placeholder="&#61442;  Search Customer" style="font-family: FontAwesome;" [(ngModel)]="searchReportList" class="form-control col-9">
+                            <div class="col-1"><i class="fa fa-file-pdf-o fa-2x pointer" aria-hidden="true" style="color: red;" (click)="pdf()"></i></div>
+                            <div class="col-1"><i class="fa fa-file-excel-o fa-2x pointer" aria-hidden="true" style="color: green;" (click)="excel()"></i>
+                            </div>
+
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col" style="margin: 0% !important; padding: 0% !important;">
+                                <div class="card" style="margin: 0% !important;">
+                                    <div class="card-body" style=" padding: 0% !important;">
+
+                                        <table id="custDetails">
+                                            <tr *ngFor="let a of invoiceList | filter:searchReportList | paginate: {id:'invoice', itemsPerPage: 10, currentPage: d }; let i = index">
+                                                <td>
+                                                    <div class="row mt-2 " style="border-bottom: black 1px solid; margin-left: 0% !important; margin-right: 0% !important;">
+                                                        <div class="col" (click)="searchParticularCustomer(a.orgId,a.orgName)">
+                                                            <div class="row">
+                                                                <div class="col-1">
+                                                                    <img src="assets/images/users/user1.jpg" width="30" height="30">
+                                                                </div>
+                                                                <div class="col-6 ml-1" style="color: black; font-family:'Open Sans', sans-serif !important;">
+                                                                    {{a.orgName}}<br id="custbreak" />{{a.panNo}}</div>
+                                                                <div class="offset-2 col-1 tooltip-example"><i class="fa fa-info-circle fa-x" style="color: green;"></i>
+                                                                    <div class="tooltip-text" style=" background-color: #64af3d;">
+                                                                        <table>
+                                                                            <tr> Sales Person Name: {{a.salesPersonName}}
+                                                                            </tr>
+                                                                            <tr>Mobile No {{a.salesPersonMobileNo}}
+                                                                            </tr>
+                                                                            <tr>Anchor Ref No {{a.anchorRefNo}}</tr>
+                                                                            <tr>Approved Limit {{indianCurrency(a.approvedAmount)}}
+                                                                            </tr>
+                                                                            <tr>Available Limit {{indianCurrency(a.availableAmount)}}
+                                                                            </tr>
+                                                                            <tr>Post Available Limit {{indianCurrency(a.postAvailableAmount)}}
+                                                                            </tr>
+                                                                            <tr>Approved On {{a.approvedOn}}</tr>
+                                                                            <tr>Excess Amount {{indianCurrency(a.excessAmount)}}
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                            <div class="row mt-1">
+                                                                <div class="col-6" style="color: green !important;">
+                                                                    Approved Limit</div>
+                                                                <div class="col-6" style="color: black !important;">
+                                                                    {{indianCurrency(a.approvedAmount)}}</div>
+                                                                <div class="col-6" style="color: green !important;">
+                                                                    Available Limit</div>
+                                                                <div class="col-6" style="color: black !important;">
+                                                                    {{indianCurrency(a.availableAmount)}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                        <pagination-controls id="invoice" (pageChange)="d = $event">
+                                        </pagination-controls>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-9">
+
+                        <div class="row justify-content-around text-center mt-2" style="color: black  !important; font-size: 12px !important;">
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px; margin: 0% !important; height: 50px;background-color: #2eafd7;">
+                                    <div class="card-body pointer" style="padding: 0.25rem !important;" (click)="inprogressRetailers(inprogressRetailer)">
+                                        <i class="fa fa-code-fork fa-2x" style="color: white;"></i>
+                                        <div style="color: white;">In Progress&nbsp;{{inProgress}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px; margin: 0% !important;  height: 50px; background-color: #0064e4;">
+                                    <div class="card-body pointer" style="padding: 0.25rem !important;" (click)="approvedRetailers(approvedRetailer)">
+                                        <i class="fa fa-ticket fa-2x" style="color: white;"></i>
+                                        <div style="color: white;">Approved&nbsp;{{approved}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px; margin: 0% !important; height: 50px; background-color: #de7f01;">
+                                    <div class="card-body pointer" style=" padding: 0.25rem !important;" (click)="notonboardedRetailers(notOnboardedRetailer)">
+                                        <div class="card-body" style=" padding: 0.25rem !important;">
+                                            <i class="fa fa-database fa-2x" style="color: white;"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="card" style="border-radius: 20px; margin: 0% !important; height: 50px; background-color: #cd3b16;">
+                                    <div class="card-body pointer" style="padding: 0.25rem !important;" (click)="rejectedRetailers(rejectedRetailer)">
+                                        <i class="fa fa-users fa-2x" style="color: white;"></i>
+                                        <div style="color: white;">Rejected&nbsp;{{rejected}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr />
+
+                        <div class="row" style="font-size: 10px !important;">
+                            <div class="col" style="padding: 5px !important;">
+
+                                <!-- <mat-tab-group> -->
+                                <mat-tab-group dynamicHeight>
+                                    <mat-tab label="Total Invoice">
+                                        <div class="row">
+                                            <div class="col" style="padding: 5px !important;">
+                                                <div class="card" style="margin: 1px !important;">
+                                                    <div class="card-body" style="padding-left: 20px !important;">
+
+                                                        <div class="row ">
+                                                            <div class="col-6">
+                                                                <b style="color: green !important;font-size: 15px;font-weight: bolder;">Total
+                                                                    No. of Invoice:</b>&nbsp; <span style="color: black;font-size: 15px;">{{totalInvoiceList.length}}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <b style="color: green !important; font-size: 15px;font-weight: bolder;">Total
+                                                                    Invoice Amount:</b>&nbsp;<span style="color: black;font-size: 15px;">{{indianCurrency(totalInvoiceAmount)}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-1 justify-content-around">
+                                                            <input type="text" placeholder="&#61442;  Search" style="font-family: FontAwesome;" [(ngModel)]="searchTotalInvoice" class="form-control col-3">
+                                                            <input type="date" class="form-control col-3" (change)="totalInvoiceDateFilter()" [(ngModel)]="totalInvoiceStartDate" max="{{totalInvoiceEndDate}}" (keypress)="preventTyping()"/>
+                                                            <input type="date" class="form-control col-3" (change)="totalInvoiceDateFilter()" [(ngModel)]="totalInvoiceEndDate" min="{{totalInvoiceStartDate}}" (keypress)="preventTyping()" />
+                                                            <div class="col-2"><i class="fa fa-file-pdf-o fa-3x pointer" (click)="totalInvoicepdf()" aria-hidden="true" style="color: red;"></i>&nbsp;&nbsp;<i class="fa fa-file-excel-o fa-3x pointer" aria-hidden="true" (click)="totalInvoiceExcel()"
+                                                                    style="color: green;"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <table class="table table-striped table-responsive-sm" id="totalInvoiceT">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>S.No</th>
+                                                                            <th>Customer Name</th>
+                                                                            <th>Invoice No</th>
+                                                                            <th>Invoice Date</th>
+                                                                            <th>Invoice Amount</th>
+                                                                            <th>Actual Due Date</th>
+                                                                            <th>Tenure</th>
+                                                                            <th>Status</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let i of totalInvoiceList | filter:searchTotalInvoice  | paginate: {id:'First', itemsPerPage: 10, currentPage: p1 };let j=index">
+                                                                            <td>{{((p1-1)*10)+j+1}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{i.customerName}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Anchor No : {{i.anchorRefNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{i.invoiceNo}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    Created on : {{i.createdOn}}
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{i.invoiceDate}}</td>
+                                                                            <td>{{indianCurrency(i.invoiceAmount)}}
+                                                                            </td>
+                                                                            <td>{{i.DUE_Date}}</td>
+                                                                            <td>{{i.Tenor}}</td>
+                                                                            <td>
+                                                                                <ng-container *ngIf="i.fundingStatus=='InProgress'">
+                                                                                    <span class="label label-warning text-color">{{i.fundingStatus}}</span>
+                                                                                </ng-container>
+                                                                                <ng-container *ngIf="i.fundingStatus=='Partially Financed'">
+                                                                                    <span class="label label-warning text-color">{{i.fundingStatus}}</span>
+                                                                                </ng-container>
+                                                                                <ng-container *ngIf="i.fundingStatus=='Fully Financed'">
+                                                                                    <span class="label label-success text-color">{{i.fundingStatus}}</span>
+                                                                                </ng-container>
+                                                                                <ng-container *ngIf="i.fundingStatus=='UnFinanced'">
+                                                                                    <span class="label label-danger text-color">{{i.fundingStatus}}</span>
+                                                                                </ng-container>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr *ngIf="totalInvoiceList.length == 0">
+                                                                            <td colspan="11" style="color: red;"> No Data Found </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <pagination-controls id="First" (pageChange)="p1 = $event"></pagination-controls>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="Non Funded Invoice">
+                                        <div class="row">
+                                            <div class="col" style="padding: 5px !important;">
+                                                <div class="card" style="margin: 1px !important;">
+                                                    <div class="card-body" style="padding-left: 20px !important;">
+
+                                                        <div class="row" style="font-size: 12px !important;">
+                                                            <div class="col-6">
+                                                                <b style="color: green !important;font-size: 15px;font-weight: bolder;">Total
+                                                                    No. of Non Funded Invoice:</b>&nbsp; <span style="color: black;font-size: 15px;">{{unfinancedInvoiceList.length}}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <b style="color: green !important; font-size: 15px;font-weight: bolder;">Total
+                                                                    Non Funded Invoice Amount:</b>&nbsp;<span style="color: black;font-size: 15px;">{{indianCurrency(totalNonFundedInvoiceAmount)}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-1 justify-content-around">
+                                                            <input type="text" placeholder="&#61442;  Search" [(ngModel)]="searchNonFundInvoice" style="font-family: FontAwesome;" class="form-control col-3">
+                                                            <input type="date" class="form-control col-3" (change)="nonFundedInvoiceDateFilter()" [(ngModel)]="nonFundedInvoiceStartDate" max="{{nonFundedInvoiceEndDate}}" (keypress)="preventTyping()"/>
+                                                            <input type="date" class="form-control col-3" (change)="nonFundedInvoiceDateFilter()" [(ngModel)]="nonFundedInvoiceEndDate" min="{{nonFundedInvoiceStartDate}}" (keypress)="preventTyping()"/>
+                                                            <div class="col-2"><i class="fa fa-file-pdf-o fa-3x pointer" (click)="nonFundedInvoicePdf()" aria-hidden="true" style="color: red;"></i>&nbsp;&nbsp;<i class="fa fa-file-excel-o fa-3x pointer" aria-hidden="true"
+                                                                    style="color: green;" (click)="nonFundedInvoiceExcel()"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <table class="table table-striped table-responsive-sm" id="nonFundedT">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Sno</th>
+                                                                            <th>Customer Name</th>
+                                                                            <th>Invoice No</th>
+                                                                            <th>Invoice Date</th>
+                                                                            <th>Invoice Amount</th>
+                                                                            <th>Actual Due Date</th>
+                                                                            <th>Tenure</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let ti of unfinancedInvoiceList |filter:searchNonFundInvoice|paginate: {id:'Second', itemsPerPage: 10, currentPage: p2 }; let i=index;">
+                                                                            <td>{{((p2-1)*10)+i+1}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.customerName}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Anchor No : {{ti.anchorRefNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.invoiceNo}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Created on : {{ti.createdOn}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{ti.invoiceDate}}</td>
+                                                                            <td>{{indianCurrency(ti.invoiceAmount)}}
+                                                                            </td>
+                                                                            <td>{{ti.DUE_Date}}</td>
+                                                                            <td>{{ti.Tenor}}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="unfinancedInvoiceList.length == 0">
+                                                                            <td colspan="11" style="color: red;"> No Data Found </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <pagination-controls id="Second" (pageChange)="p2 = $event"></pagination-controls>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="Funded Invoice">
+                                        <div class="row">
+                                            <div class="col" style="padding: 5px !important;">
+                                                <div class="card" style="margin: 1px !important; ">
+                                                    <div class="card-body" style="padding-left: 20px !important;">
+
+                                                        <div class="row" style="font-size: 12px !important;">
+                                                            <div class="col-6">
+                                                                <b style="color: green !important;font-size: 15px;font-weight: bolder;">Total
+                                                                    No. of Funded Invoice:</b>&nbsp; <span style="color: black;font-size: 15px;">{{tranchFullyInvoiceList.length}}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <b style="color: green !important; font-size: 15px;font-weight: bolder;">Total
+                                                                    Funded Invoice Amount:</b>&nbsp;<span style="color: black;font-size: 15px;">{{indianCurrency(totalFundedInvoiceAmount)}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-1 justify-content-around">
+                                                            <input type="text" placeholder="&#61442;  Search" [(ngModel)]="searchFundedInvoice" style="font-family: FontAwesome;" class="form-control col-3">
+                                                            <input type="date" class="form-control col-3" (change)="fundedInvoiceDateFilter()" [(ngModel)]="fundedInvoiceStartDate" max="{{fundedInvoiceEndDate}}" (keypress)="preventTyping()" />
+                                                            <input type="date" class="form-control col-3" (change)="fundedInvoiceDateFilter()" [(ngModel)]="fundedInvoiceEndDate" min="{{fundedInvoiceStartDate}}" (keypress)="preventTyping()" />
+                                                            <div class="col-2"><i class="fa fa-file-pdf-o fa-3x pointer" (click)="fundedInvoicePdf()" aria-hidden="true" style="color: red;"></i>&nbsp;&nbsp;<i class="fa fa-file-excel-o fa-3x pointer" aria-hidden="true" style="color: green;"
+                                                                    (click)="fundedInvoiceExcel()"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <table class="table table-striped table-responsive-sm" id="fundedInvoiceT">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Sno</th>
+                                                                            <th>Customer Name</th>
+                                                                            <th>Invoice No</th>
+                                                                            <th>Invoice Amount</th>
+                                                                            <th>Financed Amount</th>
+                                                                            <th>Disbursed Date</th>
+                                                                            <th>Disbursed Amount</th>
+                                                                            <th>Tenure</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let ti of tranchFullyInvoiceList | filter:searchFundedInvoice | paginate: {id:'Third', itemsPerPage: 10, currentPage: p3 }; let i=index;">
+                                                                            <td>{{((p3-1)*10)+i+1}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.customerName}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Anchor No : {{ti.anchorRefNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.invoiceNo}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Created On : {{ti.createdOn}}
+                                                                                    </div>
+                                                                                    <div>Invoice Date : {{ti.invoiceDate}}
+                                                                                    </div>
+                                                                                    <div>Due Date : {{ti.DUE_Date}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{indianCurrency(ti.invoiceAmount)}}
+                                                                            </td>
+                                                                            <td>{{indianCurrency(ti.financedAmount)}}
+                                                                            </td>
+                                                                            <td>{{ti.disbursalDate}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.disbursableAmount}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Tranch No : {{ti.tranchNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{ti.Tenor}}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="tranchFullyInvoiceList.length == 0">
+                                                                            <td colspan="11" style="color: red;"> No Data Found </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <pagination-controls id="Third" (pageChange)="p3 = $event"></pagination-controls>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="Repaid Invoice">
+                                        <div class="row">
+                                            <div class="col" style="padding: 5px !important;">
+                                                <div class="card" style="margin: 1px !important;  ">
+                                                    <div class="card-body" style="padding-left: 20px !important;">
+
+                                                        <div class="row" style="font-size: 12px !important;">
+                                                            <div class="col-6">
+                                                                <b style="color: green !important;font-size: 15px;font-weight: bolder;">Total
+                                                                    No. of Repaid Invoice:</b>&nbsp; <span style="color: black;font-size: 15px;">{{tranchRepayInvoiceList.length}}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <b style="color: green !important; font-size: 15px;font-weight: bolder;">Total
+                                                                    Repaid Invoice Amount:</b>&nbsp;<span style="color: black;font-size: 15px;">{{indianCurrency(totalRepaidInvoiceAmount)}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2 justify-content-around">
+                                                            <input type="text" placeholder="&#61442;  Search" [(ngModel)]="searchRepaidInvoice" style="font-family: FontAwesome;" class="form-control col-3">
+                                                            <input type="date" class="form-control col-3" (change)="repaidInvoiceDateFilter()" [(ngModel)]="repaidInvoiceStartDate" max="{{repaidInvoiceEndDate}}" (keypress)="preventTyping()" />
+                                                            <input type="date" class="form-control col-3" (change)="repaidInvoiceDateFilter()" [(ngModel)]="repaidInvoiceEndDate" min="{{repaidInvoiceStartDate}}" (keypress)="preventTyping()" />
+                                                            <div class="col-2"><i class="fa fa-file-pdf-o fa-3x pointer" (click)="repaidInvoicePdf()" aria-hidden="true" style="color: red;"></i>&nbsp;&nbsp;<i class="fa fa-file-excel-o fa-3x pointer" aria-hidden="true" style="color: green;"
+                                                                    (click)="repaidInvoiceExcel()"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <table class="table table-striped table-responsive-sm" id="repaidInvoiceT">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Sno</th>
+                                                                            <th>Customer Name</th>
+                                                                            <th>Invoice No</th>
+                                                                            <th>Invoice <br>Amount</th>
+                                                                            <th>Financed<br> Amount</th>
+                                                                            <th>Disbursement<br> Date</th>
+                                                                            <th>Disbursement<br> Amount</th>
+                                                                            <th>Paid Amount</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let ti of tranchRepayInvoiceList | filter:searchRepaidInvoice |paginate: {id:'Fourth', itemsPerPage: 10, currentPage: p4 } ; let i=index;">
+                                                                            <td>{{((p4-1)*10)+i+1}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.customerName}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Anchor No : {{ti.anchorRefNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.invoiceNo}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Created On : {{ti.createdOn}}
+                                                                                    </div>
+                                                                                    <div>Invoice Date : {{ti.invoiceDate}}
+                                                                                    </div>
+                                                                                    <div>Due Date : {{ti.DUE_Date}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{indianCurrency(ti.invoiceAmount)}}
+                                                                            </td>
+                                                                            <td>{{indianCurrency(ti.financedAmount)}}
+                                                                            </td>
+                                                                            <td>{{ti.disbursalDate}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.disbursableAmount}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Tranch No : {{ti.tranchNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{indianCurrency(ti.PaidAmount)}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Last Paid Date : {{ti.LastPaidDate}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr *ngIf="tranchRepayInvoiceList.length == 0">
+                                                                            <td colspan="15" style="color: red;"> No Data Found </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <pagination-controls id="Fourth" (pageChange)="p4 = $event"></pagination-controls>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="OverDue Invoice">
+                                        <div class="row">
+                                            <div class="col" style="padding: 5px !important;">
+                                                <div class="card" style="margin: 1px !important;  ">
+                                                    <div class="card-body" style="padding-left: 20px !important;">
+
+                                                        <div class="row" style="font-size: 12px !important; ">
+                                                            <div class="col-6">
+                                                                <b style="color: green !important;font-size: 15px;font-weight: bolder;">Total
+                                                                    No. of Invoice:</b>&nbsp; <span style="color: black;font-size: 15px;">{{overDueInvoiceList.length}}</span>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <b style="color: green !important; font-size: 15px;font-weight: bolder;">Total
+                                                                    OverDue Invoice Amount:</b>&nbsp;<span style="color: black;font-size: 15px;">{{indianCurrency(totalOverdueInvoiceAmount)}}</span>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2 justify-content-around">
+                                                            <input type="text" placeholder="&#61442;  Search" [(ngModel)]="searchOverdueInvoice" style="font-family: FontAwesome;" class="form-control col-3">
+                                                            <input type="date" class="form-control col-3" (change)="overdueInvoiceDateFilter()" [(ngModel)]="overDueInvoiceStartDate" max="{{overDueInvoiceEndDate}}" (keypress)="preventTyping()" />
+                                                            <input type="date" class="form-control col-3" (change)="overdueInvoiceDateFilter()" [(ngModel)]="overDueInvoiceEndDate" min="{{overDueInvoiceStartDate}}" (keypress)="preventTyping()" />
+                                                            <div class="col-2"><i class="fa fa-file-pdf-o fa-2x" (click)="overdueInvoicePdf()" aria-hidden="true" style="color: red;"></i>&nbsp;&nbsp;<i class="fa fa-file-excel-o fa-2x" aria-hidden="true" style="color: green;"
+                                                                    (click)="overdueInvoiceExcel()"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row mt-2">
+                                                            <div class="col">
+                                                                <table class="table table-striped table-responsive-sm" id="overdueT">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th>Sno</th>
+                                                                            <th>Customer Name</th>
+                                                                            <th>Invoice No</th>
+                                                                            <th>Invoice Amount</th>
+                                                                            <th>Financed Amount</th>
+                                                                            <th>Disbursement Date</th>
+                                                                            <th>Disbursement Amount</th>
+                                                                            <th>Over Due By Days</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr *ngFor="let ti of overDueInvoiceList | filter:searchOverdueInvoice | paginate: {id:'Fifth', itemsPerPage: 10, currentPage: p5 }; let i=index;">
+                                                                            <td>{{((p5-1)*10)+i+1}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.customerName}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Anchor No : {{ti.anchorRefNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.invoiceNo}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Created On : {{ti.createdOn}}
+                                                                                    </div>
+                                                                                    <div>Invoice Date : {{ti.invoiceDate}}
+                                                                                    </div>
+                                                                                    <div>Due Date : {{ti.DUE_Date}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{indianCurrency(ti.invoiceAmount)}}
+                                                                            </td>
+                                                                            <td>{{indianCurrency(ti.financedAmount)}}
+                                                                            </td>
+                                                                            <td>{{ti.disbursalDate}}</td>
+                                                                            <td class="tooltip-example-t">
+                                                                                {{ti.disbursableAmount}}
+                                                                                <div class="tooltip-text-t" style="background-color: #ccc;">
+                                                                                    <div>Tranch No : {{ti.tranchNo}}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>{{ti.OverDUeByDays}}</td>
+                                                                        </tr>
+                                                                        <tr *ngIf="overDueInvoiceList.length == 0">
+                                                                            <td colspan="15" style="color: red;"> No Data Found </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                                <pagination-controls id="Fifth" (pageChange)="p5 = $event"></pagination-controls>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-tab>
+
+                                </mat-tab-group>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- </div> -->
+<!-- </div> -->
+<!-- </div> -->
+<ng-template #inprogressRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Inprogress Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center"> Retailer</th>
+                    <th>Sales Person </th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ir of inprogressRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span></td>
+                    <td>{{ir.orgName}}<br> {{ir.panNo}}/{{ir.mobileNo}}
+                    </td>
+                    <td>{{ir.salesPerson}}/{{ir.salesPersonMobileNo}}</td>
+                    <td>{{ir.status}}</td>
+                    <td>{{ir.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+<ng-template #approvedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Approved Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person</th>
+                    <th>Status</th>
+                    <th>approved On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ar of approvedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span>
+                    </td>
+                    <td>{{ar.orgName}}<br> {{ar.panNo}}/{{ar.mobileNo}}
+                    </td>
+                    <td>{{ar.salesPerson}}/{{ar.salesPersonMobileNo}}</td>
+                    <td>{{ar.status}}</td>
+                    <td>{{ar.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+<ng-template #notOnboardedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Not Onboarded Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person </th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pe of notOnboardedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span>
+                    </td>
+                    <td>{{pe.orgName}}
+                        <br>{{pe.panNo}}/{{pe.mobileNo}}
+                    </td>
+                    <td>{{pe.salesPerson}}/{{pe.salesPersonMobileNo}}</td>
+                    <td>{{pe.status}}</td>
+                    <td>{{pe.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+<ng-template #rejectedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Rejected Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person</th>
+                    <th>Status</th>
+                    <th>Rejected On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rr of rejectedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span></td>
+                    <td>{{rr.orgName}}<br> {{rr.panNo}}/{{rr.mobileNo}}
+                    </td>
+                    <td>{{rr.salesPerson}}/{{rr.salesPersonMobileNo}}</td>
+                    <td>{{rr.status}}</td>
+                    <td>{{rr.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>

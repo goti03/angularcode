@@ -1,0 +1,135 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{h.loanAmount}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+                <br>
+                <table style="margin-top: 3%;" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>SNo</th>
+                            <th>File</th>
+                            <th>Remarks</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let dynamic of fileDynamicList; let i = index;">
+                            <td>
+                                {{i+1}}
+                            </td>
+                            <td>
+                            <input  [(ngModel)]="dynamic.file" id="file_{{i}}" name="file" type="file" class="form-control"
+                            style="width: 200px;" accept="application/pdf,application/vnd.ms-excel">
+                            </td>
+                            <td>
+                            <textarea style="width: 300px;" class="form-control" [(ngModel)]="dynamic.comment" name="comment"
+                             id="comment_{{i}}" ></textarea>
+                            </td>
+                            <td>
+                                <img src="../assets/images/remove-icon.jpg" style="width: 30px; height: 30px;"
+                                    alt="Delete" (click)="deleteRowFile(i)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col text-center">
+                    <button type="button" style="height:35px;width:150px" class="btn btn-primary mb-2"
+                        (click)="addRowFile()">
+                        Add
+                    </button>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <h4>Upload Bank Statement</h4>
+            </div>
+        </div>
+
+        
+        <table  class="table table-striped table-bordered" style="width: 100%;margin-top: 3%;">
+            <tr>
+                <th>Sno</th>
+                <th>Bank Name</th>
+                <th>Account Type</th>
+                <th>File type</th>
+                <th>Is password Available</th>
+                <th>Password</th>
+                <th>File</th>
+                <th>action</th>
+            </tr>
+            <tr *ngFor="let dynamic of fileDynamicList; let i = index;">
+                <td>{{i+1}}</td>
+                <td><select class="form-control" style="width: 150px;" name="bankName" [(ngModel)]="dynamic.bankName">
+                    <option *ngFor="let bdm of bankName" [value]="bdm.bankName">{{bdm.bankName}}</option>
+                </select></td>
+                <td><select class="form-control" style="width: 150px;" name="accountType" [(ngModel)]="dynamic.accountType">
+                    <option *ngFor="let at of accountType" [value]="at.accName">{{at.accName}}</option>
+                </select>
+            </td>
+                <td><select   name="fileType" id="fileType_{{i}}" class="form-control"
+                    style="width: 100px;">
+                <option *ngFor="let ft of fileType" [value]="ft.name">{{ft.name}}</option>
+                </select>
+                </td>
+                <td>
+                <select   name="isPw" id="isPw_{{i}}" class="form-control" 
+                    [(ngModel)]="dynamic.isPw" style="width: 100px;" (change)="isPassword(i)">
+                <option *ngFor="let p of isPw" [value]="p.id">{{p.name}}</option>
+                </select>
+                </td>
+                <td><input *ngIf="isPwavailable" type="text" class="form-control" id="password_{{i}}" style="width: 150px;" 
+                    name="password" [(ngModel)]="dynamic.password">
+                </td>
+                <td><input name="uploadFile" [(ngModel)]="dynamic.file" id="uploadFile_{{i}}" type="file" class="form-control"
+                    (change)="uploadfilearray($event.target.files,i)"style="width: 200px;"></td>
+                <td><img src="assets/images/remove-icon.jpg" style="width: 30px; height: 30px;"
+                    alt="Delete" (click)="deleteRow(i)" /></td>
+            </tr>
+                
+          </table>
+        <div class="col text-center">
+            <button type="button"  class="btn btn-primary" (click)="addRowWhen(0)">
+                Add
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; -->
+            <button [hidden]="submitted" type="button"  class="btn btn-success" (click)="submit()">
+                Upload
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- <button type="button"  class="btn btn-danger" (click)="createLoan()">
+                Create Loan
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button"  class="btn btn-danger" (click)="completeProcess()">
+                Complete Process
+            </button> -->
+            
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,112 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <!-- <h4 class="card-title">Loan Request List</h4> -->
+                <table class=""
+                    style="font-size: 14px;padding: 0px !important ; color: black;border: 0; text-align: left;">
+
+                    <tr>
+
+                        <td><input class="form-control inputBox" placeholder="&#61442; Customer Name" type="text"
+                                (keypress)="keyPress($event)" [(ngModel)]="customerName" id="customerName"
+                                name="customerName"></td>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Anchor Name" type="text"
+                                (keypress)="keyPress($event)" [(ngModel)]="anchorName" id="anchorName"
+                                name="anchorName"></td>
+
+                        <td><input class="form-control inputBox" placeholder="&#61442; Anchor Ref no" type="text"
+                                (keypress)="keyPress($event)" [(ngModel)]="anchorRefNo" id="anchorRefNo"
+                                name="anchorRefNo"></td>
+
+                        <td><input class="form-control inputBox" placeholder="&#61442; Invoice No " type="text"
+                                (keypress)="keyPress($event)" [(ngModel)]="invoiceNo" id="invoiceNo" name="invoiceNo">
+                        </td>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Pan Number " type="text"
+                                (keypress)="keyPress($event)" [(ngModel)]="panNumber" id="panNumber" name="panNumber">
+                        </td>
+
+                    </tr>
+                    <tr>
+                     
+                        <th class="inputBox"><b>Deletion Start Date</b></th>
+                        <td><input class="form-control inputBox" type="date" id="startDate" name="startDate"
+                                [(ngModel)]="startDate" max="{{endDate}}" (keypress)="preventTyping()"></td>
+                        <th class="inputBox"><b>Deletion End Date</b></th>
+                        <td><input class="form-control inputBox" type="date" id="endDate" name="endDate"
+                                [(ngModel)]="endDate" min="{{startDate}}" (keypress)="preventTyping()"></td>
+                        <td><button type="button" class="btn btn-primary" (click)="deletesearch(1)">Search</button>
+                            &nbsp;
+                        <button type="button" class="btn btn-danger" (click)="resetSearch()">Reset</button></td>
+                        <td>
+
+                            <i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="excelDownload()"></i>
+
+
+
+                        </td>
+                     
+                    </tr>
+
+                </table>
+
+
+                <table class="table table-striped table-bordered fin-table-blue fin-custom-table fbig" style="font-size: 14px;padding: 0px !important;">
+                    <thead>
+                        <tr>
+                            <th><b>S.No</b></th>
+                            <th><b>Anchor Name</b></th>
+                            <th><b>Anchor Ref Id</b></th>
+                            <th><b>Customer Name</b></th>
+                            <th><b>Customer Pan No</b></th>
+                            <th><b>Invoice No</b></th>
+                            <th><b>Invoice Amount</b></th>
+                            <th><b>Invoice Date</b></th>
+                            <th><b>Remarks</b></th>
+                            <th><b>Deleted By</b></th>
+                            <th><b>Deleted On</b></th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let m  of invoiceList ;let i = index">
+                            <td>{{((p-1)*10)+i+1}}</td>
+                            <td>{{m.anchorName}}</td>
+                            <td>{{m.anchorRefNo}}</td>
+                            <td>{{m.customerName}}</td>
+                            <td>{{m.customerPan}}</td>
+                            <td>{{m.invoiceNo}}</td>
+                            <td>{{m.invoiceAmount}}</td>
+                            <td>{{m.invoiceDate}}</td>
+                            <td>{{m.remarks}}</td>
+                            <td>{{m.deletedBy}}</td>
+                            <td>{{m.deletedDate}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <pagination-controls (pageChange)="p = $event" id="first"></pagination-controls> -->
+                <div class="pagination">
+                    <button style="border: 1;" (click)="previousButton()" class="btn ml-2"
+                        style="border: 1px solid #9a9da0" [disabled]="p==1">Previous</button>
+                    <span style="border: 1;" class="btn ml-2" style="border: 1px solid #9a9da0 ">{{p}}</span>
+                    <button style="border: 1;" class="btn ml-2" (click)="nextButton()" style="border: 1px solid #9a9da0"
+                        [disabled]="invoiceList.length!=10">next</button>
+                </div>
+                <!-- <pagination-controls (pageChange)="p = $event" (click)="showPageIndex(p,p1)" ></pagination-controls> -->
+
+                <!-- <div class="pagination">
+                    <span (click)="number('prev')" id="prev">PREV</span>
+                    <span (click)="number('first')">{{first}}</span>
+                    <span >{{firstdot}}</span>
+                    <span (click)="number('prevpage')">{{prevpage}}</span>
+                    <span (click)="number('currpage')" id="currpage">{{currpage}}</span>
+                    <span (click)="number('nextpage')">{{nextpage}}</span>
+                    <span >{{lastdot}}</span>
+                    <span (click)="number('last')">{{last}}</span>
+                    <span (click)="number('next')" id="next">NEXT</span>
+                </div> -->
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,117 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table style="width: 100%;" *ngFor="let fd of formDetails">
+                    <tr>
+                      <td rowspan="2">
+                        <img src="assets/images/bank/IDFC Bank.jpeg"
+                        style="width:200px;height: 75px;" />
+                      </td>  
+                      <td colspan="2" style="text-align: center;">
+                       <b>Mandate Instruction Form for NACH </b> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>UMRN:</label>
+                                <table border="1">
+                                <tr>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>Date:{{fd.loanDate}}</td>  
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Utility Code :- NACH00000000023239</td>
+                        <td>
+                            <input type="checkbox" checked>Create&nbsp;
+                            <input type="checkbox">Modify&nbsp;
+                            <input type="checkbox">Cancel
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Sponsor Bank Code :-</label><input type="text" value="IDFB0000001"> </td>
+                        <td colspan="2"><label>I/We hereby authorise :-</label> 
+                            <input type="text" class="form-control" value="IDFC FIRST Bank Limited"> </td>
+                    </tr>
+                    <tr>
+                        <td><label>To debit (tick )</label>
+                        <input type="text" class="form-control" value="SB / CA / CC / SB-NRE / Other">
+                        </td>
+                        <td>Bank a/c number:</td>
+                        <td>{{fd.AccountNo}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">With Bank &nbsp;<input type="text" class="form-control" [(ngModel)]="fd.bankName" style="width: 550px;"></td>
+                        <td>
+                            <label>IFSC / MICR</label> &nbsp;<input type="text" class="form-control" [(ngModel)]="fd.ifscCode" style="width: 200px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                          <label>an amount of Rupees</label>&nbsp;
+                        <input type="text" class="form-control" value="Three lakhs Only" style="width: 550px;">&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="text" class="form-control" value="₹  3,00,000" style="width: 250px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DEBIT TYPE  &nbsp;
+                            <input type="checkbox">Fixed Amount&nbsp;
+                            <input type="checkbox" checked>Maximum Amount
+                        </td>
+                        <td colspan="2">
+                            FREQUENCY &nbsp;
+                            <input type="checkbox">Monthly&nbsp;
+                            <input type="checkbox">Quarterly&nbsp;
+                            <input type="checkbox">Halfyearly&nbsp;
+                            <input type="checkbox">Yearly&nbsp;
+                            <input type="checkbox" checked>As & when presented
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Reference 1&nbsp;<input type="text" class="form-control" style="width: 400px;">&nbsp;
+                            Reference 2 &nbsp;<input type="text" class="form-control" style="width: 400px;"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">1) I agree for the debit of mandate processing charges by the Bank whom I am authorizing to debit my account as per latest schedule of charges of the Bank. 2) This is to
+                            confirm that the declaration has been carefully read, understood & made by me/us. I am authorizing the User entity/Corporate to debit my account based on the instruction as
+                            agreed and signed by me. 3) I have understood that I am authorized to cancel/amend this mandate by appropriately communicating the cancellation/amendment request to
+                            the User entity/Corporate or the bank where I have authorized the debit </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">From:{{fd.loanDate}}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">To: {{fd.todate}} &nbsp;&nbsp;
+                            <span style="text-decoration: underline;font-size: 6px;color: rgb(230, 229, 228);">Signature Primary Account Holder</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="text-decoration: underline;font-size: 6px;color: rgb(230, 229, 228);">Signature of Account Holder</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span style="text-decoration: underline;font-size: 6px;color: rgb(230, 229, 228);">Signature of Account Holder</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">Phone No:<input type="text"> &nbsp;&nbsp; 
+                            1 <span style="text-decoration: underline;font-size: 6px;color: rgb(230, 229, 228);">Name as in bank records</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            2 <span style="text-decoration: underline;font-size: 6px;color: rgb(230, 229, 228);">Name as in bank records</span>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            3 <span style="text-decoration: underline;font-size: 6px;color: rgb(230, 229, 228);">Name as in bank records</span> </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                    ------------------------------------------------------------------------------------------------------------------------------                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

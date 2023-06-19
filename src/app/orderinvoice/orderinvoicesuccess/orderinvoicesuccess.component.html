@@ -1,0 +1,50 @@
+
+  <body class="innerpages" style="overflow:hidden;">
+    <div class="wrapper">
+		<div class="page">
+			<div class="page-content">
+				<div class="page-content-inside" style="height:700px;">
+					<div class="page-title-head">FinAGG Order Invoice Disbursement</div>
+					<div class="welcome-note">Welcome ! {{companyname}}</div>
+					<div class="card mt-10">
+						<div class="green-box-pat clearfix">
+							<div class="icon-cash-back fixed-height"><i class="fa fa-check-circle tick-green"></i></div>
+							<div class="amount-text">
+								<div class="amount-text1">FinAGG Available Limit</div>
+								<div class="amount-final">{{availlimit}}</div>
+							</div>
+						</div>
+						<div class="grey-box-pat clearfix mt-30">
+							<div class="icon-cash-back fixed-height"><i class="fa fa-check-circle tick-green"></i></div>
+							<div class="amount-text">
+								<div class="amount-text1">Order Reference Number</div>
+								<div class="amount-final">{{ordernum}}#{{loanrequest}}</div>
+							</div>
+						</div>
+						<div class="grey-box-pat clearfix mt-30">
+							<div class="icon-cash-back fixed-height"><i class="fa fa-check-circle tick-green"></i></div>
+							<div class="amount-text">
+								<div class="amount-text1">Order Amount</div>
+								<div class="amount-final">{{orderamountnew}}</div>
+							</div>
+						</div>
+						
+						<div class="grey-box-pat clearfix mt-20">
+							<div class="icon-cash-back fixed-height"><i class="fa fa-check-circle tick-green"></i></div>
+							<div class="amount-text">
+								<div class="amount-text1">Fund Amount</div>
+								<div class="amount-final"> {{fundamountnew}}</div>
+							</div>
+						</div>
+						
+						<div class="disbursal-success mt-20"><span><i class="fa fa-check-circle"></i></span></div>
+						<div class="welcome-text green" *ngIf="fund">Order Invoice successfully submitted. Once approved we will notify you via email,whatsapp and sms</div>
+						<div class="disbursal-text"  *ngIf="!fund">Order Invoice successfully disbursed</div> 
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+  </body>

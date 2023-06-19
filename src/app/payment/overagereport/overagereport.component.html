@@ -1,0 +1,193 @@
+<div class="fin-row mt-20">
+  <div class="fin-card">
+    <div class="clearfix fin-heading">Ageing Report
+    </div>
+    &nbsp;
+
+    <div class="row">
+     
+      <div class="col-1"> <label style="color:black"><b>Overdue Status&nbsp;</b></label></div>
+
+      <div class="col-2">
+
+
+        <select class="form-select" [(ngModel)]="overdueStatus">
+          <option value="all">All</option>
+          <option value="1">Overdue</option>
+          <option value="0">Non-Overdue</option>
+        </select>
+
+      </div>
+      <div class="col-2"> <input class="form-control" type="text" name="search" [(ngModel)]="customerName"
+          autocomplete="off" placeholder="&#61442; CustomerName  "></div>
+      <div class="col-2"> <input class="form-control" type="text" name="companyName" [(ngModel)]="CompanyName"
+          autocomplete="off" placeholder="&#61442; Company Name  "></div>
+
+      <div class="col-2"> 
+        <button type="button" class="btn btn-success " (click)="Submit(1)">Search</button>
+        &nbsp;
+        <button type="button" class="btn btn-danger " (click)="reset()">Reset</button>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-2">
+        <i class="fa fa-file-excel-o pointer" (click)="exceld()"></i>
+      </div>
+    </div>
+
+    <div class="table-responsive mt-10">
+      <span *ngIf="overageList1.length==0" style="color: red;">No Data Found</span>
+      <table class="table fin-table-blue text-center">
+        <thead>
+          <tr>
+            <th rowspan="2">Sl No</th>
+            <th rowspan="2">Anchor</th>
+            <th rowspan="2">Program Name</th>
+            <th rowspan="2">Customer Name</th>
+            <th rowspan="2">Company Name</th>
+            <th rowspan="2">LOS ID</th>
+            <th rowspan="2">LAN</th>
+            <th rowspan="2">PAN</th>
+            <th rowspan="2">CRN</th>
+            <th rowspan="2">Lender</th>
+            <th rowspan="2">Mobile</th>
+            <th rowspan="2">Limit Amount</th>
+            <th rowspan="2">Utilization</th>
+            <th rowspan="2">Limit End Date</th>
+            <th rowspan="2">Borrower ROI</th>
+            <th rowspan="2">contract Tenure</th>
+            <th rowspan="1" colspan="4">Total DPD</th>
+            <th rowspan="1" colspan="4"> X< 10 DPD</th>
+            <th rowspan="1" colspan="4">11<X<20 DPD</th>
+            <th rowspan="1" colspan="4">21<DPD<30< /th>
+            <th rowspan="1" colspan="4"> 31<X<60 DPD </th>
+            <th rowspan="1" colspan="4"> 61<X<90 DPD </th>
+            <th rowspan="1" colspan="4"> 90 DPD + </th>
+            <th rowspan="1" colspan="4"> 120 DPD +</th>
+            <th rowspan="2">Repayment Mode</th>
+            <th rowspan="2">Customer Bank</th>
+            <th rowspan="2">IFSC Code</th>
+            <th rowspan="2">Lender/Borrower</th>
+            <th rowspan="2">Overdue</th>
+            <th rowspan="2">SMA</th>
+            <th rowspan="2">FinAgg NPA Date</th>
+            <th rowspan="2">First NPA Date</th>
+
+          </tr>
+          <tr>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+            <th>Total O/S Principal</th>
+            <th>Total O/S Interest</th>
+            <th>Total O/S Charges</th>
+            <th>Days</th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let c of overageList1 ; let i = index ">
+            <td style="text-align: left;">{{((p-1)*p1)+i+1}}</td>
+            <td style="text-align: left;">{{c.anchorName}}</td>
+            <td style="text-align: left;">{{c.programName}}</td>
+            <td style="text-align: left;">{{c.customerName}}</td>
+            <td style="text-align: left;">{{c.companyName}}</td>
+            <td style="text-align: left;">{{c.losId}}</td>
+            <td style="text-align: left;">{{c.lanNo}}</td>
+            <td style="text-align: left;">{{c.panNo}}</td>
+            <td style="text-align: left;">{{c.crnNo}}</td>
+            <td style="text-align: left;">{{c.lenderName}}</td>
+            <td style="text-align: left;">{{c.mobileNo}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.limitAmount)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.utilization)}}</td>
+            <td style="text-align: left;">{{c.limitEndDate}}</td>
+            <td style="text-align: left;">{{c.borrowerRoi}}</td>
+            <td style="text-align: left;">{{c.contractTenure}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountMax)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestMax)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesMax)}}</td>
+            <td style="text-align: left;">{{c.ageMax}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountTen)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestTen)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesTen)}}</td>
+            <td style="text-align: left;">{{c.ageTen}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountTwenty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestTwenty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesTwenty)}}</td>
+            <td style="text-align: left;">{{c.ageTwenty}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountThirty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestThirty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesThirty)}}</td>
+            <td style="text-align: left;">{{c.ageThirty}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountSixty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestSixty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesSixty)}}</td>
+            <td style="text-align: left;">{{c.ageSixty}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountNinety)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestNinety)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesNinety)}}</td>
+            <td style="text-align: left;">{{c.ageNinety}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountNinetyOne)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestNinetyOne)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesNinetyOne)}}</td>
+            <td style="text-align: left;">{{c.ageNinetyOne}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingAmountOneTwenty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingInterestOneTwenty)}}</td>
+            <td style="text-align: right;">{{indianCurrency(c.outstandingChargesOneTwenty)}}</td>
+            <td style="text-align: left;">{{c.ageOneTwenty}}</td>
+            <td style="text-align: left;">{{c.repaymentMode}}</td>
+            <td style="text-align: left;">{{c.customerBankName}}</td>
+            <td style="text-align: left;">{{c.ifscCode}}</td>
+            <td style="text-align: left;" *ngIf="c.islender!=2">Lender</td>
+            <td style="text-align: left;" *ngIf="c.islender==2">Borrower</td>
+            <td style="text-align: left;" *ngIf="c.overdue==1">YES</td>
+            <td style="text-align: left;" *ngIf="c.overdue==0">NO</td>
+            <td style="text-align: left;" >{{c.sma}}</td>
+            <td style="text-align: left;" >{{c.npaStartDate}}</td>
+            <td style="text-align: left;" >{{c.externalNpaDate}}</td>
+
+            <!-- <td>{{c.activeStatus}}</td> -->
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+    <div class="pagination">
+      <button style="border: 1;" (click)="previousButton()" class="btn ml-2" style="border: 1px solid #9a9da0"
+        [disabled]="p==1">Previous</button>
+      <span style="border: 1;" class="btn ml-2" style="border: 1px solid #9a9da0 ">{{p}} of {{totalpage}}</span>
+      <button style="border: 1;" class="btn ml-2" (click)="nextButton()" style="border: 1px solid #9a9da0"
+        [disabled]="overageList1.length!=10">next</button>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,262 @@
+<ng-template #Status let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Status</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <div class="row text-center">
+            <div class="col" style="color: red;">
+                {{message}}
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-2 offset-1">
+                <label>Transaction Reference No.</label>
+            </div>
+            <input type="text" class="form-control col-6 offset-1" [(ngModel)]="trefNo" required>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-2 offset-1">
+                <label>Remarks</label>
+            </div>
+            <textarea class="form-control col-6 offset-1" [(ngModel)]="remarks" required></textarea>
+        </div>
+        <div class="row mb-4" >
+            <div class="col-2 offset-1">
+                <label>Disbursal Date</label>
+            </div>
+            <input type="date" class="form-control col-6 offset-1" [(ngModel)]="currentDate"
+            (keypress)="preventTyping()" required min="{{minDate}}" max="{{todayDate}}">
+        </div>
+
+        <div class="row text-center">
+            <div class="col">
+                <button class="btn btn-success" (click)="submit()">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+
+<div class="fin-card mt-20 clearfix">
+    <div class="clearfix fin-heading">Disbursal List </div>
+    &nbsp;
+    <div class="table-responsive mt-10">
+        <table class="table fin-table-green nowrap">
+            <tbody>
+                <tr>
+                    <div>
+
+                        <td><input class="form-control inputBox" placeholder="&#61442; Customer Name" type="text"
+                                [(ngModel)]="customerName" id="customerName" name="customerName"
+                                (keyup)="enterKey($event)">
+                        </td>
+                      
+                        <td *ngIf="roleId!=8 && lenderIdp=='0' && roleId!=11">
+                            <input #anchor (keyup)="0" matInput placeholder="&#61442; Anchor Name" aria-label="anchor" [(ngModel)]="anchore"
+                                [matAutocomplete]="auto2" class="form-control inputBox" [formControl]="anchorCtrl"
+                                (keyup)="enterKey($event)">
+                            <mat-autocomplete #auto2="matAutocomplete">
+                                <mat-option (onSelectionChange)="anchor.value !=undefined"
+                                    *ngFor="let anchor of filteredanchor| async" [value]="anchor.anchorInfo">
+                                    <span>{{anchor.anchorInfo}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <td  *ngIf="roleId!=8 && lenderIdp=='0' && roleId!=11">
+                            <input #lender (keyup)="0" matInput placeholder="&#61442; Lender Name" aria-label="lender"
+                                [(ngModel)]="lenders" [matAutocomplete]="auto1" class="form-control inputBox"
+                                [formControl]="lenderCtrl" (keyup)="enterKey($event)">
+                            <mat-autocomplete #auto1="matAutocomplete">
+                                <mat-option (onSelectionChange)="lender.value !=undefined"
+                                    *ngFor="let lender of filteredLender| async" [value]="lender.lenderInfo">
+                                    <span>{{lender.lenderInfo}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Anchor Ref No" type="text"
+                                [(ngModel)]="anchorRefNo" id="anchorRefNo" name="anchorRefNo"
+                                (keyup)="enterKey($event)">
+                        </td>
+                        <td> <input class="form-control inputBox" placeholder="&#61442; Invoice No" type="text"
+                                [(ngModel)]="invoiceNo" id="invoiceNo" name="invoiceNo" (keyup)="enterKey($event)">
+                        </td>
+                    </div>
+                </tr>
+                <tr>
+                    <div>
+                        <td><label style="color: black;">From Date</label>
+                            &nbsp;
+                            <input class="form-control inputBox" type="date" [(ngModel)]="disbursementDate"
+                                (keypress)="preventTyping()" max={{disbursementtoDate}}>
+                        </td>
+                        <td><label style="color: black;">To Date</label>
+                            &nbsp;
+                            <input class="form-control inputBox" type="date" [(ngModel)]="disbursementtoDate" min={{disbursementDate}}
+                                (keypress)="preventTyping()" max={{updatedate}}>
+                        </td>
+                        <td><label style="color: black;">Status</label>
+                            &nbsp;
+                            <select class="form-select" [(ngModel)]="statusName" (keyup)="enterKey($event)">
+                                <option value="~">All</option>
+                                <option selected value="Approved">Approved</option>
+                                <option selected value="In Progress">In Progress</option>
+                            </select>
+                        </td>
+                       
+                        <td> <label style="color: black;">UTR Number</label>
+                            &nbsp;
+                            <select class="form-select" [(ngModel)]="utrStatus" (keyup)="enterKey($event)">
+                                <option value="~">All</option>
+                                <option value="1">Present</option>
+                                <option value="0">Absent</option>
+                            </select>
+                        </td>
+                        <td><button type="button" class="btn btn-primary" (click)="reloadData(0)">Search</button>
+                            &nbsp;<button type="button" class="btn btn-danger" (click)="resetSearch()">Reset</button>
+                        </td>
+                        <td colspan=""><i class="fas fa-file-excel fa-2x" (click)="exceld()"
+                                style="cursor: pointer; color: green;"></i>
+                        </td>
+                    </div>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+</div>
+
+<div class="fin-row mt-20">
+    <div class="fin-card">
+        <div class="table-responsive mt-10">
+            <table class="table table-striped table-bordered fin-table-blue">
+                <thead>
+                    <tr>
+                        <th>Sno</th>
+                        <th>Customer Name</th>
+                        <th>Mobile Number</th>
+                        <th *ngIf="lenderId=='0'">Lender Name</th>
+                        <th>Anchor Ref No.</th>
+                        <th>Anchor Name</th>
+                        <th>Drawdown Lan No</th>
+                        <th>Bene Details</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Date</th>
+                        <th>Loan Amount</th>
+                        <th>Deduction</th>
+                        <th>Disbursal Amount</th>
+                        <th>Total Billed Amount</th>
+                        <th>Date of Disbursment</th>
+                        <th>Disbursment Req. Date</th>
+                        <th>Utr No</th>
+                        <th>Status</th>
+                        <th>SubStatus</th>
+                        <th>Action</th>
+                        <th *ngIf="roleId==1||roleId==3||roleId==6">Loan List</th>
+                     
+                   
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="ugroDisbursalList.length==0" style="color: red; text-align: center;">
+                        <td colspan="100">
+                            No Result Found, Please Use Filters.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let d of ugroDisbursalList | filter:searchReportList ; let i = index">
+                        <td>{{((p-1)*p1)+i+1}}</td>
+                        <td>{{d.customerName}}</td>
+                        <td>{{d.mobileNo}}</td>
+                        <td *ngIf="lenderId=='0'">{{d.lenderName }}</td>
+                        <td>{{d.anchorReference}}</td>
+                        <td>{{d.anchorName}}</td>
+                        <td>{{d.drawDownLanNo}}</td>
+                        <td class="fin-mulitple">
+                            <span>ACC NAME - <b>{{d.accholderName}}</b></span>
+
+                            <span>ACC NO - <b>{{d.accountNo}}</b></span>
+
+                            <span>IFSC - <b>{{d.ifscCode}}</b></span>
+                            <span>BANK - <b>{{d.bankName}}</b></span>
+                        </td>
+                        <td>
+                            <div *ngFor="let a of d.invoiceNo; let i = index">
+                                {{a}}
+                            </div>
+                        </td>
+                        <td>
+                            <div *ngFor="let a of d.invoiceDate; let i = index">
+                                {{a}}
+                            </div>
+                        </td>
+                        <td>{{d.loanAmount}}</td>
+                        <td>{{d.deduction}}</td>
+                        <td>{{indianCurrency(d.disbursementAmount)}}</td>
+                        <td>{{indianCurrency(d.totalBilledAmount)}}</td>
+                        <td>{{d.dateOfDisbursement}}</td>
+                        <td>{{d.requestDate}}</td>
+                        <td>{{d.utrNo}}</td>
+                        <td>
+                            <button type="button" class="btn btn-success btn-sm fin-btn" *ngIf="'Approved'==d.status"><i
+                                    class="far fa-check-circle"></i> {{d.status}}</button>
+                            <button type="button" class="btn btn-warning btn-sm fin-btn"
+                                *ngIf="'In Progress'==d.status"><span style="color:#000;"><i class="fas fa-spinner"
+                                        style="color:#000;"></i>
+                                    {{d.status}}</span></button>
+                            <button type="button" class="btn btn-danger btn-sm fin-btn" *ngIf="'Rejected'==d.status"><i
+                                    class="fas fa-times"></i> {{d.status}}</button>
+
+                        </td>
+                        <td>{{d.subStatus}}</td>
+                        <td><button type="button" class="btn btn-danger btn-sm fin-btn"
+                                (click)="updateStatus(d.loanDisbursalId,Status)" *ngIf="d.utrNo==''&&!readRole"><i
+                                    class="far fa-edit"></i> Update Status</button>
+                                    <button type="button" *ngIf="d.cancelFlag==1 && roleId==1" class="btn btn-success btn-sm ml-2" (click)="cancelLoanDisbrusel(d)">Cancel</button>
+                                </td>
+
+                        <td *ngIf="roleId==1||roleId==3||roleId==6">
+                            <button type="button" class="btn btn-success  btn-sm fin-btn"
+                                (click)="loandisbursal(d.customerId,d.loanRequestId,d.orgId,d.retailerId,d.digital)">loan-list</button>
+                        </td>
+                  
+                    
+                    </tr>
+                </tbody>
+            </table>
+            <div class="pagination">
+                <button style="border: 1;" (click)="previousButton()" class="btn ml-2" style="border: 1px solid #9a9da0"
+                    [disabled]="p==1">Previous</button>
+                <span style="border: 1;" class="btn ml-2" style="border: 1px solid #9a9da0 ">{{p}}</span>
+                <button style="border: 1;" class="btn ml-2" (click)="nextButton()" style="border: 1px solid #9a9da0"
+                    [disabled]="ugroDisbursalList.length!=10">next</button>
+            </div>
+            <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls> -->
+            <!-- <nav aria-label="...">
+                  <ul class="pagination">
+                    <li class="page-item disabled">
+                      <span class="page-link">Previous</span>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active">
+                      <span class="page-link">
+                        2
+                        <span class="sr-only">(current)</span>
+                      </span>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#">Next</a>
+                    </li>
+                  </ul>
+                </nav> -->
+        </div>
+        <!-- <div class="fin-bottom-btn"><button type="button" class="btn btn-success fin-btn"><i class="fas fa-upload"></i>Upload</button></div> -->
+    </div>
+</div>

@@ -1,0 +1,20 @@
+.bg {
+    color: black;
+    font-weight: 200;
+    padding: 5%;
+}
+
+.purple {
+    color: purple;
+    margin-left: 3px;
+}
+
+
+.th .td {
+    width: 50%;
+}
+
+.red-bg{
+    background-color: #ffcccb;
+    height: 100%;
+}

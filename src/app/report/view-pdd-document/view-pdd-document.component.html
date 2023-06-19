@@ -1,0 +1,68 @@
+<div class="table-responsive mt-10">
+    <table class="table fin-table-blue text-center">
+        <thead>
+            <tr>
+                <th rowspan="2">LAN No. </th>
+                <th rowspan="2">Sanction Date</th>
+                <th rowspan="2">Customer Name</th>
+                <th rowspan="2">Anchor</th>
+                <th rowspan="2">Program Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of sanctionList">
+                <td>{{x.loanRequestId}}</td>
+                <td>{{x.sanctionDate}}</td>
+                <td>{{x.customerName}}</td>
+                <td>{{x.anchor}}</td>
+                <td>{{x.programName}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="table-responsive mt-10">
+    <table class="table fin-table-blue text-center">
+        <thead>
+            <tr>
+                <th rowspan="2">Condition No.</th>
+                <th rowspan="2">Condition Type</th>
+                <th rowspan="2">Condition Remarks</th>
+                <th rowspan="2">Status </th>
+                <th rowspan="2">Remarks</th>
+                <th rowspan="2">Close Date</th>
+                <th rowspan="2">Upload</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of conditionList | paginate: { itemsPerPage: p1, currentPage: p }; let i = index">
+                <td>{{((p-1)*p1)+i+1}}</td>
+                <td>{{x.conditionType}}</td>
+                <td>{{x.conditionRemarks}}</td>
+                <!-- <td>{{x.status}}</td> -->
+                <!-- <td>
+                    <select [(ngModel)]="x.status" >
+                        <option value="OPEN" [selected]="x.status === 'OPEN'" >OPEN</option>
+                        <option value="CLOSED" [selected]="x.status === 'CLOSED'">CLOSED</option>
+                    </select>
+                </td> -->
+                <td>
+                    <select [(ngModel)]="x.status" (change)="onStatusChange(x.status,x.Id)">
+                      <option value="OPEN">OPEN</option>
+                      <option value="CLOSED">CLOSED</option>
+                    </select>
+                  </td>
+                <td>{{x.remarks}}</td>
+                <td>{{x.closerDate}}</td>
+                <td  *ngIf="x.docId == '0'">
+                    <input type="file" class="file-upload" name="myFile" (change)="uploadfilearray(i,$event.target.files,x.Id)" [(ngModel)]="x.file" id="file_{{i}}"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <button class="btn btn-success" (click)="uploadDoc()">Save</button>
+    </div>
+    <div class="text-center">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>

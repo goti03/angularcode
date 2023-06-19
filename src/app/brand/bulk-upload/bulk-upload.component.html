@@ -1,0 +1,154 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row" *ngIf="!view">
+                    <div class="col">
+
+                        <div class="row">
+                            <div class="col">
+                                <h3>Upload Customer Data</h3>
+                            </div>
+                        </div>
+
+                        <hr />
+
+
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="sp">Sourcing Partner</label>
+                                <select class="form-control" style="width: 240px;" [(ngModel)]="sourcingPartnerId"
+                                    name="sp" id="sourcingPartnerId">
+                                    <option *ngFor="let spl of sourcingPartnerList" [value]="spl.orgId">
+                                        {{spl.name}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <input id="file" type="file" class="form-control" style="width: auto;overflow: hidden;"
+                                    (change)="onFileChange($event)"
+                                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <button class="btn btn-link" (click)="open(programtype)">Refer here for Program Type ID.</button>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col">
+                                <a class="btn btn-primary" style="font-size: 13px;" href="{{url}}">Download
+                                    Template</a>&nbsp;&nbsp; <button class="btn btn-success"
+                                    (click)="submit()">Upload</button>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="view">
+                    <div class="col">
+
+                        <div class="row">
+                            <div class="col">
+                                <h3>Review</h3>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <table class="table table-striped table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>PAN</th>
+                                            <th>Mobile No</th>
+                                            <th>Program Type ID</th>
+                                            <th>Remark</th>
+                                            <th>Organisation Name</th>
+                                            <th>GSTN</th>
+                                            <th>Pincode</th>
+                                            <th>Credit Line Amount</th>
+                                            <th>Turn Over</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let a of dispList; let i = index">
+                                            <td>
+                                                <div style="color: green;" *ngIf="a.err == 'Success';else other">
+                                                    {{a.err}}</div>
+                                                <ng-template #other ><div style="color: red;">{{a.err}}</div></ng-template>
+                                            </td>
+                                            <td>{{a.OrgName}}</td>
+                                            <td>{{a.pan}}</td>
+                                            <td>{{a.mobile}}</td>
+                                            <td>{{a.remark}}</td>
+                                            <td>{{a.gstn}}</td>
+                                            <td>{{a.programType}}</td>
+                                            <td>{{a.pincode}}</td>
+                                            <td>{{a.credit}}</td>
+                                            <td>{{a.turnOver}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2">
+                            <div class="col">
+                                <button class="btn btn-success float-left" (click)="insert()"
+                                    *ngIf="!errorIndata">Submit</button>
+                                <button class="btn btn-danger float-right" (click)="back()">Back</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #programtype let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Program Type Information</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true" style="color: red;">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row text-center justify-content-center">
+            <div class="col-6">
+                <table class="table table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of ProgramTypeList; let i = index">
+                            <td>{{a.name}}</td>
+                            <td>{{a.id}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</ng-template>

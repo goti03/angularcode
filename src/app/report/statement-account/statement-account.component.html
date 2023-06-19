@@ -1,0 +1,98 @@
+<div class="fin-row">
+  <div class="fin-card">
+    <div class="table-responsive">
+      <table class="table fin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Customer Name</th>
+            <th>Pan</th>
+            <th>Application ID</th>
+            <th>Application Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let h of HeaderDetails">
+            <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+            <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+            <td>{{h.panNo}}</td>
+            <td>{{h.applicationNo}}</td>
+            <td>{{h.applicationDate}}</td>
+            <td>{{indianCurrency(h.loanAmount)}}</td>
+            <td>{{h.status}}</td>
+            <td>{{h.remarks}}</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="fin-card mt-20 clearfix">
+  <div class="clearfix fin-heading">Statement of Account </div>
+  <div class=" mt-10">
+    <table class="table fin-table-green nowrap" >
+      <tbody>
+        <tr>
+          <td style="border-bottom:0px none; text-align:right;">Start Date</td>
+          <td style="border-bottom:0px none;">
+            <div class="fin-date-textbox">
+              <input type="text" class="form-control" placeholder="dd-mm-yyyy" 
+              id="model" required [(ngModel)]="model" style="width: 200px;"
+                name="model" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" autocomplete="off">
+              <span><i class="far fa-calendar-alt" aria-hidden="true"></i></span>
+            </div>
+          </td>
+          <td style="border-bottom:0px none; text-align:right;">End Date</td>
+          <td style="border-bottom:0px none;">
+            <div class="fin-date-textbox">
+              <input type="text" class="form-control" placeholder="dd-mm-yyyy"
+              id="model2" required [(ngModel)]="model2" name="model2" style="width: 200px;"
+              ngbDatepicker #d2="ngbDatepicker" autocomplete="off" (click)="d2.toggle()">
+              <span><i class="far fa-calendar-alt" aria-hidden="true"></i></span>
+            </div>
+          </td>
+          <td style="border-bottom:0px none; text-align:right;"><button type="button" class="btn btn-success fin-btn" (click)="submit()"><i class="fas fa-search"></i> Submit</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-responsive mt-10">
+    <table class="table table-striped table-bordered fin-table-blue" >
+      <thead>
+        <tr>
+          <th>Sno</th>
+          <th>Date</th>
+          <th>Transaction Detail</th>
+          <th>Debit</th>
+          <th>Credit</th>
+          <th>Principle O/S</th>
+          <th>Interest O/S</th>
+          <th>Charges O/S</th>
+          <th>Excess O/S</th>
+          <th>Total O/S</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sm of statementList | paginate: { itemsPerPage: 10, currentPage: p }; let i=index">
+          <td>{{((p-1)*10)+i+1}}</td>
+          <td>{{sm.loandate}}</td>
+          <td>{{sm.loandisbursalid}}</td>
+          <td>{{sm.debit}}</td>
+          <td>{{sm.credit}}</td>
+          <td>{{sm.outstanding_principle}}</td>
+          <td>{{sm.outstanding_interest}}</td>
+          <td>{{sm.charge_outstanding}}</td>
+          <td>{{sm.excess_outstanding}}</td>
+          <td>{{sm.total_outstanding}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()" ></app-action-tab>

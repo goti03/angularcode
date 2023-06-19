@@ -1,0 +1,43 @@
+.search-hero {
+    max-width: 500px;
+    padding-bottom: 50px;
+    margin:auto;
+  }
+  
+  .form-control {
+    box-shadow: 0 10px 40px 0 #B0C1D9;
+  }
+  .form-control::placeholder  {
+    font-family: FontAwesome;
+  }
+
+  ::ng-deep .myCustomModalClass .modal-dialog { 
+    max-width: 80%;
+    width: 80%;
+}
+.fa-file-pdf-o{
+  font-size: 50px;
+  color: red;
+}
+.fa-file-excel-o{
+  font-size: 50px;
+  color: green;
+}
+.fin-row {
+  --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: block;
+    flex-wrap: wrap;
+}
+
+.fin-card {
+  border:0px none;
+  border-radius:3px !important;
+  padding:15px;
+  background-color:#fff;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+    -webkit-box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+    -moz-box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+    -ms-box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+  
+}

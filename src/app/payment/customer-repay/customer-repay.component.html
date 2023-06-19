@@ -1,0 +1,218 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <h3>UPLOAD CUSTOMER REPAYMENT DATA</h3>
+            </div>
+        </div>
+        <hr />
+        <div class="row mt-3" [hidden]="submitted">
+            <td>
+                <input formControlName="file" id="file" type="file" class="form-control"
+                    style="width: auto;overflow: hidden;" (change)="onFileChange($event)"
+                    accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+            </td>
+            <!-- <div class="col">
+               <input id="file" type="file" class="form-control" style="width: auto;overflow: hidden;"
+                (change)="onFileChange($event)"
+                accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                </div> -->
+        </div>
+
+        <div class="row mt-3" [hidden]="submitted">
+            <div class="col ">
+                <div>
+                    <label for="fileTemp"> <a class="btn btn-primary" href="{{url}}">Download
+                            Template</a></label>
+                    &nbsp;
+                    <button class="btn btn-success" (click)="submit()">Upload</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="row mt-2" >
+                    <div class="col-12">
+                        <div class="separator"><b>--------------------------------------------------------------YOU CAN UPLOAD EXCEL DATA (OR) ENTER THE DATA MANUALLY IN THE FIELDS---------------------------------------------</b></div>
+                    </div>
+                </div>
+                <br>
+                <br>   -->
+        <!-- <div class="row">
+                    <div class="col">
+                        <h3>CUSTOMER REPAYMENT LIST</h3>    
+                            <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered fin-table-blue fin-custom-table fbig ">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th><font style="color: red;">*</font>LAN NO</th>
+                                <th>CUSTOMER NAME</th>
+                                <th><font style="color: red;">*</font>CUSTOMER PAID AMOUNT</th>
+                                <th><font style="color: red;">*</font>AMOUNT RECIEVED DATE</th>
+                                <th>DISBURSAL ID</th>
+                                <th><font style="color: red;">*</font>UTR NUMBER</th>
+                                <th>CUSTOMER PAN NUMBER</th>
+                                <th>TRASH</th>
+                            </tr>
+                        </thead>
+                        <tr  *ngFor="let cd of CustomerDetails; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>
+                                <input type="text" id="lanNumber" name="lanNumber" required 
+                                class="form-control" [(ngModel)]="cd.lanNumber">
+                            </td>
+                            <td>
+                                <input type="text" id="customerName" name="customerName" required 
+                                class="form-control" [(ngModel)]="cd.customerName">
+                            </td>
+                            <td>
+                                <input type="text" id="totalAmount" name="totalAmount" required 
+                                    class="form-control" [(ngModel)]="cd.totalAmount">
+                            </td>   
+                            <td> <input class="form-control form-control-sm" type="date" id="startDate" name="startDate"
+                                required [(ngModel)]="cd.dateOfAmountReceived"  (keypress)="preventTyping()"  min={{startDate}}>
+                          </td>
+                            <td>
+                                <input type="text" id="disbursalId" name="disbursalId" required 
+                                class="form-control" [(ngModel)]=" cd.disbursalId"> 
+                            </td>
+                            <td>
+                                <input type="text" id="utrNumber" name="utrNumber" required 
+                                class="form-control" [(ngModel)]="cd.utrNumber"> 
+                            </td>
+                            <td>
+                                <input type="text" id="customerPanNumber" name="customerPanNumber" required 
+                                class="form-control" [(ngModel)]="cd.customerPanNumber"> 
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger fin-btn" (click)="trasher(i)"  title="Delete"><i class="far fa-trash-alt"></i></button>
+                              
+                            </td>
+                        </tr> 
+                    </table>
+                    <div class="row">
+                        <button class="btn btn-primary btn-lar ml-4" (click)="add()">ADD ROW</button>
+                        <button class="btn btn-success btn-lar ml-4" (click)="manualData()">Proceed</button>
+                    </div>
+                    </div>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div> -->
+
+    </div>
+
+    <div class="row" [hidden]="!submitted">
+        <div class="card">
+            <div class="">
+                <div class="card-body">
+
+                    <table class="table table-striped table-bordered table-responsive">
+                        <tr>
+                            <th>Sno</th>
+                            <th>Action</th>
+                            <th>LAN NO</th>
+                            <th>CUSTOMER NAME</th>
+                            <th>IFSC CODE</th>
+                            <th>CUSTOMER PAID AMOUNT</th>
+                            <th>AMOUNT RECIEVED DATE</th>
+                            <th>DISBURSAL ID</th>
+                            <th>UTR NUMBER</th>
+                            <th>CUSTOMER PAN NUMBER</th>
+
+                        </tr>
+                        <tr *ngFor="let fl of  finalList; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>
+                                <ng-container *ngIf="fl.responseMsg == 'Success'">
+                                    <font color="green"><b>{{fl.responseMsg}}</b> </font>
+                                </ng-container>
+                                <ng-container *ngIf="fl.responseMsg != 'Success'">
+                                    <font color="red"><b>{{fl.responseMsg}}</b></font>
+                                </ng-container>
+                            </td>
+                            <td> {{fl.lanNumber}}</td>
+                            <td> {{fl.customerName}}</td>
+                            <td> {{fl.ifscCode}} </td>
+                            <td> {{fl.totalAmount}} </td>
+                            <td> {{fl.startDate}}</td>
+                            <td> {{fl.disbursalId}} </td>
+                            <td> {{fl.utrNumber}} </td>
+                            <td> {{fl.customerPanNumber}} </td>
+                        </tr>
+                    </table>
+                    <div class="col text-left">
+                        <ng-container *ngIf="updateFlag == 1">
+                            <button type="button" style="height:35px;width:150px" class="btn btn-primary mb-2"
+                                (click)="insertData()">
+                                Submit
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        </ng-container>
+                        <button type="button" style="height:35px;width:150px" class="btn btn-danger mb-2"
+                            (click)="reUploadData()">
+                            ReUpload
+                        </button>
+                        <ng-template #other>
+                            <td><i class="fa fa-ban" style="font-size:48px;color:red" aria-hidden="true" ></i></td>
+                          </ng-template> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Popup for CustomerRepayment -->
+    <ng-template #customerRepayment let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">CUSTOMER REPAYMENT LIST DETAILS</h4>
+            <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+            <h4 style="color: green; margin-left: 10px;">{{newerrormsg}}</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="false">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-striped table-bordered">
+                <thead style="width: 200%;">
+                    <th>CUSTOMER REPAYMENT DETAILS</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>LAN NO</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="lanNumber"
+                                placeholder="lanNumber" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>CUSTOMER NAME</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="customerName"
+                                placeholder="customerName" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>CUSTOMER PAID AMOUNT</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="totalAmount"
+                                placeholder="totalAmount" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>AMOUNT RECIEVED DATE</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="startDate"
+                                placeholder="startDate" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>DISBURSAL ID</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="disbursalId"
+                                placeholder="disbursalId" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>UTR NUMBER</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="utrNumber"
+                                placeholder="utrNumber" readonly /></td>
+                    </tr>
+                    <tr>
+                        <td>CUSTOMER PAN NUMBER</td>
+                        <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="customerPanNumber"
+                                placeholder="customerPanNumber" readonly /></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center"><button class="btn btn-info btn-primary fin-btn"
+                    (click)="saveExecutiondetails()">Submit</button></div>
+        </div>
+    </ng-template>

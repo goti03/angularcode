@@ -1,0 +1,1962 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <!-- <th>-</th> -->
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>
+                            <button class="btn btn-link" *ngIf="h.programName=='No Program'"
+                                (click)="programSelection(program)">select Program</button>
+                            <span *ngIf="h.programName!='No Program'">{{h.programName}}</span>
+                        </td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                        <!-- <td *ngIf="nachTypeId==0 && status==Approved"><button class="btn btn-info "
+                                (click)="repaySetup(repayPopup)"><i class="fas fa-sync-alt"></i>Enable
+                                Repayment</button></td> -->
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <!-- <table>
+                    <tr>
+                        <td  *ngFor="let b of pendingApiList">
+                            <button class="btn btn-primary" style="margin-left: 10px" (click)="action(b.actionId)">{{b.actionName}}</button>
+                        </td>
+                    </tr>
+                </table> -->
+                <button class="btn btn-danger float-right" *ngIf="nonStopFlag==1" style="margin-left: 50px"
+                    (click)="navitoreintiate()">View Failed Steps</button>
+
+                <button class="btn btn-primary float-right" (click)="toLog()">View Action logs</button>
+                <button class="btn btn-success float-right" (click)="showcrnpop(crnpopup)" *ngIf="showcrn">View CRN</button>
+                <button class="btn btn-success float-right" (click)="newnach(Enaches)">Check Enach</button>
+                <button class="btn btn-success float-right" (click)="downloadCam(loanid)" *ngIf="availLimit!='0.00'">Cam Download</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="">
+    <div class="card">
+        <div class="card-body">
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of firstRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle">
+                            <span>{{com.id}}</span>
+                        </div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of secondRow">
+                    <div *ngIf="com.flag==1" class="md-step  active done">
+                        <div class="md-step-circle">
+                            <span>{{com.id}}</span>
+                        </div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of thirdRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle">
+                            <span>{{com.id}}</span>
+                        </div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of fourthRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle">
+                            <span>{{com.id}}</span>
+                        </div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of fifthRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle">
+                            <span>{{com.id}}</span>
+                        </div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of sixthRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle"><span>{{com.id}}</span></div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of seventhRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle"><span>{{com.id}}</span></div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of eigthRow">
+                    <div *ngIf="com.flag==1" class="md-step active done">
+                        <div class="md-step-circle"><span>{{com.id}}</span></div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+
+                    <div *ngIf="com.flag==0" class="md-step">
+                        <div class="md-step-circle pointer" (click)="popUp(errPop,com.name,com.externalId)"><span>X</span></div>
+                        <div class="md-step-title">{{com.name}} </div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="programTypeId == retailerProgramTypeId">
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Action to be taken</h2>
+
+
+                        <table class="left">
+
+                            <tr>
+                                <!-- <ng-template [ngIf]="actionButton"> -->
+
+                                <td *ngFor=" let la of loanActionstatus">
+                                    <!-- [routerLink]="['/report/uploadPan',0,loanid]" -->
+                                    <!-- [routerLink]="la.routerLink" -->
+
+                                    <!-- <button class={{la.btnClass}} style="margin-left: 10px"
+                                        [routerLink]="[la.routerLink,la.actionId,loanid,orgId,programTypeId]"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button> -->
+                                    <button class={{la.btnClass}} style="margin-left: 10px"
+                                        (click)="statusActionFunction(la.routerLink,la.actionId,loanid,orgId,programTypeId)"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button>
+                                </td>
+                                <!-- </ng-template> -->
+                                <td>
+                                    <button [hidden]="camDownloadButton" class="btn btn-info mb-2"
+                                        style="margin-left: 10px" (click)="downloadCam(loanid)">
+                                        Download Cam
+                                    </button>
+                                    <button [hidden]="downloadLoanApplication" class="btn btn-primary"
+                                        style="margin-left: 10px"
+                                        (click)="downloadLoanApplicationPage(0,loanid,orgId,programTypeId)">
+                                        Process Loan Appln, Agreement, Nach
+                                    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button [hidden]="appFormButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="editApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Edit Application Form
+                                    </button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button [hidden]="loanStatusButton" class="btn btn-info" style="margin-left: 10px"
+                                        (click)="checkLoanStatus()">
+                                        Verify Loan Status
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button style="margin-left: 10px" class="btn btn-warning mb-2"
+                                        [hidden]="bankStatmentresetButton" (click)="resetBankStatment()">
+                                        Reset the Bank Statment
+                                    </button> -->
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span [hidden]="!checkListStatus">CheckList Item is Missing Please do <a
+                                            [routerLink]="" (click)="checklist(customerId,loanid,orgId,orgId)">
+                                            checklist Verification</a> & Continue Process </span>
+                                    <button [hidden]="nachButton" class="btn btn-warning mb-2" style="margin-left: 10px"
+                                        (click)="downloadNachForm()">
+                                        <!-- (click)="nachForm(loanid,orgId,programTypeId)"> -->
+                                        Nach Form
+                                    </button>
+                                    <button [hidden]="nachButton" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="UpdateNachBankDetails()">
+                                        Choose Bank For Nach
+                                    </button>
+                                    <button class="btn btn-info mb-2" [hidden]="nachButton"
+                                        (click)="nach(nachLinkGeneration)" style="margin-left: 10px">
+                                        eMandate</button>
+                                    <button [hidden]="getNACHStatusButton" class="btn btn-warning mb-2"
+                                        style="margin-left: 10px" (click)="getNACHStatus(loanid)">
+                                        Get NACH Status
+                                    </button>
+                                    <button *ngIf="rerunBrandRule" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reRunBrandRule()">
+                                        Re Run Brand Rule
+                                    </button> &nbsp;&nbsp;
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3 || roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Credit Approve
+                                    </button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3 || roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Credit Reject
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3 || roleId==6 || roleId==13)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Credit Approve
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3 || roleId==6 || roleId==13)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Credit Reject
+                                    </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3|| roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Ops Approve
+                                    </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3|| roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Ops Reject
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3|| roleId==6||roleId==14)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Ops Approve
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3|| roleId==6 || roleId==14)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Ops Reject
+                                    </button>
+                                    <button *ngIf="modifyLimit" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reviewModifyLimit(updateFinalLimit)">
+                                        Modify Limit
+                                    </button>
+                                    <button *ngIf="createLoan" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="createLoanAPI()">
+                                        Create Loan
+                                    </button>
+                                    <button *ngIf="makeLive" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="makeItLive()">
+                                        Make It Live
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(1)">
+                                        Download Sanction Letter
+                                    </button>
+                                </td>
+                            </tr>
+
+                        </table>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="programTypeId == sellerProgramTypeId">
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+                <br>
+
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Action to be taken</h2>
+                        <table class="left">
+                            <tr>
+                                <!-- <ng-template [ngIf]="actionButton"> -->
+                                <td *ngFor=" let la of loanActionstatus">
+                                    <!-- <button class={{la.btnClass}} style="margin-left: 10px" *ngIf="!ugroLender "
+                                        [routerLink]="[la.routerLink,la.actionId,loanid,orgId,programTypeId]"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button> -->
+                                    <button class={{la.btnClass}} style="margin-left: 10px" *ngIf="!ugroLender "
+                                        (click)="statusActionFunction(la.routerLink,la.actionId,loanid,orgId,programTypeId)"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button>
+
+
+                                </td>
+                                <!-- </ng-template> -->
+                                <td>
+                                    <button *ngIf="applicationForm && ugroLender" class="btn btn-success mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="openApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Application Form
+                                    </button>
+                                    <button *ngIf="bankProcessing && ugroLender" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="bankprocessing()">
+                                        Update BankStatement
+                                    </button>
+                                    <button [hidden]="gstRuleProcessing" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="runGstRule(0,loanid,orgId,programTypeId)">
+                                        Process Gst Rule
+                                    </button>
+                                    <button [hidden]="appFormButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="editApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Edit Application Form
+                                    </button>
+                                    <button [hidden]="fraudcheckButton " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="fraudCheck()">
+                                        Fraud Check API
+                                    </button>
+                                    <button [hidden]="ConsumerBureauButton " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="consumerBureau()">
+                                        Consumer Bureau Call
+                                    </button>
+                                    <button *ngIf="runConsumerRule" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="runBureauRule(1)">
+                                        Run Consumer Bureau Rule
+                                    </button>
+                                    <button [hidden]="CommercialBureauButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="CommercialBureau()">
+                                        Commercial Bureau Call
+                                    </button>
+                                    <button *ngIf="runCommercialRule" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="reRunBureauRule(0,loanid,orgId,programTypeId)">
+                                        Run Commercial Bureau Rule
+                                    </button>
+                                    <!-- <button style="margin-left: 10px" class="btn btn-warning mb-2"
+                                        [hidden]="bankStatmentresetButton" (click)="resetBankStatment()">
+                                        Reset the Bank Statment
+                                    </button> -->
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button [hidden]="draftApplicationForm" class="btn btn-info mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="draftApplication(0,loanid,orgId,programTypeId)">
+                                        Draft ApplicationForm
+                                    </button>
+                                    <span [hidden]="!checkListStatus">CheckList Item is Missing Please do <a
+                                            [routerLink]="" (click)="checklist(customerId,loanid,orgId,orgId)">
+                                            checklist Verification</a> & Continue Process </span>
+
+                                    <button [hidden]="loanStatusButton" class="btn btn-info" style="margin-left: 10px"
+                                        (click)="checkLoanStatus()">
+                                        Verify Loan Status
+                                    </button>
+                                    <button [hidden]="gstButton " class="btn btn-danger" style="margin-left: 10px"
+                                        (click)="reRunGstRule(programTypeId,loanid,orgId,programTypeId)">
+                                        Run GST Rule
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <button [hidden]="bureauButton" class="btn btn-warning" style="margin-left: 10px"
+                                        (click)="reRunBureauRule(programTypeId,loanid,orgId,programTypeId)">
+                                        Run Bureau rule
+                                    </button>
+
+                                    <button [hidden]="downloadLoanApplication" class="btn btn-primary"
+                                        style="margin-left: 10px"
+                                        (click)="downloadLoanApplicationPage(0,loanid,orgId,programTypeId)">
+                                        Process Loan Appln, Agreement, Nach
+                                    </button>
+
+
+                                    <button *ngIf="(downloadTC || createLoan)" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="downloadLoanForm(5)">
+                                        Generate T & C
+                                    </button>
+                                    <button *ngIf="createLoan " class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="createLoanApi()">
+                                        Create Loan
+                                    </button>
+                                    <button *ngIf="downloadForm " class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(2)">
+                                        Download Application Form
+                                    </button>
+                                    <button *ngIf="downloadForm   " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="downloadLoanForm(1)">
+                                        Download Sanction Letter
+                                    </button>
+                                    <button *ngIf="downloadForm " class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadAggrement()">
+                                        Download Loan Agreement
+                                    </button>
+                                    <button *ngIf="downloadForm " class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="updateLoanStatus()">
+                                        Proceed
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <button [hidden]="camDownloadButton" class="btn btn-info mb-2"
+                                        style="margin-left: 10px" (click)="downloadCam(loanid)">
+                                        Download Cam
+                                    </button>
+
+                                    <button [hidden]="getNACHStatusButton" class="btn btn-warning mb-2"
+                                        style="margin-left: 10px" (click)="getNACHStatus(loanid)">
+                                        Get NACH Status
+                                    </button>
+                                    <button [hidden]="nachButton" class="btn btn-warning mb-2" style="margin-left: 10px"
+                                        (click)="downloadNachForm()">
+                                        Nach Form
+                                    </button>
+                                    <button class="btn btn-info mb-2" [hidden]="nachButton" style="margin-left: 10px"
+                                        (click)="nach(nachLinkGeneration)">
+                                        eMandate</button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Credit Approve
+                                    </button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Credit Reject
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3||roleId==6 || roleId==13)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Credit Approve
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3||roleId==6 || roleId==13)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Credit Reject
+                                    </button>
+                                
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Ops Approve
+                                    </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Ops Reject
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3||roleId==6 || roleId==14)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Ops Approve
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3||roleId==6 || roleId==14)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Ops Reject
+                                    </button>
+                                    <button *ngIf="modifyLimit" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reviewModifyLimit(updateFinalLimit)">
+                                        Modify Limit
+                                    </button>
+                                </td>
+
+                                <td [hidden]="gstRuleProcessing">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Sno</th>
+                                                <th>GSTN No</th>
+                                                <th>Credentials Collected</th>
+                                                <th>Data Processed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let a of gstRuleProcessingList;let i=index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{a.gstNo}}</td>
+                                                <td>{{a.crdentialsCollected}}</td>
+                                                <td>{{a.dataProcessed}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="programTypeId == dealerProgramTypeId">
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="left">
+                            <tr>
+                                <td *ngFor=" let la of loanActionstatus">
+                                    <!-- <button class={{la.btnClass}} *ngIf="hideButton" style="margin-left: 10px"
+                                        [routerLink]="[la.routerLink,la.actionId,loanid,orgId,programTypeId]"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button> -->
+                                    <button class={{la.btnClass}} *ngIf="hideButton" style="margin-left: 10px"
+                                        (click)="statusActionFunction(la.routerLink,la.actionId,loanid,orgId,programTypeId)"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button *ngIf="financialCheck" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="FinancialCheckManualComponent()">
+                                        Financial Check
+                                    </button>
+                                    <button *ngIf="aadhaarVault" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="aadhaarVaultApiCall()">
+                                        Aadhaar Vault
+                                    </button>
+                                    <button *ngIf="amlApi" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="amlApiCall()">
+                                        AML API Call
+                                    </button>
+                                    <button *ngIf="amlManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        AML Accept
+                                    </button>
+                                    <button *ngIf="amlManual" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        AML Reject
+                                    </button>
+                                    <button *ngIf="amlManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="viewDocs(viewamldoc,84)">
+                                        View AML Docs
+                                    </button>
+
+                                    <button *ngIf="dedupeCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="dedupeApiCall()">
+                                        Dedupe Call
+                                    </button>
+                                    <button *ngIf="dedupeManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                   (click)="updateCrnStatus(updateCrn)">
+                                        Dedupe Accept
+                                    </button>
+                                    <button *ngIf="dedupeManual" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Dedupe Reject
+                                    </button>
+                                    <button *ngIf="showgst" class="btn btn-primary mb-2"
+                                    style="margin-left: 10px" (click)="runGstRule(0,loanid,orgId,programTypeId)">
+                                    Process Gst Rule
+                                </button>
+                                    <button *ngIf="dedupeManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="viewDocs(viewamldoc,83)">
+                                        View AML Docs
+                                    </button>
+                                    <button *ngIf="crnApiCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="crnCall()">
+                                        CRN Call
+                                    </button>
+                                    <button *ngIf="pdCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="pdApiCall()">
+                                        PD Call
+                                    </button>
+                                    <button *ngIf="pdVarification" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        PD Accept
+                                    </button>
+                                    <button *ngIf="pdVarification" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        PD reject
+                                    </button>
+                                    <button *ngIf="docVarification" class="btn btn-success mb-2"
+                                        style="margin-left: 10px" (click)="docVerificationApiCall()">
+                                        Doc Verification
+                                    </button>
+                                    <button class="btn btn-success mb-2" *ngIf="internalSanctionCondition"
+                                        style="margin-left: 10px" (click)="internalSanctionPopUp(internalSanction)">
+                                        Internal Sanction Condition
+                                    </button>
+
+                                    <button *ngIf="financialRule" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="runFinancialRule()">
+                                        Financial Rule
+                                    </button>
+                                    <button *ngIf="nachPdc " class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="nachPDCPage()">
+                                        Choose Repay Option
+                                    </button>
+                                    <button *ngIf="sdfc " class="btn btn-info mb-2" style="margin-left: 10px"
+                                    (click)="createSdfc()">
+                                   SFDC API CALL
+                                </button>
+                                <button *ngIf="virtualAccount" class="btn btn-info mb-2" style="margin-left: 10px"
+                                (click)="createvirtualAccount()">
+                               Create Virtual Account
+                            </button>
+                                    <button [hidden]="CommercialBureauButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="CommercialBureau()">
+                                        Commercial Bureau Call
+                                    </button>
+                                    <button *ngIf="runCommercialRule" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="runBureauRule(2)">
+                                        Run Commercial Bureau Rule
+                                    </button>
+                                    <!-- <button *ngIf="runCommercialRule" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="reRunBureauRule(0,loanid,orgId,programTypeId)">
+                                        Run Commercial Bureau Rule
+                                    </button> -->
+                                    <button [hidden]="fraudcheckButton " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="fraudCheck()">
+                                        Fraud Check API
+                                    </button>
+                                    <button [hidden]="ConsumerBureauButton " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="consumerBureau()">
+                                        Consumer Bureau Call
+                                    </button>
+                                    <button *ngIf="runConsumerRule" class="btn btn-warning mb-2 button"
+                                        style="margin-left: 10px" (click)="runBureauRule(1)">
+                                        Run Consumer Rule
+                                    </button>
+                                    <button *ngIf="createLoan" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="createLoanApi()">
+                                        Create Loan
+                                    </button>
+                                    <button *ngIf="BreApiCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="breApiCall()">
+                                        BRE api call
+                                    </button>
+                                    <button [hidden]="appFormButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="editApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Edit Application Form
+                                    </button>
+                                    <button [hidden]="draftApplicationForm" class="btn btn-info mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="draftApplication(0,loanid,orgId,programTypeId)">
+                                        Draft ApplicationForm
+                                    </button>
+                                    <span [hidden]="!checkListStatus">CheckList Item is Missing Please do <a
+                                            [routerLink]="" (click)="checklist(customerId,loanid,orgId,orgId)">
+                                            checklist Verification</a> & Continue Process </span>
+
+                                    <button [hidden]="loanStatusButton" class="btn btn-info" style="margin-left: 10px"
+                                        (click)="checkLoanStatus()">
+                                        Verify Loan Status
+                                    </button>
+                                    <button [hidden]="gstButton" class="btn btn-danger" style="margin-left: 10px"
+                                        (click)="reRunGstRule(programTypeId,loanid,orgId,programTypeId)">
+                                        Run GST Rule
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <button [hidden]="bureauButton" class="btn btn-warning" style="margin-left: 10px"
+                                        (click)="reRunBureauRule(programTypeId,loanid,orgId,programTypeId)">
+                                        Run Bureau rule
+                                    </button>
+
+                                    <button [hidden]="downloadLoanApplication" class="btn btn-primary"
+                                        style="margin-left: 10px"
+                                        (click)="downloadLoanApplicationPage(0,loanid,orgId,programTypeId)">
+                                        Process Loan Appln, Agreement, Nach
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <button [hidden]="camDownloadButton" class="btn btn-info mb-2"
+                                        style="margin-left: 10px" (click)="downloadCam(loanid)">
+                                        Download Cam
+                                    </button>
+
+                                    <!-- <button [hidden]="getNACHStatusButton" class="btn btn-warning mb-2"
+                                        style="margin-left: 10px" (click)="getNACHStatus(loanid)">
+                                        Get NACH Status
+                                    </button> -->
+                                    <!-- <button [hidden]="nachButton" class="btn btn-warning mb-2" style="margin-left: 10px"
+                                        (click)="downloadNachForm()">
+                                        Nach Form
+                                    </button> -->
+                                    <!-- <button class="btn btn-info mb-2" [hidden]="nachButton" style="margin-left: 10px"
+                                        (click)="nach(nachLinkGeneration)">
+                                        eMandate</button> -->
+                                    <button *ngIf="rerunBrandRule" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reRunBrandRule()">
+                                        Re Run Brand Rule
+                                    </button>
+                                    <button *ngIf="runBankRules" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="rerunBankRules()">
+                                        Run Bank Rule
+                                    </button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Credit Approve
+                                    </button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Credit Reject
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3||roleId==6 || roleId==13)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Credit Approve
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3||roleId==6 || roleId==13)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Credit Reject
+                                    </button>
+                                    <button
+                                    class="btn btn-info mb-2" style="margin-left: 10px" *ngIf="showcasa"
+                                    (click)="checkStandingInstruction()">
+                                    Create Casa Account
+                                </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Ops Approve
+                                    </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Ops Reject
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3||roleId==6 || roleId==14)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Ops Approve
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3||roleId==6 || roleId==14)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Ops Reject
+                                    </button>
+                                    <button *ngIf="modifyLimit" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reviewModifyLimit(updateFinalLimit)">
+                                        Modify Limit
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(2)">
+                                        Download Application Form
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(1)">
+                                        Download Sanction Letter
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadAggrement()">
+                                        Download Loan Agreement
+                                    </button>
+                                    <button *ngIf="downloadTC && !janaLender" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="downloadLoanForm(5)">
+                                        Generate T & C
+                                    </button>
+                                    <!-- <button *ngIf="NachPending" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="UpdateNachForm()">
+                                        Update Nach Form
+                                    </button> -->
+                                    <p style="color: red;" *ngIf="BreApiWaitingForResponse">BRE Request Send Successfully, Please Wait For Callback Response</p>
+                                </td>
+
+                                <td [hidden]="gstRuleProcessing">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Sno</th>
+                                                <th>GSTN No</th>
+                                                <th>Credentials Collected</th>
+                                                <th>Data Processed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let a of gstRuleProcessingList;let i=index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{a.gstNo}}</td>
+                                                <td>{{a.crdentialsCollected}}</td>
+                                                <td>{{a.dataProcessed}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="programTypeId == VendorProgramTypeId">
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="left">
+                            <tr>
+                                <td *ngFor=" let la of loanActionstatus">
+                                    <!-- <button class={{la.btnClass}} *ngIf="hideButton" style="margin-left: 10px"
+                                        [routerLink]="[la.routerLink,la.actionId,loanid,orgId,programTypeId]"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button> -->
+                                    <button class={{la.btnClass}} *ngIf="hideButton" style="margin-left: 10px"
+                                        (click)="statusActionFunction(la.routerLink,la.actionId,loanid,orgId,programTypeId)"
+                                        [hidden]="checkListStatus">
+                                        {{la.actionName}}
+                                    </button>
+                                </td>
+                                <td>
+                                    <button *ngIf="financialCheck" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="FinancialCheckManualComponent()">
+                                        Financial Check
+                                    </button>
+                                    <button *ngIf="aadhaarVault" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="aadhaarVaultApiCall()">
+                                        Aadhaar Vault
+                                    </button>
+                                    <button *ngIf="amlApi" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="amlApiCall()">
+                                        AML API Call
+                                    </button>
+                                    <button *ngIf="amlManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        AML Accept
+                                    </button>
+                                    <button *ngIf="amlManual" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        AML Reject
+                                    </button>
+                                    <button *ngIf="amlManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="viewDocs(viewamldoc,84)">
+                                        View AML Docs
+                                    </button>
+                                    <button *ngIf="dedupeCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="dedupeApiCall()">
+                                        Dedupe Call
+                                    </button>
+                                    <button *ngIf="showgst" class="btn btn-primary mb-2"
+                                    style="margin-left: 10px" (click)="runGstRule(0,loanid,orgId,programTypeId)">
+                                    Process Gst Rule
+                                </button>
+                                    <button *ngIf="dedupeManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                    (click)="updateCrnStatus(updateCrn)">
+                                        Dedupe Accept
+                                    </button>
+                                    <button *ngIf="dedupeManual" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Dedupe Reject
+                                    </button>
+                                    <button *ngIf="dedupeManual" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="viewDocs(viewamldoc,83)">
+                                        View Dedupe Docs
+                                    </button>
+                                    <button *ngIf="crnApiCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="crnCall()">
+                                        CRN Call
+                                    </button>
+                                    <button *ngIf="pdCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="pdApiCall()">
+                                        PD Call
+                                    </button>
+                                    <button *ngIf="pdVarification" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        PD Accept
+                                    </button>
+                                    <button *ngIf="pdVarification" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        PD reject
+                                    </button>
+                                    <button *ngIf="docVarification" class="btn btn-success mb-2"
+                                        style="margin-left: 10px" (click)="docVerificationApiCall()">
+                                        Doc Verification
+                                    </button>
+                                    <button class="btn btn-success mb-2" *ngIf="internalSanctionCondition"
+                                        style="margin-left: 10px" (click)="internalSanctionPopUp(internalSanction)">
+                                        Internal Sanction Condition
+                                    </button>
+                                    <button *ngIf="bankProcessing" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="bankprocessing()">
+                                        Update BankStatement
+                                    </button>
+                                    <button *ngIf="financialRule" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="runFinancialRule()">
+                                        Financial Rule
+                                    </button>
+                                    <button *ngIf="nachPdc" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="nachPDCPage()">
+                                        Choose Repay Option
+                                    </button>
+                                    <button [hidden]="CommercialBureauButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="CommercialBureau()">
+                                        Commercial Bureau Call
+                                    </button>
+                                    <button *ngIf="runCommercialRule" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="runBureauRule(2)">
+                                        Run Commercial Bureau Rule
+                                    </button>
+                                    <!-- <button *ngIf="runCommercialRule" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="reRunBureauRule(0,loanid,orgId,programTypeId)">
+                                        Run Commercial Bureau Rule
+                                    </button> -->
+                                    <button [hidden]="fraudcheckButton " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="fraudCheck()">
+                                        Fraud Check API
+                                    </button>
+                                    <button [hidden]="ConsumerBureauButton " class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="consumerBureau()">
+                                        Consumer Bureau Call
+                                    </button>
+                                    <button *ngIf="runConsumerRule" class="btn btn-warning mb-2 button"
+                                        style="margin-left: 10px" (click)="runBureauRule(1)">
+                                        Run Consumer Rule
+                                    </button>
+                                    <button *ngIf="createLoan" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="createLoanApi()">
+                                        Create Loan
+                                    </button>
+                                    <button *ngIf="BreApiCall" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="breApiCall()">
+                                        BRE api call
+                                    </button>
+                                    <button [hidden]="appFormButton" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="editApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Edit Application Form
+                                    </button>
+                                    <button [hidden]="draftApplicationForm" class="btn btn-info mb-2"
+                                        style="margin-left: 10px"
+                                        (click)="draftApplication(0,loanid,orgId,programTypeId)">
+                                        Draft ApplicationForm
+                                    </button>
+                                    <span [hidden]="!checkListStatus">CheckList Item is Missing Please do <a
+                                            [routerLink]="" (click)="checklist(customerId,loanid,orgId,orgId)">
+                                            checklist Verification</a> & Continue Process </span>
+
+                                    <button [hidden]="loanStatusButton" class="btn btn-info" style="margin-left: 10px"
+                                        (click)="checkLoanStatus()">
+                                        Verify Loan Status
+                                    </button>
+                                    <button [hidden]="gstButton" class="btn btn-danger" style="margin-left: 10px"
+                                        (click)="runGstRule(programTypeId,loanid,orgId,programTypeId)">
+                                        Run GST Rule
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <button [hidden]="bureauButton" class="btn btn-warning" style="margin-left: 10px"
+                                        (click)="reRunBureauRule(programTypeId,loanid,orgId,programTypeId)">
+                                        Run Bureau rule
+                                    </button>
+                                    <button *ngIf="sdfc" class="btn btn-info mb-2" style="margin-left: 10px"
+                                    (click)="createSdfc()"> SDFC API CALL
+                                    </button>
+                                    <button *ngIf="virtualAccount" class="btn btn-info mb-2" style="margin-left: 10px"
+                                     (click)="createvirtualAccount()">Create Virtual Account
+                                    </button>
+
+                                    <button [hidden]="downloadLoanApplication" class="btn btn-primary"
+                                        style="margin-left: 10px"
+                                        (click)="downloadLoanApplicationPage(0,loanid,orgId,programTypeId)">
+                                        Process Loan Appln, Agreement, Nach
+                                    </button>
+                                    <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -->
+                                    <button [hidden]="camDownloadButton" class="btn btn-info mb-2"
+                                        style="margin-left: 10px" (click)="downloadCam(loanid)">
+                                        Download Cam
+                                    </button>
+
+                                    <!-- <button [hidden]="getNACHStatusButton" class="btn btn-warning mb-2"
+                                        style="margin-left: 10px" (click)="getNACHStatus(loanid)">
+                                        Get NACH Status
+                                    </button> -->
+                                    <button [hidden]="nachButton" class="btn btn-warning mb-2" style="margin-left: 10px"
+                                        (click)="downloadNachForm()">
+                                        Nach Form
+                                    </button>
+                                    <button class="btn btn-info mb-2" [hidden]="nachButton" style="margin-left: 10px"
+                                        (click)="nach(nachLinkGeneration)">
+                                        eMandate</button>
+                                    <button *ngIf="rerunBrandRule" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reRunBrandRule()">
+                                        Re Run Brand Rule
+                                    </button>
+                                    <button *ngIf="runBankRules" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="rerunBankRules()">
+                                        Run Bank Rule
+                                    </button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Credit Approve
+                                    </button>
+                                    <button *ngIf="finaggCredit && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Credit Reject
+                                    </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3||roleId==6 || roleId==13)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Credit Approve
+                                    </button>
+                                    <button
+                                    class="btn btn-info mb-2" style="margin-left: 10px" *ngIf="showcasa"
+                                    (click)="checkStandingInstruction()">
+                                    Create Casa Account
+                                </button>
+                                    <button *ngIf="lenderCredit && (roleId==1||roleId==3||roleId==6 || roleId==13)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Credit Reject
+                                    </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Finagg Ops Approve
+                                    </button>
+                                    <button *ngIf="finaggOps && (roleId==1||roleId==3||roleId==6)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Finagg Ops Reject
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3||roleId==6 || roleId==14)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Lender Ops Approve
+                                    </button>
+                                    <button *ngIf="lenderOps && (roleId==1||roleId==3||roleId==6 || roleId==14)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Lender Ops Reject
+                                    </button>
+                                    <button *ngIf="modifyLimit" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reviewModifyLimit(updateFinalLimit)">
+                                        Modify Limit
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(2)">
+                                        Download Application Form
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(1)">
+                                        Download Sanction Letter
+                                    </button>
+                                    <button *ngIf="downloadForm" class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadAggrement()">
+                                        Download Loan Agreement
+                                    </button>
+                                    <button *ngIf="downloadTC && !janaLender" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="downloadLoanForm(5)">
+                                        Generate T & C
+                                    </button>
+                                    <button *ngIf="NachPending" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="UpdateNachForm()">
+                                        Update Nach Form
+                                    </button>
+                                    <button *ngIf="applicationForm"
+                                        class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="openApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Application Form
+                                    </button>
+                                    
+                                </td>
+
+                                <td [hidden]="gstRuleProcessing">
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Sno</th>
+                                                <th>GSTN No</th>
+                                                <th>Credentials Collected</th>
+                                                <th>Data Processed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let a of gstRuleProcessingList;let i=index">
+                                                <td>{{i+1}}</td>
+                                                <td>{{a.gstNo}}</td>
+                                                <td>{{a.crdentialsCollected}}</td>
+                                                <td>{{a.dataProcessed}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" *ngIf="programTypeId == ugroLenderProgramTypeId">
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+
+                <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="left">
+                            <tr>
+                                <td>
+                                    <button *ngIf="rerunBrandRule && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-primary mb-2" (click)="reRunBrandRule()">
+                                        Re Run Brand Rule
+                                    </button>
+                                    <button *ngIf="runConsumerBureau && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="consumerBureau()">
+                                        Call Consumer Bureau
+                                    </button>
+                                    <button *ngIf="runConsumerRule && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-warning mb-2 button" style="margin-left: 10px"
+                                        (click)="runBureauRule(1)">
+                                        Run Consumer Rule
+                                    </button>
+                                    <button *ngIf="bankProcessing && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="bankprocessing()">
+                                        Update BankStatement
+                                    </button>
+                                    <button *ngIf="nachPdc && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-info mb-2" style="margin-left: 10px" (click)="nachPDCPage()">
+                                        Choose Repay Option
+                                    </button>
+                                    <button *ngIf="NachPending && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-warning mb-2" style="margin-left: 10px"
+                                        (click)="downloadNachForm()">
+                                        Download NACH
+                                    </button>
+                                    <button class="btn btn-info mb-2"
+                                        *ngIf="NachPending && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        style="margin-left: 10px" (click)="nach(nachLinkGeneration)">
+                                        eMandate</button>
+
+                                    <button *ngIf="NachPending &&  (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="UpdateNachForm()">
+                                        Update Nach Form
+                                    </button>
+                                    <button *ngIf="camDownload" class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="downloadCam(loanid)">
+                                        Download Cam
+                                    </button>
+                                    <!-- <button *ngIf="PDCPending" class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="reRunBrandRule()">
+                                        Upload PDC
+                                    </button> -->
+                                    <button *ngIf="downloadForm && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(2)">
+                                        Download Application Form
+                                    </button>
+                                    <button *ngIf="downloadForm  && (roleId != 7 && roleId != 9 && roleId != 10) "
+                                        class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(1)">
+                                        Download Sanction Letter
+                                    </button>
+                                    <button *ngIf="downloadForm  && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadAggrement()">
+                                        Download Loan Agreement
+                                    </button>
+                                    <!-- <button *ngIf="nachPdc  && roleId != 7" class="btn btn-primary mb-2"
+                                        style="margin-left: 10px" (click)="downloadLoanForm(5)">
+                                        Download T & C
+                                    </button>
+                                        style="margin-left: 10px" (click)="downloadLoanForm(5)">
+                                        Download T & C
+                                    </button> -->
+                                    <button *ngIf="downloadTC  && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-primary mb-2" style="margin-left: 10px"
+                                        (click)="downloadLoanForm(5)">
+                                        Generate T & C
+                                    </button>
+                                    <!-- <button *ngIf="downloadForm  && roleId != 7" class="btn btn-success mb-2"
+                                        style="margin-left: 10px" (click)="goTo()">
+                                        Proceed
+                                    </button> -->
+                                    <button *ngIf="applicationForm &&  (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="editApplicationForm(0,loanid,orgId,programTypeId)">
+                                        Application Form
+                                    </button>
+                                    <button
+                                        *ngIf="createLoan && (roleId == 1||roleId == 10|| roleId == 7 || roleId == 3) "
+                                        class="btn btn-success mb-2" style="margin-left: 10px"
+                                        (click)="createLoanApi()">
+                                        Create Loan
+                                    </button>
+                                    <button *ngIf="firstCreditApproval && (roleId != 7 && roleId != 9 && roleId != 10) "
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        1st Credit Approve
+                                    </button>
+                                    <button *ngIf="firstCreditApproval && (roleId != 7 && roleId != 9 && roleId != 10) "
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        1st Credit Reject
+                                    </button>
+                                    <button *ngIf="FCUApproval &&  (roleId==1||roleId == 9) " class="btn btn-info mb-2"
+                                        style="margin-left: 10px" (click)="updateAcceptStatus()">
+                                        FCU Approve
+                                    </button>
+                                    <button *ngIf="FCUApproval && (roleId==1||roleId == 9) " class="btn btn-danger mb-2"
+                                        style="margin-left: 10px" (click)="rejectPopup(reject)">
+                                        FCU Reject
+                                    </button>
+                                    <button
+                                        *ngIf="secondCreditApproval && (roleId != 7 && roleId != 9 && roleId != 10) "
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        2nd Credit Approve
+                                    </button>
+                                    <button
+                                        *ngIf="secondCreditApproval  && (roleId != 7 && roleId != 9 && roleId != 10)"
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        2nd Credit Reject
+                                    </button>
+                                    <button *ngIf="businessApproval && (roleId==1||roleId == 10) "
+                                        class="btn btn-info mb-2" style="margin-left: 10px"
+                                        (click)="updateAcceptStatus()">
+                                        Accept Business Approval
+                                    </button>
+                                    <button *ngIf="businessApproval && (roleId==1||roleId == 10) "
+                                        class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="rejectPopup(reject)">
+                                        Reject Business Approval
+                                    </button>
+                                    <button *ngIf="modifyLimit" class="btn btn-danger mb-2" style="margin-left: 10px"
+                                        (click)="reviewModifyLimit(updateFinalLimit)">
+                                        Modify Limit
+                                    </button>
+                                </td>
+                                <td *ngIf="loanexecution">
+                                    <h4></h4>
+                                </td>
+                            </tr>
+                        </table>
+                        <br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #repayPopup let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Enable Nach Collection</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">x</span>
+        </button>
+
+    </div>
+    <h4 style="color: red; margin-left: 10px;">{{errorMsg}}</h4>
+    <div class="modal-body">
+
+        <p>
+
+        </p>
+        <div class="row mb-4">
+            <div class="col-2 offset-1">
+                <label>Remarks</label>
+            </div>
+            <textarea class="form-control col-6 offset-1" [(ngModel)]="remarks" placeholder="Please Enter Your Remark"
+                required></textarea>
+        </div>
+
+        <div class="row text-center">
+            <div class="col">
+                <button class="btn btn-success" (click)="saveNach()">Submit</button>
+                &nbsp;
+                <button class="btn btn-danger" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #nachLinkGeneration let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">E-Mandate Response</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true" style="color: red;">x</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="font-size: 12px;">
+                <tr *ngIf="!nachLinkMsg" style="font-size: 10px;">
+                    <th *ngIf="idfccheck">
+                        <h2>IDFC Debit </h2>
+                    </th>
+                    <th *ngIf="idfccheck">
+                        <h2>IDFC Netbanking </h2>
+                    </th>
+                    <th *ngIf="!idfccheck">
+                        <h2>Digio </h2>
+                    </th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 12px;">
+                <tr *ngIf="!nachLinkMsg">
+                    <div *ngIf="idfccheck">
+                        <td *ngIf="debitNachAmount">
+                            <div style="font-weight: bold;">Debit Nach Amount:</div> {{debitNachAmount}}
+                        </td>
+                        <td *ngIf="netbankingNachAmount&&!idfccheck">
+                            <div style="font-weight: bold;">Netbanking Nach Amount:</div> {{netbankingNachAmount}}
+                        </td>
+                    </div>
+                    <div *ngIf="!idfccheck">
+                        <td *ngIf="digioAmount&&!idfccheck">
+                            <div style="font-weight: bold;">Digio Nach Amount:</div> {{digioAmount}}
+                        </td>
+                    </div>
+                </tr>
+                <tr *ngIf="!nachLinkMsg">
+                    <div *ngIf="idfccheck">
+                        <td *ngIf="debitUrl">
+                            <div style="font-weight: bold;">Debit Url:</div>
+                            <div style="word-break: break-all;font-size: 12px;  ">
+                                https://portal.finagg.in/emandate/idfc?{{debitUrl}}</div>
+                        </td>
+                        <td *ngIf="debitMsg">
+                            <div style="font-weight: bold;">Debit Status:</div>
+                            <div style="word-break: break-all;font-size: 12px; ">{{debitMsg}}</div>
+                        </td>
+                        <td *ngIf="netbankingUrl">
+                            <div style="font-weight: bold;"> Netbanking Url:</div>
+                            <div style="word-break: break-all;font-size: 12px; ">
+                                https://portal.finagg.in/emandate/idfc?{{netbankingUrl}}</div>
+                        </td>
+                        <td *ngIf="!netbankingUrl && netbankingMsg">
+                            <div style="font-weight: bold;">Netbanking Status:</div>
+                            <div style="word-break: break-all;font-size: 12px; ">{{netbankingMsg}}</div>
+                        </td>
+                    </div>
+                    <div *ngIf="!idfccheck">
+                        <td *ngIf="digio">
+                            <div style="font-weight: bold; font-size: 25px;">Debit/Netbanking:</div>
+
+
+                            <div style="font-size: 12px; color: red; margin-top: 2px; word-break: inline; "
+                                *ngIf="!msgsuccess">
+                                NOT AVAILABLE
+                            </div>
+                            <div style="font-size: 12px; color: black; margin-top: 2px; word-break: inline;"
+                                *ngIf="msgsuccess">
+                                https://portal.finagg.in/emandate/enach?{{urlmessage}}#portal
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-weight: bold; font-size:25px">Aadhar:</div>
+
+
+                            <div style="font-size: 12px; color: red; margin-top: 2px; word-break: break-all;"
+                                *ngIf="urlerror">
+                                {{urlmessages}}
+                            </div>
+                            <div style="font-size: 12px; color: red; margin-top: 2px; word-break: break-all;"
+                                *ngIf="!successmsg">
+                                NOT AVAILABLE
+                            </div>
+                            <div style="font-size: 12px; color: black; margin-top: 2px; word-break: inline;"
+                                *ngIf="successmsg">
+                                https://portal.finagg.in/emandate/enach?{{urlmessages}}#portal
+                            </div>
+                        </td>
+                    </div>
+                </tr>
+                <tr *ngIf="nachLinkMsg">
+                    <td colspan="2" style="color: red;">{{nachLinkMsg}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-link" type="button" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            close
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #reject let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Reject Remarks</h4>
+        <button type="button" class="close" aria-label="Close" (click)="getDismissReason('Cross click')">
+            <span aria-hidden="true">x</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <!-- <span *ngIf="errorMsg" style="color:red;">Update was Failed</span>
+      <span *ngIf="showErrorMessage" style="color:red;text-align: center;">{{errorMessage}}</span> -->
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><textarea type="text" style="width: 450px;height: 50px;  resize: both; overflow: auto;"
+                            id="remarks" name="remarks" [(ngModel)]="remarks" class="form-control"></textarea></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="updateRejectStatus()">save</button>
+    </div>
+</ng-template>
+<ng-template #updateFinalLimit let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Final Limit</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">x</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <span *ngIf="errorMsg!=''" style="color:red;text-align: center;">{{errorMsg}}</span>
+        <table class="table table-striped table-bordered">
+
+                <tr>
+                    <th>Final Limit Amount</th>
+                    <th *ngIf="programTypeId ==sellerProgramTypeId">Scheme</th>
+                    <th>Tenure</th>
+                    <th>ROI</th>
+                    <!-- <th>PF type</th> -->
+                    </tr>
+                    <tr>
+                        <td><input type="text" (keypress)="keyPress($event)" name="finalLimit" class="form-control"
+                                [(ngModel)]="finalLimit" >
+                            <!-- <span>Current Limit -<b> {{currentLimit | number : '1.2-2'}}</b>, Allowed Range <b>{{minLimit | number : '1.2-2'}}</b> - <b>{{maxLimit | number : '1.2-2'}}</b></span> -->
+                        </td>
+                        <td *ngIf="programTypeId ==sellerProgramTypeId"><select class="form-control" name="schemaId"
+                                id="schemaId" [(ngModel)]="schemaId">
+                                <option *ngFor="let s of schemeList" [value]="s.schemaId">{{s.schemaName}}</option>
+                            </select></td>
+                        <td><select class="form-control" name="tenure" id="tenure" (change)="roicheck()"
+                                [(ngModel)]="tenure">
+                                <option *ngFor="let s of tenureRoi" [value]="s.tenure">{{s.tenure}}</option>
+                            </select></td>
+                        <td><input type="text" (keypress)="keyPress($event)" name="roi" class="form-control"
+                                [(ngModel)]="roi" (change)="roiValidation()"></td>
+                       <!-- <td><select style="width: 80px;" class="form-control form-select" name="pfTypeId" id="pfTypeId"  [(ngModel)]="pfTypeId">
+                              <option [value]="1">Flat</option>
+                             <option [value]="2">Percentage</option>
+                        </select></td> -->
+                        </tr>
+                        </table>
+                        <table class="table table-striped table-bordered">
+                    <tr>
+                    <!-- <th>PF value</th>
+                    <th>PF Amount</th> -->
+                    <!-- <th>Mode of Payment</th> -->
+                    <th>Created Date</th>
+                    <th>Remarks</th>
+                </tr>
+        
+               
+                    <tr>
+                    <!-- <td ><input type="text"  name="pfTypeValue" class="form-control" 
+                        (change)="pfValidation()" [(ngModel)]="pfTypeValue"></td>
+                        <td><input type="text" (keypress)="keyPress($event)" name="pfAmount" class="form-control "
+                            readonly  [(ngModel)]="pfAmount"></td>
+                        <td><select style="width: 80px;" class="form-control" name="modeOfPayment" id="modeOfPayment"
+                            [(ngModel)]="modeOfPayments">
+                            <option *ngFor="let s of paymentModeList" [value]="s.id">{{s.name}}</option>
+                </select></td> -->
+                   
+                    <td><input type="date" max="{{todayDate}}" name="createdOn" class="form-control"
+                            [(ngModel)]="createdOn" (keypress)="preventTyping()"></td>
+                   
+
+                          <td>  <textarea type="text" style="width: 150px;height: 50px;  resize: both; overflow: auto;"
+                            name="finalLimitRemarks" [(ngModel)]="finalLimitRemarks"></textarea></td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <!-- <span *ngIf="warningMsg" style="color: red;" >Final Limit between {{minLimit | number : '1.2-2'}} - {{maxLimit | number : '1.2-2'}}</span> -->
+                    </td>
+                </tr>
+            <!-- </tbody> -->
+
+        </table>
+        <table *ngIf="roiRateChart" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>SNo</th>
+                    <th>Param Name</th>
+                    <th>Type</th>
+                    <th>Value</th>
+                    <th>ROI</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let s of customConfigList;let i=index">
+                    <td>{{i+1}}</td>
+                    <td>
+                        <input type="text"  class="form-control" name="paramName_{{i}}" [(ngModel)]="s.paramName" style="width: 240px;" [disabled]="true" >
+                    </td>
+                    <td>
+                        <select class="form-control" [(ngModel)]="s.typeId" style="width: 140px;" name="typeId_{{i}}">
+                            <option *ngFor="let t of dataType" [value]="t.id">{{t.name}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text"  style="width: 140px;" class="form-control" name="value_{{i}}" [(ngModel)]="s.value">
+                    </td>
+                    <td >{{roi}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Update Sanction Limit</h4>
+            </div>
+        <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Sno</th>
+                <th>Condition Describtion</th>
+                <th>Expiry Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of sanctionConditionList;let i=index;">
+                <td>{{i+1}}</td>
+                <!-- <td><input type="text" id="conditionDesc_{{i}}" name="conditionDesc_{{i}}" class="form-control" [(ngModel)]="a.conditionDesc"></td> -->
+                <td>  <textarea type="text" style="width: 450px;height: 100px;  resize: both; overflow: auto;"
+                    id="conditionDesc_{{i}}" name="conditionDesc_{{i}}" [(ngModel)]="a.conditionDesc"></textarea></td>
+                <!-- <td>
+                  <select id="type_{{i}}" name="type_{{i}}" class="form-control" [(ngModel)]="a.type">
+                      <option value="1">Internal</option>
+                      <option value="2">External</option>
+                </select>
+                </td> -->
+                <!-- <td><input type="text" id="remarks_{{i}}" name="remarks_{{i}}" class="form-control"  [(ngModel)]="a.remarks"></td> -->
+                <!-- <td>
+                  <button type="button" (click)="deleteRow(i)" class="btn btn-danger btn-sm">Delete</button>
+                </td> -->
+                <!-- <td><input type="date" max="{{todayDate}}" name="createdOn" class="form-control"
+                    [(ngModel)]="createdOn" (keypress)="preventTyping()"></td> -->
+                <td><input type="date" min="{{todayDate}}" name="expiryDate" class="form-control"
+                    [(ngModel)]="a.expiryDate" (keypress)="preventTyping()"></td>              
+                      <td>
+                    <select class="form-control" [(ngModel)]="a.activeInd" name="activeInd_{{i}}" id="activeInd_{{i}}" style="background-color: rgb(0, 191, 255);width: 150px;" >
+                        <!-- <option [value]="1"  class="Success" style="background-color: rgb(123, 255, 0);">Active</option>
+                        <option  [value]="0"   class="Cancelled" style="background-color: rgb(255, 0, 0);">In Active</option> -->
+                        <option [value]="1" >Active</option>
+                        <option  [value]="0">In Active</option>
+                    </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align: center;">
+                  
+            <button type="button" class="btn btn-primary mb-2" (click)="addRow()">Add</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <!-- <button type="button" class="btn btn-success mb-2" (click)="saveSanctionCondition()">save</button> -->
+            <button type="button" class="btn btn-success mb-2" (click)="saveFinalLimit()">save</button>
+
+                </td>
+              </tr>
+            </tbody>
+            </table>
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="saveFinalLimit()">save</button>
+    </div> -->
+</ng-template>
+
+<ng-template let-modal #program>
+    <div class="modal-header">
+        <h4 id="modal-basic-title" style="text-align: center;">Program Selection</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-around" style="font-size: 20px;">
+            <div class="col">
+                <select class="form-select" (click)="setProgramTypeId()"[(ngModel)]="programId" name="program" id="program">
+                    <option value="0">Choose a Program</option>
+                    <option *ngFor="let p of programList" [value]="p.id">{{p.programName}}</option>
+                </select>
+                <div class="form__group field" *ngIf="programTypeId==6">
+                    <label>Anchor Recommedation</label>
+                    <input type="text"  class="form-control" placeholder="Anchor Recommdation"  (keypress)="keyPress($event)" [(ngModel)]="anchorRecommdation" name="anchorRecommdation" id='anchorRecommdation' />
+                </div>
+
+            </div>
+
+        </div>
+        &nbsp;
+       
+
+        <div class="col" *ngIf="errorMsg!=''">
+            <span style="color: red; font-weight: 600;">{{errorMsg}}</span>
+        </div>
+        <div class="row justify-content-around " style="margin-top: 50px;">
+            <div class="col-4">
+                <button class="btn btn-secondary w-100" (click)="close()">cancel</button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-green w-100 btn-primary" (click)="saveProgram()">Proceed</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #crnpopup let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Applicant CRN Details</h4>
+        <h4 style="color:red">{{errrorMSG}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered "
+            style="font-style:normal;font-size:8pt;width: 90%; margin-right: 20px;">
+            <tr>
+                <th>S.no</th>
+                <th>Applicant Name</th>
+                <th>Pan Number</th>
+                <th>DOB</th>
+                <th>Aadhar Number</th>
+                <th>Gender</th>
+                <th>Father Name</th>
+                <th>Mother Name</th>
+                <th>Address</th>
+                <th>CRN</th>
+                <th>URN</th>
+            </tr>
+             <tr *ngFor="let h of crnDetails; let i = index;" style="font-size: 8pt;">
+                <td>{{i+1}}</td>
+                <td>{{h.firstName}}</td>
+                <td>{{h.panNo}}</td>
+                <td style="white-space: nowrap;">{{h.dob}}</td>
+                <td>{{h.aadharNo}}</td>
+                <td>{{h.gender}}</td>
+                <td>{{h.fatherName}}</td>
+                <td >{{h.motherName}}</td>
+                <td>{{h.address}}</td>
+                <td>{{h.applicantCrn}}</td>
+                <td>{{h.urn}}</td>
+            </tr> 
+        </table>
+
+     
+    </div>
+  
+</ng-template> 
+<ng-template #viewamldoc let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Verify AML DOCS</h4>
+        <h4 style="color:red">{{errrorMSG}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered "
+            style="font-style:normal;font-size:8pt;width: 90%; margin-right: 20px;">
+            <tr>
+                <th>Document Type</th>
+                <th>File Source</th>
+            </tr>
+            <tr *ngFor="let la of uploadedDocs;let i = index">
+                <td>{{la.documentName}}</td>
+                <td class="fin-mulitple">
+                    <button (click)="downloadView(la.filePath,la.fileSource)"
+                        class="btn btn-link">{{la.fileSource}}</button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</ng-template>
+<ng-template #updateCrn let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update CRN</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Pan Number</th>
+                    <th>Crn No</th>
+                    <th>Urn No</th>
+                    <th>Organization</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let l of crnDetailslist ">
+                    <td><input type="text" (keypress)="keyPress($event)" id="crn" name="crn" class="form-control" [(ngModel)]="l.panNo" [disabled]="true"></td>
+                    <td><input type="text" (keypress)="keyPress($event)" id="crn" name="crn" class="form-control" [(ngModel)]="l.crnNo" [disabled] ="l.readFlag!='0'" (ngModelChange)="crnsaver(l)"></td>
+                    <td ><input type="text" (keypress)="keyPress($event)" id="crn" name="urn" class="form-control" [(ngModel)]="l.urnNo" [disabled] ="l.readFlag!='0'"  (ngModelChange)="crnsaver(l)" ></td>
+                   <td><input type="text" id="crn_remarks" name="crn_remarks" class="form-control" [(ngModel)]="l.orgName"  [disabled]="true"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" *ngIf="crnchecks" (click)="crnUpdation()" >save</button>
+    </div>
+</ng-template>
+<ng-template #standingInstructionPopup let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Upload Standing Instruction</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered "
+            style="font-style:normal;font-size:8pt;width: 90%; margin-right: 20px;">
+            <tr>
+                <th>Document Type</th>
+                <th>File Source</th>
+            </tr>
+            <tr>
+                <td> Standing Instructions For Auto Disbursement</td>
+                <td><input type="file" class="file-upload" name="myFile" id="myFile" (change)="uploadfile(i,$event.target.files)"/>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <button type="button" class="btn btn-success" (click)="uploadStandingInstruction()" >save</button>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="2">
+                    <h4 style="color:red" *ngIf="errrorMSG!=''">{{errrorMSG}}</h4>
+                </td>
+            </tr>
+        </table>
+    </div>
+</ng-template>
+<ng-template #Enaches let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Enach status and time</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <!-- <thead>
+                <tr>
+                    <th>Documentsss </th>
+                </tr>
+            </thead> -->
+            <tbody>
+                <tr>
+                    <td>            
+                        <div class="col font-weight-bold"
+                        >E-NACH
+                        Status
+                        </div>
+                        <!-- <input type="date" id="sanctionDate" class="form-control" name="sanctionDate"
+                            [(ngModel)]="sanctionDate" (keypress)="preventTyping()"> -->
+                    </td>
+                    <td>                  
+                        <div class="col font-weight-bold" >Status Check Time</div>
+
+                </td>
+                </tr>
+                <tr *ngFor="let e of enach">
+                    <td>
+                        <div class="col" >
+                          {{e.Description}}
+                        </div>
+                    </td>
+                    <td>
+                        <!-- <button type="button" class="btn btn-success mb-2" (click)="saveSanctionDate()">save</button> -->
+                        <div class="col" >
+                         {{e.date_Time}}
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #errPop let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Download Document</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered "
+            style="font-style:normal;font-size:8pt;width: 90%; margin-right: 20px;">
+            <!-- <tr>
+                <th>Remarks</th>
+            </tr> -->
+          <div class="d-flex justify-content-around">
+            <button class="btn btn-success" (click)="downloadRequest()">Download Request</button>
+            <button class="btn btn-success" (click)="downloadResponse()">Download Response</button>
+          </div>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #internalSanction let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Internal Sanction Condition</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">x</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <span  style="color:red;text-align: center;" *ngIf="err">{{errorMsg}}</span>
+        <div class="modal-header">
+            <!-- <h4 class="modal-title" id="modal-basic-title">Update Sanction Limit</h4> -->
+            </div>
+        <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>S.No.</th>
+                <th>Condition Description</th>
+                <th>Closer Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let a of internalConditionList;let i=index;">
+                <td>{{i+1}}</td>
+                <td>  <textarea type="text" style="width: 450px;height: 100px;  resize: both; overflow: auto;"
+                    id="conditionDesc_{{i}}" name="conditionDesc_{{i}}" [(ngModel)]="a.conditionDesc"></textarea></td>
+                    <td>
+                    <input type="date" min="{{todayDate}}" name="closerDate" class="form-control"
+                            [(ngModel)]="a.closerDate" (keypress)="preventTyping()"> 
+                    </td>
+                <td>
+                    <select class="form-control" [(ngModel)]="a.activeInd" name="activeInd_{{i}}" id="activeInd_{{i}}" style="background-color: rgb(0, 191, 255);width: 150px;" >
+                        <option [value]="1" >Active</option>
+                        <option  [value]="0">In Active</option>
+                    </select>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="5" style="text-align: center;">
+                  
+            <button type="button" class="btn btn-primary mb-2" (click)="addInternalRow()">Add</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="button" class="btn btn-success mb-2" (click)="saveInternalSanction()">save</button>
+
+                </td>
+              </tr>
+            </tbody>
+            </table>
+    </div>
+</ng-template>
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()"></app-action-tab>

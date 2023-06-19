@@ -1,0 +1,240 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+
+                <br>
+                <div style="text-align:center;"  *ngIf="pendingzero">
+                    <button class="btn btn-link" (click)="gotoloanpage()" style="font-size: 25px;">View in Loan Application Page</button>
+                 </div>
+                <div class="row">
+                   
+                    <div class="table-responsive mt-10">
+                   
+                        <table class="table fin-table-blue table-hover" *ngIf="!pendingzero">
+                            <thead>
+                                <tr>
+                                    <th>SNo</th>
+                                    <th>Entity</th>
+                                    <th>Last modified On</th>
+                                    <th align="center">ReInitiate</th>
+                                    <th align="center">Mute</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                <tr *ngFor="let a of pendingApiList;let i=index" >
+                                    <td>{{i+1}}</td>
+                                    <td>{{a.actionName}}</td>
+                                    <td>{{a.dateTime}}</td>
+                                    <td>
+                                        <button *ngIf="a.activeInd=='1'" class="btn btn-success mb-2" style="margin-left: 10px" (click)="action(a.actionId)">
+                                        ReInitiate </button>
+                                    <img  src="assets/images/icons/disable.png" *ngIf="a.activeInd!='1'"  style="width: 30px; height:30px;" />
+                                </td>
+                                    <td><button *ngIf="a.activeInd=='1'" class="btn btn-warning mb-2" style="margin-left: 10px" (click)="muteAction(muteConditionTemplate,a)">
+                                        Mute</button>
+                                    <img  src="assets/images/icons/disable.png" *ngIf="a.activeInd!='1'" style="width: 30px; height:30px;" />
+                                </td>
+                                    <td> {{a.remarks}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template let-modal #program>
+    <div class="modal-header">
+        <h4 id="modal-basic-title" style="text-align: center;">Program Selection</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-around" style="font-size: 20px;">
+            <div class="col">
+                <label>Choose Program: </label>
+                <select class="form-control-sm"  [(ngModel)]="programId" name="program" id="program">
+                    <option value="0">Choose a Program</option>
+                    <option *ngFor="let p of programList" [value]="p.id">{{p.programName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col" *ngIf="errorMsg!=''">
+            <span style="color: red; font-weight: 600;">{{errorMsg}}</span>
+        </div>
+        &nbsp;
+        <div class="row justify-content-around">
+            <div class="col-4">
+                <button class="btn btn-danger w-100" (click)="close()">cancel</button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-green w-100 btn-success" (click)="saveProgram()">Proceed</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template let-modal #penny>
+    <div class="modal-header">
+        <h4 id="modal-basic-title" style="text-align: center;">Update Bank</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-around" style="font-size: 20px;">
+            <div class="col">
+                <label>Choose Bank: </label>
+                <select class="form-control sm" #a name="program" id="program"
+                (change)=getBankDetails($event.target.value) >
+                    <!-- <option value="0">Choose a Program</option> -->
+                    <option *ngFor="let ld of bankdetails"
+                            value="ld">
+                            {{ld.bankName}}
+                        </option>
+                </select>
+            </div>
+        </div>
+        <div class="row-form">
+            <div class="form__group field">
+            <input type="text" #bank (keyup)="0" matInput placeholder="Enter Your bank Name" aria-label="bank" [matAutocomplete]="auto1" class="form__field" width="90%" [formControl]="bankCtrl" [(ngModel)]="bankName" (ngModelChange)="checkValidation()">
+            <mat-autocomplete #auto1="matAutocomplete" (optionSelected)="setBankId($event.option.id)">
+                <mat-option (onSelectionChange)="bank.value !=undefined" *ngFor="let bank of filteredBank| async" [value]="bank.name" [id]="bank.id">
+                    <span>{{bank.name}}</span>
+                </mat-option>
+            </mat-autocomplete>
+            <span class="form_icon"><i class="fas fa-landmark"></i></span>
+            <span class="fin-form_correct" *ngIf="bankName"><i class="fa fa-check-circle"></i></span>
+            <span class="fin-form_incorrect" *ngIf="!bankName"><i class="fa fa-times-circle"></i></span>
+        </div>
+        </div>
+          <div class="row-form">
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="Account No" [(ngModel)]="acNumber"
+                        name="acNumber" id='acNumber' minlength="5" maxlength="18" (ngModelChange)="checkValidation()" />
+                    <label for="accountNo" class="form__label">
+                        Account No
+                    </label>
+                    <!-- <span class="form_icon"><i class="fa fa-sort-numeric-desc"></i></span> -->
+                    <span class="form_icon"><i class="far fa-credit-card"></i></span>
+                    <span class="fin-form_correct" *ngIf="acNumber.length >= 5 && acNumber.length <= 25"><i class="fa fa-check-circle"></i></span>
+                    <span class="fin-form_incorrect" *ngIf="!(acNumber.length >= 5 && acNumber.length <= 25)"><i class="fa fa-times-circle"></i></span>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="form__group field">
+                    <select class="form-select form__field" [(ngModel)]="accType" name="acType" id="acType" (ngModelChange)="checkValidation()">
+                        <option [value]="0">Choose a Account type</option>
+                        <option *ngFor="let b of accList" [value]="b.id">{{b.name}}</option>
+                    </select>   
+                    <label for="accType" class="form__label">Account Type</label>
+                    <span class="form_icon"><i class="fas fa-venus-mars"></i></span>
+                    <span class="fin-form_correct" *ngIf="accType && accType!=0"><i class="fa fa-check-circle"></i></span>
+                    <span class="fin-form_incorrect" *ngIf="!accType || accType==0"><i class="fa fa-times-circle"></i></span>
+                </div>
+            </div>
+            <div class="row-form">
+                <div class="form__group field">
+                    <input type="text" class="form__field" placeholder="IFSC Code" maxlength="11" style="text-transform: uppercase;" [(ngModel)]="ifscCode"
+                        name="ifscCode" id='ifscCode' (ngModelChange)="checkValidation()" />
+                    <label for="ifscCode" class="form__label">
+                        IFSC Code
+                    </label>
+                    <span class="form_icon"><i class="fas fa-money-check-alt"></i></span>
+                    <span class="fin-form_correct" *ngIf="ifscCode.length == 11"><i class="fa fa-check-circle"></i></span>
+                    <span class="fin-form_incorrect" *ngIf="ifscCode.length != 11"><i class="fa fa-times-circle"></i></span>
+                </div>
+            </div>
+            <!-- <div class="col-4"> ifscCode</div>
+            <div class="col-4"> acNumber</div> -->
+        
+        <div class="col" *ngIf="errorMsg!=''">
+            <span style="color: red; font-weight: 600;">{{errorMsg}}</span>
+        </div>
+        <br>
+        <div class="row justify-content-around mt-10" >
+            <div class="col-4">
+                <button class="btn btn-danger w-100" (click)="close()">cancel</button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-green w-100 btn-success" (click)="pennyDropApi()" [disabled]="proceedButton" >Proceed</button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #muteConditionTemplate let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Mute Condition</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <span *ngIf="errorMsg" style="color: red;">{{errorMsg}}</span>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="table-info">
+                    <th>Entity</th>
+                    <th>Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{muteDetails.actionName}}</td>
+                    <td>
+                        <textarea style="width: 500px;height: 100px;  resize: both; overflow: auto;"
+                        [(ngModel)]="remark" class="form-control" required placeholder="Remark"
+                        name="remark_{{i}}">
+                            </textarea>
+                    </td>
+                </tr>
+             
+            </tbody>
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success"
+            (click)="muteFailedAction(muteDetails.actionId)">save</button>
+    </div>
+</ng-template>
+<app-action-tab *ngIf="tab" (toggle)="toggle()"></app-action-tab>

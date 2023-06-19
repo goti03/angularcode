@@ -1,0 +1,11 @@
+.scrollbar {
+    /* float: left; */
+    height: 400px;
+    width: 100%;
+    overflow: auto;
+    color: #46a546;
+    /* white-space: nowrap; */
+
+    /* margin-bottom: 25px; */
+    /* margin-top:10px; */
+}

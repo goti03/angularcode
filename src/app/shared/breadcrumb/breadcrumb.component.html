@@ -1,0 +1,50 @@
+<!-- ============================================================== -->
+<!-- Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->
+<div class="row page-titles bc" style="margin-bottom: 5px !important;">
+    <div class="col-lg-4 col-md-4 col-xs-12 align-self-center">
+        <h4 class="text-themecolor m-b-0">{{pageInfo?.title}}</h4>
+    </div>
+    <div class="col-lg-4">
+        <!-- <div [ngClass]="{
+            'danger': flag === false,
+            'success': flag === true
+        }" style="text-align: center; font-weight: 400;">
+            {{message}}
+        </div> -->
+
+
+
+        <div *ngIf="message!='' && flag == false" class="alert alert-danger" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="clearMsg()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div *ngIf="message!='' && flag == true" class="alert alert-success" role="alert">{{message}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="clearMsg()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- <ngb-alert *ngIf="!staticAlertClosed" (close)="staticAlertClosed = true" [ngClass]="{
+            'danger': flag === false,
+            'success': flag === true">
+            {{message}}</ngb-alert> -->
+    </div>
+    <div class="col-lg-4 col-md-8 col-xs-12 align-self-center">
+        <ol class="breadcrumb">
+            <ng-template ngFor let-url [ngForOf]="pageInfo?.urls" let-last="last">
+                <li class="breadcrumb-item" *ngIf="!last" [routerLink]="url.url">
+                    <a href='javascript:void(0)'>{{url.title}}</a>
+                </li>
+                <li class="breadcrumb-item active" *ngIf="last">{{url.title}}</li>
+            </ng-template>
+        </ol>
+    </div>
+
+
+
+
+</div>
+<!-- ============================================================== -->
+<!-- End Bread crumb and right sidebar toggle -->
+<!-- ============================================================== -->

@@ -1,0 +1,919 @@
+<div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2>Program Details</h2>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-bordered" style="width: 60%;">
+                            <tbody *ngIf="program">
+                                <tr>
+                                    <!-- <ng-template [ngIf]="program.masterProgramId=='1'">
+                    <td><b>Master Program Name: </b></td>
+                    <td> Retailer Program</td>
+                  </ng-template>
+                  <ng-template [ngIf]="program.masterProgramId!='1'">
+                    <td><b>Master Program Name: </b></td>
+                    <td>Other Program</td>
+                  </ng-template> -->
+                                    <td><b>Master Program Name: </b></td>
+                                    <td>
+                                        <ng-container *ngFor="let ll of masterList">
+                                            <ng-template [ngIf]="ll.masterId==program.masterProgramId">
+                                                {{ll.masterName}}
+                                            </ng-template>
+                                        </ng-container>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><b>Program Type Name: </b></td>
+                                    <td>
+                                        <ng-container *ngFor="let ll of ProgramTypeList">
+                                            <ng-template [ngIf]="ll.id==program.programTypeId">
+                                                {{ll.name}}
+                                            </ng-template>
+                                        </ng-container>
+                                    </td>
+                                    <!-- <ng-template [ngIf]="program.programTypeId=='1'">
+                    <td><b>Program Type Name: </b></td>
+                    <td>Bullet and Line</td>
+                  </ng-template>
+                  <ng-template [ngIf]="program.programTypeId=='2'">
+                    <td><b>Program Type Name: </b></td>
+                    <td>Line and Line</td>
+                  </ng-template>
+                  <ng-template [ngIf]="program.programTypeId=='3'">
+                    <td><b>Program Type Name: </b></td>
+                    <td>Line and Bullet</td>
+                  </ng-template>
+                  <ng-template [ngIf]="program.programTypeId=='4'">
+                    <td><b>Program Type Name: </b></td>
+                    <td>Bullet and Bullet</td>
+                  </ng-template> -->
+                                </tr>
+                                <tr>
+                                    <td><b>Program Name: </b></td>
+                                    <td> {{program.programName}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Status: </b></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Start Date: </b></td>
+                                    <td>{{startDate}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>End Date: </b></td>
+                                    <td>{{endDate}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Total Limit: </b></td>
+                                    <td> {{indianCurrency(program.totalLimit)}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Borrower Limit: </b></td>
+                                    <td>{{indianCurrency(program.limitPerBorrower)}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Min ROI: </b></td>
+                                    <td> {{program.minROI}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Max ROI: </b></td>
+                                    <td>{{program.maxROI}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Installment Type: </b></td>
+                                    <td> {{program.installmentType}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>No of Installment: </b></td>
+                                    <td>{{program.noOfInstallment}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Loan Tenure: </b></td>
+                                    <td> {{program.loanTenure}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Loan Tenure Unit: </b></td>
+                                    <td>{{program.loanTenureUnit}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><b>Interest Type: </b></td>
+                                    <td>{{program.interestType}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>No Of Tranches Per Day: </b></td>
+                                    <td>{{program.noOfTranchesPerDay}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Tranch Limit Percentage: </b></td>
+                                    <td>{{program.tranchLimitPercentage}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Co-Applicant Sole Prop: </b></td>
+                                    <td *ngIf="program.coApplicantSoleProp == 1">Yes</td>
+                                    <td *ngIf="program.coApplicantSoleProp == 0">No</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Adjust Min Percentage: </b></td>
+                                    <td>{{program.adjustMinPercentage}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Adjust Max Percentage: </b></td>
+                                    <td>{{program.adjustMaxPercentage}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Loan-To Sole Prop</b></td>
+                                    <td *ngIf="program.loanToSoleProp==1">Firm Name</td>
+                                    <td *ngIf="program.loanToSoleProp==2">Proprietor Name</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Auto Disbursement</b></td>
+                                    <td *ngIf="program.autoDisbursementFlag==1">Yes</td>
+                                    <td *ngIf="program.autoDisbursementFlag==0">No</td>
+                                </tr>
+                                <tr *ngIf="program.autoDisbursementFlag==1">
+                                    <td><b>Disbursement Hold Time</b></td>
+                                    <td>{{program.disbursementHoldTime}}</td>
+                                </tr>
+                                <tr>
+                                    <td><label>migrationAllowed</label></td>
+                                    <td *ngIf="program.migrationAllowed==1">Yes</td>
+                                    <td *ngIf="program.migrationAllowed==0">No</td>
+                                </tr>
+                                <tr>
+                                    <td><label>Bank Statements for these many months</label></td>
+                                    <td>{{program.requiredMonthsBankStatement}}</td>
+                                </tr>
+                                <tr>
+                                    <td><label>Grace Period</label></td>
+                                    <td>{{program.gracePeriod}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Order Invoice Disbursal</b></td>
+                                    <td *ngIf="program.orderInvoiceDisbursal==1">Yes</td>
+                                    <td *ngIf="program.orderInvoiceDisbursal==0">No</td>
+                                </tr>
+                                <tr *ngIf="program.orderInvoiceDisbursal==1">
+                                    <td><b>Order Invoice Disbursal Limit</b></td>
+                                    <td>{{program.orderInvoiceDisbursalLimit}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Minimum Value Of Accepted Invoice</b></td>
+                                    <td>{{program.minimumValueofAcceptedInvoice}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Due Date Selection</b></td>
+                                    <td *ngIf="program.dueDateSelection==1">Disursement Date</td>
+                                    <td *ngIf="program.dueDateSelection==2">Invoice Date</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Borrower ROI Type</b></td>
+                                 
+                                    <td *ngIf="roiFlag==2">Dynamic</td>
+                                    <td *ngIf="roiFlag==1" >Fixed</td>
+                                    <td *ngIf="roiFlag==0"></td>
+                               
+                                </tr>
+                                <tr>
+                                    <td><b>Borrower Tenure Type</b></td>
+                                    <td *ngIf="tenureFlag==1">Fixed</td>
+                                    <td *ngIf="tenureFlag==2">Dynamic</td>
+                                    <td *ngIf="tenureFlag==0"></td>
+                                
+                                </tr>
+                                <tr>
+                                    <td><b>Maximun Free Credit</b></td>
+                                    <td>{{program.maxFreeCredit}}</td>
+                                </tr>
+                                <tr>
+                                    <td><label>OverDue Period</label></td>
+                                    <td>{{program.overDuePeriod}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>E-signing</b></td>
+                                    <td *ngIf="program.eSigningFlag=='1'">YES</td>
+                                    <td *ngIf="program.eSigningFlag=='0'">NO</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Loan Agreement</b></td>
+                                    <td *ngIf="program.loanAgreementFlag=='1'">YES</td>
+                                    <td *ngIf="program.loanAgreementFlag=='0'">NO</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Hypothecation Agreement</b></td>
+                                    <td *ngIf="program.hypothecationFlag=='1'">YES</td>
+                                    <td *ngIf="program.hypothecationFlag=='0'">NO</td>
+                                </tr>
+                                <tr>
+                                    <td><b> Stamp Paper</b></td>
+                                    <td *ngIf="program.stampPaperFlag=='1'">YES</td>
+                                    <td *ngIf="program.stampPaperFlag=='0'">NO</td>
+                                </tr>
+                                <tr>
+                                    <td><b> eStampDutyProcurement</b></td>
+                                    <td *ngIf="program.eStampDutyProcurementFlag=='1'">YES</td>
+                                    <td *ngIf="program.eStampDutyProcurementFlag=='0'">NO</td>
+                                </tr>
+                                <tr>
+                                    <td><b> Stamp Duty Calculation</b></td>
+                                    <td *ngIf="program.stampDutyFlag=='1'">YES</td>
+                                    <td *ngIf="program.stampDutyFlag=='0'">NO</td>
+                                </tr>
+
+                                <tr>
+                                    <td><b> Digital Flow Flag</b></td>
+                                    <td *ngIf="program.digitalFlowFlag=='1'">YES</td>
+                                    <td *ngIf="program.digitalFlowFlag=='0'">NO</td>
+                                </tr>
+                                <tr>
+                                    <td><b>Enach Frequency Code</b></td>
+                                    <td *ngIf="program.enach=='0'">NA</td>
+                                    <td *ngIf="program.enach=='YEAR'">YEAR</td>
+                                    <td *ngIf="program.enach=='MNTH'">MNTH</td>
+                                    <td *ngIf="program.enach=='BIMN'">BIMN</td>
+                                    <td *ngIf="program.enach=='QURT'">QURT</td>
+                                    <td *ngIf="program.enach=='MIAN'">MIAN</td>
+                                    <td *ngIf="program.enach=='WEEK'">WEEK</td>
+                                    <td *ngIf="program.enach=='DAIL'">DAIL</td>
+                                    <td *ngIf="program.enach=='ADHO'">ADHO</td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td><b>Stale Days</b></td>
+                                        <td>{{program.staleDays}}</td>
+                                    </tr> -->
+                                <!-- <tr>
+                  <td>Program Desc</td>
+                  <td>{{program.programDesc}}</td>
+                </tr>
+                <tr>
+                  <td>Fldg</td>
+                  <td *ngIf="program.fldg == 1">Yes</td>
+                  <td *ngIf="program.fldg == 0">No</td>
+                </tr>
+                <tr>
+                  <td>Fldg Percentage</td>
+                  <td>{{program.fldgPercentage}}</td>
+                </tr>
+                <tr>
+                  <td>Minimum Value Of Accepted Invoice</td>
+                  <td>{{program.minimumValueOfInvoice}}</td>
+                </tr>
+                <tr>
+                  <td>Security</td>
+                  <td>{{program.security}}</td>
+                </tr>
+                <tr>
+                  <td>Security Margin</td>
+                  <td>{{program.securityMargin}}</td>
+                </tr>
+                <tr>
+                  <td>Sector</td>
+                  <td>{{program.sector}}</td>
+                </tr>
+                <tr>
+                  <td>Sector Margin</td>
+                  <td>{{program.sectorMargin}}</td>
+                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="program.cashDiscountFlag == 1">
+                    <div class="row mt-3">
+                        <div class="col">
+                            <h4>Cash Discount</h4>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped mt-3">
+                                <thead>
+                                    <tr>
+                                        <th>S.No</th>
+                                        <th>Cash Discount Type</th>
+                                        <th>Cash Discount Value</th>
+                                        <th>From Day</th>
+                                        <th>To Day</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let c of cashDiscountList;let i = index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{c.cashDiscountType == 1 ? 'Flat percentage' : 'Per Day'}}</td>
+                                        <td>{{c.cashDiscountValue}}</td>
+                                        <td>{{c.fromDay}}</td>
+                                        <td>{{c.toDay}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <hr/>
+<div *ngIf="program">
+  <div>
+    <ng-template [ngIf]="program.masterProgramId=='1'">
+        <label><b>Master Program Name: </b></label> Retailer Program
+    </ng-template>
+    <ng-template [ngIf]="program.masterProgramId!='1'">
+        <label><b>Master Program Name: </b></label>Other Program
+    </ng-template> 
+  </div>
+  <div>
+    <ng-template [ngIf]="program.programTypeId=='1'">
+        <label><b>Program Type Name: </b></label>Bullet and Line
+    </ng-template>
+    <ng-template [ngIf]="program.programTypeId=='2'">
+        <label><b>Program Type Name: </b></label>Line and Line
+    </ng-template>
+    <ng-template [ngIf]="program.programTypeId=='3'">
+        <label><b>Program Type Name: </b></label>Line and Bullet
+    </ng-template>
+    <ng-template [ngIf]="program.programTypeId=='4'">
+        <label><b>Program Type Name: </b></label>Bullet and Bullet
+    </ng-template>
+  </div> -->
+                <!-- <div>
+    <label><b>Program Name: </b></label> {{program.programName}}
+  </div>   -->
+                <!-- <div>
+    <label><b>Start Date: </b></label> {{program.startDate}}
+  </div> 
+  <div>
+    <label><b>End Date: </b></label> {{program.endDate}}
+  </div>  
+  <div>
+    <label><b>Total Limit: </b></label> {{program.totalLimit}}
+  </div> 
+  <div>
+    <label><b>Borrower Limit: </b></label> {{program.limitPerBorrower}}
+  </div> 
+  <div>
+    <label><b>Min ROI: </b></label> {{program.minROI}}
+  </div> 
+  <div>
+    <label><b>Max ROI: </b></label> {{program.maxROI}}
+  </div> 
+  <div>
+    <label><b>Interest Type: </b></label> {{program.interestType}}
+  </div>  
+</div> -->
+
+                <!-- LENDER -->
+                <div class="row">
+                    <div class="col-6">
+                        <h4><b>Lender</b></h4>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:1%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Lender</th>
+                                        <th>Lender %age</th>
+                                        <th>Limit</th>
+                                        <th>ROI%age</th>
+                                        <th>PF Type</th>
+                                        <th>PF</th>
+                                        <th>Risk Sharing Status</th>
+                                        <th>Risk Sharing Percentage</th>
+                                        <th>FA ROI %age</th>
+                                        <th>FA PF</th>
+                                        <th>Total ROI %age</th>
+                                        <th>Total PF </th>
+                                        <th>Lender Tenure</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dynamic of programDynamic; let i = index;">
+                                        <td>{{dynamic.lenderSequence}}</td>
+                                        <td>
+                                            <!-- {{dynamic.lenderId}} -->
+                                            <ng-container *ngFor="let ll of LenderList">
+                                                <ng-template [ngIf]="ll.id==dynamic.lenderId">
+                                                    {{ll.name}}
+                                                </ng-template>
+                                            </ng-container>
+                                        </td>
+                                        <td>
+                                            {{dynamic.lenderPercentage}}
+                                        </td>
+                                        <td>{{indianCurrency(dynamic.lenderLimit)}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.lenderRoi}}
+                                        </td>
+                                        <td>
+                                            <ng-container *ngIf="dynamic.pfTypeId == '1'">Flat</ng-container>
+                                            <ng-container *ngIf="dynamic.pfTypeId == '2'">Percentage</ng-container>
+                                        </td>
+                                        <td>
+                                            {{dynamic.lenderPfValue}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.riskSharingStatus}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.riskSharingPercentage}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.finAggRoi}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.finAggPfValue}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.totalRoi}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.totalPfValue}}
+                                        </td>
+                                        <td>
+                                            {{dynamic.lenderTenure}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- LENDER -->
+
+
+                <div class="row">
+                    <div class="col-6">
+                        <h4><b>Sourcing Partner</b></h4>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:1%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>ROI %age</th>
+                                    <th>PF Type</th>
+                                    <th>PF</th>
+                                    <th>Borrower ROI %age</th>
+                                    <th>Borrower PF </th>
+                                    <th>Total ROI %age</th>
+                                    <th>Total PF </th>
+                                    <th>Borrower Tenure</th>
+                                </tr>
+                                <tr *ngFor="let dynamicP of partnerDynamic; let i = index;">
+                                    <td>
+                                        <!-- {{dynamicP.spId}} -->
+                                        <ng-container *ngFor="let pl of PartnerList">
+                                            <ng-template [ngIf]="pl.id==dynamicP.spId">
+                                                {{pl.name}}
+                                            </ng-template>
+                                        </ng-container>
+
+                                    </td>
+                                    <td>
+                                        {{dynamicP.spRoi}}
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="dynamicP.pfTypeId == '1'">Flat</ng-container>
+                                        <ng-container *ngIf="dynamicP.pfTypeId == '2'">Percentage</ng-container>
+                                    </td>
+                                    <td>
+                                        {{dynamicP.spPfValue}}
+                                    </td>
+                                    <td>
+                                        {{dynamicP.borrowerRoi}}
+                                    </td>
+                                    <td>
+                                        {{dynamicP.borrowerPfValue}}
+                                    </td>
+                                    <td>
+                                        {{dynamicP.totalRoiSP}}
+                                    </td>
+                                    <td>
+                                        {{dynamicP.totalPfValueSP}}
+                                    </td>
+                                    <td>
+                                        {{dynamicP.spTenure}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div  style="margin-top:3%;" *ngIf="borrowerLoanTenureType=='2'||borrowerROIType=='2'">
+                    <div class="row">
+                        <div class="col">
+                            <table class="table fin-table-blue text-center" >  
+                                <thead style="color: black;">
+                                    <tr >
+                                    <th rowspan="2" >S.no</th>
+                                    <th rowspan="2">*Tenure</th>
+                                    <th rowspan="1" colspan="2">Brand Vintage Month Range</th>
+                                    <th rowspan="1" colspan="2">Bureau Score Range</th>
+                                    <th rowspan="2">*Liquid collateral %age</th>
+                                    <th rowspan="2">*ROI</th>
+                                    <!-- <th rowspan="2">*Delete</th> -->
+                                    </tr>
+                                    <tr>
+                                    <th>*Min no. of Months</th>
+                                    <th>*Max no. of Months</th>
+                                    <th>*Minimum</th>
+                                    <th>*Maximum</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let a of borrowerROIList; let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            {{a.tenure}}
+                                            <!-- <input type="text" class="form-control" [(ngModel)]="a.tenure"  autocomplete="off" [ngModelOptions]="{standalone: true}"/> -->
+                                        </td>
+                                        <td>
+                                            {{a.brandVintageFrom}}
+                                            <!-- <input type="text"  [(ngModel)]="a.brandVintageFrom" [ngModelOptions]="{standalone: true}" class="form-control" max="a.brandVintageto"> -->
+                                        </td>
+                                        <td>
+                                            {{a.brandVintageto}}
+                                            <!-- <input type="text" [(ngModel)]="a.brandVintageto" [ngModelOptions]="{standalone: true}" min="a.brandVintageFrom" class="form-control"> -->
+                                        </td>
+                                        <td>
+                                            {{a.bureauScoreFrom}}
+                                            <!-- <input type="text"  [(ngModel)]="a.bureauScoreFrom" [ngModelOptions]="{standalone: true}" class="form-control" max="a.bureauScoreTo"> -->
+                                        </td>
+                                        <td>
+                                            {{a.bureauScoreTo}}
+                                            <!-- <input type="text"  [(ngModel)]= "a.bureauScoreTo" [ngModelOptions]="{standalone: true}" class="form-control" min="a.bureauScoreFrom"> -->
+                                        </td>
+                                        <td>
+                                            {{a.liquidCollateral}}
+                                            <!-- <input type="text"  [(ngModel)]= "a.liquidCollateral" [ngModelOptions]="{standalone: true}"   class="form-control"> -->
+                                        </td>
+                                        <td>{{a.roi}}
+                                            <!-- <input type="text"  [(ngModel)]= "a.roi" [ngModelOptions]="{standalone: true}" (change)="rangecheck(a.roi)"  class="form-control"> -->
+                                        </td>
+                                        <!-- <td> 
+                                            <i class="fa fa-trash fa-2x pointer" style="color:#fc120e; border-color: transparent;" (click)="trasher(i)"></i>
+                                        </td> -->
+                                </tr>
+    
+                                </tbody>
+                                </table>
+                                <!-- <button class ="btn btn-success" *ngIf="borrowerLoanTenureType=='2'||borrowerROIType=='2'" (click)="borrowerROIAddrow()">Add</button> -->
+                            </div>
+                            </div>
+                            </div>
+                <!-- Benificary start -->
+
+                <div class="row">
+                    <div class="col-6">
+                        <h4>Benificary Setup</h4>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:5%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th>Benificary</th>
+                                    <th>FINAGG Pay</th>
+                                    <th>FINAGG Share Type</th>
+                                    <th>FINAGG Share Value</th>
+                                </tr>
+                                <tr *ngFor="let ben of beneficiaryDynamic; let z = index;">
+                                    <ng-container *ngFor="let b of beneficiaryList">
+                                        <ng-template [ngIf]="ben.beneficiaryTypeId==b.id">
+                                            <td>{{b.name}}</td>
+                                        </ng-template>
+                                    </ng-container>
+                                    <td>
+                                        <ng-template [ngIf]="ben.finaggPay=='1'">
+                                            <label>Yes</label>
+                                        </ng-template>
+                                        <ng-template [ngIf]="ben.finaggPay=='0'">
+                                            <label>No</label>
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        <ng-template [ngIf]="ben.finaggShareType=='1'">
+                                            <label>Percentage</label>
+                                        </ng-template>
+                                        <ng-template [ngIf]="ben.finaggShareType=='2'">
+                                            <label>Flat Amount</label>
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        {{ben.finaggShareValue}}
+                                    </td>
+
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Benificary start -->
+
+                <!-- repayment Setup start -->
+
+                <div class="row" style="margin-top: 10%;">
+                    <div class="col-6">
+                        <h4>Repayment Setup</h4>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:5%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Setup Type</th>
+                                        <th>priority</th>
+                                        <th>Repayment Type</th>
+                                        <th>FINAGG Pay</th>
+                                        <th>FINAGG Share Type</th>
+                                        <th>FINAGG Share Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dynamic of repaymentDynamic; let i = index;">
+                                        <td>{{i + 1}}</td>
+                                        <td>
+                                            {{dynamic.setupType}}
+                                        </td>
+                                        <td>
+                                            <ng-template [ngIf]="dynamic.priority=='1'">
+                                                <label>priority 1</label>
+                                            </ng-template>
+                                            <ng-template [ngIf]="dynamic.priority=='2'">
+                                                <label>priority 1</label>
+                                            </ng-template>
+                                            <ng-template [ngIf]="dynamic.priority=='3'">
+                                                <label>priority 3</label>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <ng-container *ngFor="let r of repaymentList">
+                                                <ng-template [ngIf]="dynamic.repaymentTypeId==r.id">
+                                                    <td>{{r.name}}</td>
+                                                </ng-template>
+                                            </ng-container>
+
+                                        </td>
+                                        <td>
+                                            <ng-template [ngIf]="dynamic.finaggPay=='1'">
+                                                <label>Yes</label>
+                                            </ng-template>
+                                            <ng-template [ngIf]="dynamic.finaggPay=='0'">
+                                                <label>No</label>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <ng-template [ngIf]="dynamic.finaggPay=='1'">
+                                                <label>Percentage</label>
+                                            </ng-template>
+                                            <ng-template [ngIf]="dynamic.finaggPay=='2'">
+                                                <label>Flat Amount</label>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            {{dynamic.finaggShareValue}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- repayment Setup end -->
+                <!-- program  Limit start -->
+
+                <div class="row" style="margin-top: 10%;">
+                    <div class="col-6">
+                        <h4>Program Limit</h4>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top:5%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Company Type</th>
+                                        <th>Min Limit</th>
+                                        <th>Max Limit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let dynamic of programLimitDynamic; let i = index;">
+                                        <td>{{i + 1}}</td>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="dynamic.companyTypeId" name="companyTypeId_{{i}}" style="width: 240px;" [disabled]="true">
+                        <option *ngFor="let c of companyTypeList" [value]="c.id">{{c.name}}</option>
+                      </select>
+                                        </td>
+                                        <td>
+                                            {{indianCurrency(dynamic.minLimitAmount)}}
+                                        </td>
+                                        <td>
+                                            {{indianCurrency(dynamic.maxLimitAmount)}}
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- repayment Setup end -->
+                <!-- smi details start-->
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-6">
+                        <h4><b>SMI</b> </h4>
+                    </div>
+                    <!-- <div class="col-6 text-right">
+                      <button type="button" class="btn btn-primary mb-2" (click)="programLimitAddRow()">Add</button>
+                    </div> -->
+                </div>
+                <div class="form-group" style="margin-top:1%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>TypeName</th>
+                                        <th>Process Name</th>
+                                        <th>Roi Type</th>
+                                        <th>Roi value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let s of smiList;let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{s.processName}}</td>
+                                        <td>{{s.typeName}}</td>
+                                        <td>
+                                            <span *ngIf="s.roiType==1">Lender Roi</span>
+                                            <span *ngIf="s.roiType==2">Borrower Roi</span>
+                                        </td>
+                                        <td>{{s.roi}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- smi details end-->
+                <!-- late fee charge start-->
+                <div class="row" style="margin-top: 1%;">
+                    <div class="col-4">
+                        <h4><b>Late Fee Charge</b> </h4>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:1%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Upto</th>
+                                        <th>Days</th>
+                                        <th>Charge Type</th>
+                                        <th>Charges</th>
+                                        <th>GST Percentage</th>
+                                        <th>Is Active</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let s of lateFeeList;let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{s.upto}}</td>
+                                        <td>{{s.days}}</td>
+                                        <td>{{s.typeId}}</td>
+                                        <td>{{s.charge}}</td>
+                                        <td>{{s.gstPercentage}}</td>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="s.isActive" name="isActive_{{i}}" style="width: 240px;" [disabled]="true">
+                                            <option [value]="0">In Active</option>
+                                        <option [value]="1">Active</option>
+                                        </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- late fee charge end-->
+                 <!-- custom config start-->
+                 <div class="row" style="margin-top: 1%;">
+                    <div class="col-4">
+                        <h4><b>Custom Config</b> </h4>
+                    </div>
+                    <!-- <div class="col-2 text-right">
+                        <button type="button" class="btn btn-primary mb-2" (click)="customAddRow()">Add</button>
+                    </div> -->
+                </div>
+                <div class="form-group" style="margin-top:1%;">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>SNo</th>
+                                        <th>Param Name</th>
+                                        <th>Type</th>
+                                        <th>Value</th>
+                                        <th *ngIf="borrowerLoanTenureType=='2' || borrowerROIType=='2'">ROI</th>
+                                        <!-- <th>#</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let s of customConfigList;let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            {{s.paramName}}
+                                        </td>
+                                        <td>
+                                            <select class="form-control" [(ngModel)]="s.typeId" [disabled]="true" style="width: 140px;" name="typeId_{{i}}">
+                                                <option *ngFor="let t of dataType" [value]="t.id">{{t.name}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            {{s.value}}
+                                        </td>
+                                        <td *ngIf="borrowerLoanTenureType=='2' || borrowerROIType=='2'">
+                                            <span *ngIf="s.paramName=='rateChartCode'">
+                                                {{s.roi}}
+                                                <!-- <select class="form-control" [(ngModel)]="s.roi" [disabled]="true" style="width: 140px;" name="roi_{{i}}">
+                                                    <option *ngFor="let t of borrowerROIList" [value]="t.roi">{{t.roi}}
+                                                    </option>
+                                                </select> -->
+                                            </span>
+                                            <span *ngIf="s.paramName!='rateChartCode'">
+                                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                                            </span>
+                                        </td>
+                                        <!-- <td>
+                                            <button type="button" (click)="deleteCustomConfig(i)" class="btn">
+                                                <i class="fa fa-trash fa-2x" style="color: #fc120e;"></i>
+                                            </button>
+                                        </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- custom config end-->
+                <!-- <div class="row" style="margin-top: 1%;">
+                    <div class="col-6">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td><h4> Copy Rule From</h4></td>
+
+                                <td class="col-4 text-right">
+                                    <select class="form-control" id="copyRulesFrom" required
+                                        [(ngModel)]="program.copyRulesFrom" name="copyRulesFrom" disabled="true" >
+                                  
+                                        <option *ngFor="let pl of programfilter " [value]="pl.id">{{pl.name}}
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div> -->
+                <br>
+                <br>
+                <button (click)="list()" class="btn btn-primary">Back to List</button><br>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

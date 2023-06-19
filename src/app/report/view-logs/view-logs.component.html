@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h3>Audit Trail</h3>
+                    </div>
+                </div>
+                <hr />
+                <div class="row mt-2">
+                    <div class="search-hero">
+                        <input class="form-control" type="text" name="search" [(ngModel)]="searchList" autocomplete="off" placeholder="&#61442; Start searching " (ngModelChange)="p=1;">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>S.No</th>
+                                    <th>Status</th>
+                                    <th>Substatus</th>
+                                    <th>User</th>
+                                    <th>Time</th>
+                                    <th>Remarks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let l of log | filter:searchList | paginate: { itemsPerPage: p1, currentPage: p }; let i = index">
+                              
+                                     <td>{{((p-1)*p1)+i+1}}</td>
+                                    <td>{{l.statusName}}</td>
+                                    <td>{{l.substatusName}}</td>
+                                    <td>{{l.createdBy}}</td>
+                                    <td>{{l.createdOn}}</td>
+                                    <td>{{l.remarks}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <button class="btn btn-primary float-right" (click)="toLoanlist()">To Loan list</button>
+                        <button class="btn btn-primary float-right" (click)="toMylist()">To Mylist</button>
+
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</div>

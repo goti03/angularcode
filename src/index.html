@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" oncontextmenu="return false">
+
+<head>
+    <base href="./">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta http-equiv="Content-Security-Policy" 
+    content=" frame-src ; ">
+    <!-- <meta http-equiv="Content-Security-Policy" 
+    content="default-src 'none';  frame-src 'self';  script-src 'self';
+        style-src 'self' 'unsafe-inline';  font-src 'self';  img-src 'self' data:;  connect-src 'self'"> -->
+    <!-- <title id="title">JSFB SCF</title>
+    <title id="title">FinAgg ::: Quick cash flow</title> -->
+    <title id="title">Portal</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/finagg-logo.png">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+    <!-- encryption & decryption Script start-->
+    <script type="text/javascript" src="assets/js/captcha.js"></script>
+    <script type="text/javascript" src="assets/js/aes.js"></script>
+ 
+    <script type="text/javascript" src="assets/js/pbkdf2.js"></script>
+    <script type="text/javascript" src="assets/js/AesUtil.js"></script>
+    <!-- <script src='https://www.google.com/recaptcha/api.js?onload=recaptchaOnload&render=explicit' async defer></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js"></script>
+    <!-- encryption & decryption Script end-->
+</head>
+
+<body class="card-no-border">
+
+    <app-root>
+
+    </app-root>
+    <script src="assets/js/fontawesome.js"></script>
+</body>
+
+</html>
+
+<script language="javascript">
+
+
+	
+if (self == top) {
+    var theBody = document.getElementsByTagName('body')[0]
+    theBody.style.display = "block"
+    // theBody.style.display = "none"
+} else {
+    // top.location = self.location
+    var theBody = document.getElementsByTagName('body')[0]
+    // theBody.style.display = "block"
+    theBody.style.display = "none"
+}
+
+    document.onkeydown = function (e) {
+        if (event.keyCode == 123) {
+            return false;
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+            return false;
+        }
+        // if (e.ctrlKey && e.keyCode == 'V'.charCodeAt(0)) {
+        //     return false;
+        // }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+        }
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+            return false;
+        }
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            return false;
+        }
+        // if(e.shiftKey&&event.keyCode==188||e.shiftKey&&event.keyCode==190||event.keyCode==220)
+        // {
+        //     return false;
+        // }
+    }
+</script>

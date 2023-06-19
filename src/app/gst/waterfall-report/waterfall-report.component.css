@@ -1,0 +1,36 @@
+table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+  }
+  
+  th {
+      border:  1px solid black;
+  }
+  
+  td:empty:after {
+    content: "\00a0"; /* HTML entity of &nbsp; */
+  }
+
+  .search-hero {
+    max-width: 500px;
+    padding-bottom: 50px;
+    margin:auto;
+  }
+
+  
+  .form-control {
+    box-shadow: 0 10px 40px 0 #B0C1D9;
+  }
+  .form-control::placeholder  {
+    font-family: FontAwesome;
+  }
+  
+.fa-file-pdf-o{
+  font-size: 50px;
+  color: red;
+}
+.fa-file-excel-o{
+  font-size: 50px;
+  color: green;
+}

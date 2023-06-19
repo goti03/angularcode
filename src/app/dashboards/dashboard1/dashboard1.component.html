@@ -1,0 +1,1454 @@
+<!-- <div class="card" [hidden]="false">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div>
+                    <table>
+                        <tbody>
+                            <td>Program :</td>
+                            <td>{{programName}}</td>
+                            <td>Brand :</td>
+                            <td>{{brandName}}</td>
+                            <td>Over Due</td>
+                            <td>{{overDue}}</td>
+                            <td>Dealer / Retailer</td>
+                            <td>{{orgName}}</td>
+                            <td>Start Date</td>
+                            <td>{{startDate}}</td>
+                            <td>End Date</td>
+                            <td>{{endDate}}</td>
+                        </tbody>
+                        <tbody>
+                            <td>
+                                <mat-slide-toggle [(ngModel)]="filterTable">
+                                    Add Filter
+                                </mat-slide-toggle>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+                <table [hidden]="filterTable" class="table table-striped">
+                    <tr>
+                        <td>Program</td>
+                        <td>
+                            <select class="form-control" name="programId" id="programId" [(ngModel)]="programId"
+                                style="width: 240px;">
+                                <option [value]="'programId'">All</option>
+                                <option *ngFor="let p of programList" [value]="p.id">{{p.name}}</option>
+                            </select>
+                        </td>
+                        <td>Brand</td>
+                        <td>
+                            <select class="form-control" name="brandId" id="brandId" [(ngModel)]="brandId"
+                                style="width: 240px;">
+                                <option [value]="'brandId'">All</option>
+                                <option *ngFor="let b of brandList" [value]="b.brandId">{{b.brandName}}</option>
+                            </select>
+                        </td>
+                        <td>Over Due</td>
+                        <td>
+                            <select class="form-control" name="overDue" id="overDue" [(ngModel)]="overDue"
+                                style="width: 240px;">
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Dealer / Retailer</td>
+                        <td>
+                            <select class="form-control" name="orgId" id="orgId" [(ngModel)]="orgId"
+                                style="width: 240px;">
+                                <option [value]="'orgId'">All</option>
+                                <option *ngFor="let a of retailerList" [value]="a.orgId">{{a.orgName}}</option>
+                            </select>
+                        </td>
+                        <td>Start Date</td>
+                        <td>
+                            <input type="date" class="form-control" style="width: 240px;" [(ngModel)]="startDate"
+                                placeholder="dd-mm-yyyy" id="startDate" name="startDate">
+                        </td>
+                        <td>End Date</td>
+                        <td>
+                            <input type="date" class="form-control" placeholder="dd-mm-yyyy" id="endDate"
+                                [(ngModel)]="endDate" name="endDate" style="width: 240px;" />
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="6" style="text-align: center;">
+                            <button (click)="submit()" href="/images/myw3schoolsimage.jpg" download
+                                class="btn btn-primary mb-2" style="margin-left: 6px"><i
+                                    class="fa fa-submit"></i>Submit</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> -->
+
+<div class="card">
+    <div class="card-body">
+        <div class="row" *ngIf="roleId==3||roleId==1||roleId==2">
+            <div class="col-lg-2">
+                <p><label>Select Brand </label></p>
+            </div>
+            <div class="col-lg-10">
+                <select id="orgId" name="orgId" class="form-control" [(ngModel)]="orgId" (change)="resetOrgId()">
+                    <option *ngFor="let b of dashboardBrandList" [value]="b.orgId">{{b.orgName}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <!-- Column -->
+    <div class="col-lg-3">
+        <div class="card card-inverse card-success">
+            <div class="card-body">
+                <div class=" ">
+                    <button class="btn btn-success" (click)="inprogressRetailers(inprogressRetailer)">
+                        <i class="fa fa-id-card fa-2x text-white"></i>
+                    </button>
+                    <p class="text-white">In Progress Retailers</p>
+                    <h3 class="text-white font-light">No.of Nodes In Progress
+                        <span class="font-bold">{{inProgress}}</span>
+                    </h3>
+                    <div class="text-white m-t-20">
+                        <!-- <i>- as on date</i> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-lg-3">
+        <div class="card card-inverse card-info">
+            <div class="card-body">
+                <div class="">
+                    <button class="btn btn-info" (click)="approvedRetailers(approvedRetailer)">
+                        <i class="fa fa-university fa-2x text-white"></i>
+                    </button>
+                    <p class="text-white">Approved Retailers</p>
+                    <h3 class="text-white font-light">No.of Nodes Approved
+                        <span class="font-bold">{{approved}}</span>
+                    </h3>
+                    <div class="text-white m-t-20">
+                        <!-- <i>- 100% onboarded</i> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <!-- Column -->
+    <div class="col-lg-3">
+        <div class="card card-inverse card-warning">
+            <div class="card-body">
+                <div class="">
+                    <button class="btn btn-warning" (click)="notonboardedRetailers(notOnboardedRetailer)">
+                        <i class="fa fa-hourglass fa-2x text-white"></i>
+                    </button>
+                    <p class="text-white">Not Onboarded</p>
+                    <h3 class="text-white font-light"> Not Onboarded
+                        <span class="font-bold">{{notOnboarded}}</span>
+                    </h3>
+                    <div class="text-white m-t-20">
+                        <!-- <i>- 0% to be onboarded</i> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="card card-inverse card-danger">
+            <div class="card-body">
+                <div class="">
+                    <button class="btn btn-danger" (click)="rejectedRetailers(rejectedRetailer)">
+                        <i class="fa fa-close fa-2x text-white"></i>
+                    </button>
+                    <p class="text-white">Rejected </p>
+                    <h3 class="text-white font-light">No.of Nodes Rejected
+                        <span class="font-bold">{{rejected}}</span>
+                    </h3>
+                    <div class="text-white m-t-20">
+                        <!-- <i>- 0% to be onboarded</i> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Column -->
+    <!-- Column -->
+
+</div>
+<!-- Row -->
+
+<!-- ============================================================== -->
+<!-- Start Page Content -->
+<!-- ============================================================== -->
+<div class="row">
+    <div class="col-12">
+        <!-- You can find this in the dashboard-component -->
+        <!-- <app-project-counter></app-project-counter> -->
+        <div class="card-group m-b-30">
+            <!-- <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="m-b-0">
+                                <i class="mdi mdi-shopping text-info"></i>
+                            </h2>
+                            <h3>INR &nbsp;</h3>
+                            <h6 class="card-subtitle">Paid Invoices In This Month</h6>
+                        </div>
+                        <div class="col-12">
+                            <ngb-progressbar [showValue]="true" type="info" [value]="0"></ngb-progressbar>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="m-b-0">
+                                <i class="mdi mdi-briefcase-check text-info"></i>
+                            </h2>
+                            <!-- <div *ngFor="let invoice of invoiceList; let i = index"> -->
+                            <!-- <h3 class="" *ngIf="i == 0"> -->
+                            <h3>
+                                INR &nbsp;{{mtdDisburesedInvoicesAmount}} &nbsp;({{mtdDisburesedInvoices}}/{{mtdTotalInvoices}})
+                            </h3>
+                            <!-- </div>      -->
+
+                            <h6 class="card-subtitle">MTD Paid Invoices</h6>
+                        </div>
+                        <div class="col-12">
+                            <ngb-progressbar [showValue]="true" type="info" [value]="mtdPaidPB"></ngb-progressbar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <!-- Column -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="m-b-0">
+                                <i class="mdi mdi-alert-circle text-success"></i>
+                            </h2>
+                            <!-- <div *ngFor="let invoice of invoiceList; let i = index"> -->
+                            <h3>
+                                INR &nbsp;{{mtdNewInvoicesAmount}} &nbsp;({{mtdNewInvoices}}/{{mtdTotalInvoices}})
+                            </h3>
+                            <!-- </div> -->
+                            <h6 class="card-subtitle">MTD Pending Invoices</h6>
+                        </div>
+                        <div class="col-12">
+                            <ngb-progressbar [showValue]="true" type="success" [value]="mtdPendingPB"></ngb-progressbar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <!-- Column -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="m-b-0">
+                                <i class="mdi mdi-wallet text-purple"></i>
+                            </h2>
+                            <h3 class="">
+                                INR&nbsp;{{ytdDisburesedInvoicesAmount}}&nbsp;({{ytdDisburesedInvoices}}/{{ytdTotalInvoices}})
+                            </h3>
+                            <h6 class="card-subtitle">YTD Paid Invoice </h6>
+                        </div>
+                        <div class="col-12">
+                            <ngb-progressbar [showValue]="true" type="primary" [value]="ytdPaidPB"></ngb-progressbar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Column -->
+            <!-- Column -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h2 class="m-b-0">
+                                <i class="mdi mdi-buffer text-warning"></i>
+                            </h2>
+                            <h3 class="">
+                                INR&nbsp;{{ytdNewInvoicesAmount}}&nbsp;({{ytdNewInvoices}}/{{ytdTotalInvoices}})</h3>
+                            <h6 class="card-subtitle">YTD Pending Invoices </h6>
+                        </div>
+                        <div class="col-12">
+                            <ngb-progressbar [showValue]="true" type="warning" [value]="ytdPendingPB"></ngb-progressbar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ============================================================== -->
+<!-- Report and Comments -->
+<!-- ============================================================== -->
+<!-- Row -->
+
+<!-- <div class="card"> -->
+
+<!-- You can find this in the dashboard-component -->
+<!-- <app-earning-report></app-earning-report> -->
+<div class="row">
+    <div class="">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row justify-content-center">
+                    <div class="col-3">
+                        <input class="form-control" type="text" name="search" [(ngModel)]="searchReportList" autocomplete="off" placeholder="&#61442;  Start searching " (ngModelChange)="p=1;">
+                    </div>
+                    <div class="col-2">     
+                        <a routerLink="loandisbursal" routerLinkActive="active" (click)="pdf()">
+                            <i class="fa fa-file-pdf-o " aria-hidden="true"></i>
+                        </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a routerLink="loandisbursal" routerLinkActive="active" (click)="excel()">
+                            <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <br>
+                <table class="table table-hover earning-box table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th colspan="2"> Node</th>
+                            <th align="center">Sales Person</th>
+                            <th align="center">Anchor Ref No</th>
+                            <th align="center">Beneficiary Details</th>
+                            <th align="right">Approved Limit</th>
+                            <th align="center" style="width: 120px;">Approved On</th>
+                            <th align="center">Available Limit </th>
+                            <th align="center">Post Available Limit </th>
+                            <th align="center">Excess Amount </th>
+                            <th>View Customer Invoice </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="showInvoiceListMSG">
+                            <td colspan="14"><span style="color: red;">{{invoiceListMsg}}</span></td>
+                        </tr>
+                        <tr *ngFor="let invoice of invoiceList; let i=index " class="ad">
+                            <td>{{i+1}}</td>
+                            <td>
+                                <span class="round round-success">
+                                        <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                                    </span>
+                            </td>
+                            <td>
+                                {{invoice.orgName}}<br> {{invoice.panNo}}/{{invoice.mobileNo}}
+                            </td>
+                            <td> {{invoice.salesPersonName}}/{{invoice.salesPersonMobileNo}}</td>
+                            <td> {{invoice.anchorRefNo}}</td>
+                            <td align="right" class="wordBreak"><a class="btn btn-link" style="color: rgb(4, 4, 236);" (click)="beneapi(benedetails,invoice.orgId)">View</a></td>
+                            <td align="right" class="wordBreak"> {{indianCurrency(invoice.approvedAmount)}}</td>
+                            <td align="center" class="wordBreak">{{invoice.approvedOn}}</td>
+                            <td align="right" class="wordBreak">{{indianCurrency(invoice.availableAmount)}}</td>
+                            <td align="right" class="wordBreak">{{indianCurrency(invoice.postAvailableAmount)}}</td>
+                            <td align="right" class="wordBreak">{{indianCurrency(invoice.excessAmount)}}</td>
+                            <td align="center" ><button class="label label-warning"  (click)="open(listViewSozhan,invoice.orgId)"  >view</button> </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- </div> -->
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+<!-- ============================================================== -->
+<!-- chart and stats -->
+<!-- ============================================================== -->
+<div class="row" [hidden]="true">
+    <!-- chart component -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-wrap m-b-30">
+                    <div>
+                        <h4 class="card-title">Monthly Trend</h4>
+                    </div>
+                    <div class="ml-auto">
+                        <ul class="list-inline">
+                            <li>
+                                <h6 class="text-muted text-success">
+                                    <i class="fa fa-circle font-10 m-r-10 "></i>Regular Pay</h6>
+                            </li>
+                            <li>
+                                <h6 class="text-muted  text-info">
+                                    <i class="fa fa-circle font-10 m-r-10"></i>FinAgg Paid</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="height:350px;">
+                    <canvas baseChart [datasets]="lineChartData" [labels]="lineChartLabels" [options]="lineChartOptions" [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType"> </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- other chart component -->
+    <div class="col-lg-4">
+        <div class="card card-inverse card-info">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="m-r-20 align-self-center">
+                        <h1 class="text-white">
+                            <i class="ti-light-bulb"></i>
+                        </h1>
+                    </div>
+                    <div>
+                        <h3 class="card-title">FinAgg Paid</h3>
+                        <h6 class="card-subtitle">2020-2021</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 align-self-center">
+                        <h2 class="font-light text-white">
+                            <!-- <sup>
+                                <small>
+                                    <i class="ti-arrow-up"></i>
+                                </small>
+                            </sup> -->
+                            INR 1,54,836.00</h2>
+                    </div>
+                    <div class="col-6 p-t-10 p-b-20 text-right">
+                        <div style="height: 84px; width: 100px">
+                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card card-inverse card-success">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="m-r-20 align-self-center">
+                        <h1 class="text-white">
+                            <i class="ti-pie-chart"></i>
+                        </h1>
+                    </div>
+                    <div>
+                        <h3 class="card-title">Regular Pay</h3>
+                        <h6 class="card-subtitle">2020-2021</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6 align-self-center">
+                        <h2 class="font-light text-white">INR 81,040.00</h2>
+                    </div>
+                    <div class="col-6 p-t-10 p-b-20 text-right">
+                        <div style="height: 84px; width: 100px">
+                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType">
+                            </canvas>
+                        </div>
+                    </div>
+                    <!-- <div class="col- ml-auto p-r-20">
+                        <canvas baseChart width="120px" height="120px" [data]="pieChartData" [labels]="pieChartLabels"
+                            [chartType]="pieChartType" [legend]="lineChartLegend"
+                            [colors]="[{backgroundColor: ['#1cadbf', '#1f5f67', '#ffffff'], borderColor:['#26dad2', '#26dad2', '#26dad2'] }]">
+                        </canvas>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Row -->
+<!-- ============================================================== -->
+<!-- Carousel widgets -->
+<!-- You can find this in the dashboard-component -->
+<!-- ============================================================== -->
+<!-- <social-slider></social-slider> -->
+<!-- ============================================================== -->
+<!-- <ng-template #totalInvoice let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Total Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ti of totalInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{ti.invoiceNo}}</td>
+                    <td>{{ti.invoiceDate}}</td>
+                    <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+
+<!-- <ng-template #finaggInvoice let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Finagg Paid Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
+                    <th>Disbursment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pi of totalPaidInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{pi.invoiceNo}}</td>
+                    <td>{{pi.invoiceDate}}</td>
+                    <td>{{indianCurrency(pi.invoiceAmount)}}</td>
+                    <td>{{pi.disbursmentDate}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #finaggInvoice let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Finagg Paid Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
+                    <th>Disbursment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pi of totalPaidInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{pi.invoiceNo}}</td>
+                    <td>{{pi.invoiceDate}}</td>
+                    <td>{{indianCurrency(pi.invoiceAmount)}}</td>
+                    <td>{{indianCurrency(pi.disbursmentDate)}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+<!-- <ng-template #pendingInvoice let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pending Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pe of totalPendingInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{pe.invoiceNo}}</td>
+                    <td>{{pe.invoiceDate}}</td>
+                    <td>{{indianCurrency(pe.invoiceAmount)}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #pendingInvoice let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pending Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Invoice Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pe of totalPendingInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{pe.invoiceNo}}</td>
+                    <td>{{pe.invoiceDate}}</td>
+                    <td>{{indianCurrency(pe.invoiceAmount)}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+
+<!-- <ng-template #pendingRepayment let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pending Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Request No</th>
+                    <th>Created On</th>
+                    <th>Outstanding Amount</th>
+                    <th>Outstanding Interest</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let re of repaymentInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{re.requestNo}}</td>
+                    <td>{{re.createdOn}}</td>
+                    <td>{{indianCurrency(re.outstandingAmount)}}</td>
+                    <td>{{re.outstandingInterest}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #pendingRepayment let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Pending Invoice List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Request No</th>
+                    <th>Created On</th>
+                    <th>Outstanding Amount</th>
+                    <th>Outstanding Interest</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let re of repaymentInvoiceList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{re.requestNo}}</td>
+                    <td>{{re.createdOn}}</td>
+                    <td>{{indianCurrency(re.outstandingAmount)}}</td>
+                    <td>{{re.outstandingInterest}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+
+<!-- <ng-template #inprogressRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Inprogress Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center"> Retailer</th>
+                    <th>Sales Person </th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ir of inprogressRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span></td>
+                    <td>{{ir.orgName}}<br>
+                        {{ir.panNo}}/{{ir.mobileNo}}</td>
+                    <td>{{ir.salesPerson}}/{{ir.salesPersonMobileNo}}</td>
+                    <td>{{ir.status}}</td>
+                    <td>{{ir.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #inprogressRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Inprogress Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center"> Retailer</th>
+                    <th>Sales Person </th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ir of inprogressRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span></td>
+                    <td>{{ir.orgName}}<br> {{ir.panNo}}/{{ir.mobileNo}}
+                    </td>
+                    <td>{{ir.salesPerson}}/{{ir.salesPersonMobileNo}}</td>
+                    <td>{{ir.status}}</td>
+                    <td>{{ir.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+
+<!-- <ng-template #approvedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Approved Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person</th>
+                    <th>Status</th>
+                    <th>approved On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ar of approvedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span>
+                    </td>
+                    <td>{{ar.orgName}}<br>
+                        {{ar.panNo}}/{{ar.mobileNo}}</td>
+                    <td>{{ar.salesPerson}}/{{ar.salesPersonMobileNo}}</td>
+                    <td>{{ar.status}}</td>
+                    <td>{{ar.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #approvedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Approved Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person</th>
+                    <th>Status</th>
+                    <th>approved On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ar of approvedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span>
+                    </td>
+                    <td>{{ar.orgName}}<br> {{ar.panNo}}/{{ar.mobileNo}}
+                    </td>
+                    <td>{{ar.salesPerson}}/{{ar.salesPersonMobileNo}}</td>
+                    <td>{{ar.status}}</td>
+                    <td>{{ar.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+
+<!-- <ng-template #notOnboardedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Not Onboarded Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person </th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pe of notOnboardedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span>
+                    </td>
+                    <td>{{pe.orgName}}
+                        <br>{{pe.panNo}}/{{pe.mobileNo}}</td>
+                    <td>{{pe.salesPerson}}/{{pe.salesPersonMobileNo}}</td>
+                    <td>{{pe.status}}</td>
+                    <td>{{pe.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #notOnboardedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Not Onboarded Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person </th>
+                    <th>Status</th>
+                    <th>Created On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pe of notOnboardedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span>
+                    </td>
+                    <td>{{pe.orgName}}
+                        <br>{{pe.panNo}}/{{pe.mobileNo}}
+                    </td>
+                    <td>{{pe.salesPerson}}/{{pe.salesPersonMobileNo}}</td>
+                    <td>{{pe.status}}</td>
+                    <td>{{pe.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+
+
+<!-- <ng-template #rejectedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Rejected Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person</th>
+                    <th>Status</th>
+                    <th>Rejected On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rr of rejectedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span></td>
+                    <td>{{rr.orgName}}<br>
+                        {{rr.panNo}}/{{rr.mobileNo}}
+                    </td>
+                    <td>{{rr.salesPerson}}/{{rr.salesPersonMobileNo}}</td>
+                    <td>{{rr.status}}</td>
+                    <td>{{rr.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template> -->
+<ng-template #rejectedRetailer let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Rejected Retailer List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" width="90%">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th colspan="2" align="center">Retailer</th>
+                    <th>Sales Person</th>
+                    <th>Status</th>
+                    <th>Rejected On</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rr of rejectedRetailerList; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><span class="round round-success">
+                            <img src="assets/images/users/user1.jpg" alt="user" width="50">
+                        </span></td>
+                    <td>{{rr.orgName}}<br> {{rr.panNo}}/{{rr.mobileNo}}
+                    </td>
+                    <td>{{rr.salesPerson}}/{{rr.salesPersonMobileNo}}</td>
+                    <td>{{rr.status}}</td>
+                    <td>{{rr.createdOn}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+
+<ng-template #benedetails let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Beneficiary Details</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row justify-content-around">
+            <div class="col-10">
+                <table class="table table-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Bank Details</th>
+                            <th>Beneficiary Details</th>
+                            <th>Document</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="benenodata" *ngIf="beneList.length == 0">
+                            <td colspan="4">
+                                No Data Available!
+                            </td>
+                        </tr>
+                        <tr *ngFor="let a of beneList | paginate: { itemsPerPage: 3, currentPage: p1 }; let i = index">
+                            <td>{{((p1-1)*3)+i+1}}</td>
+                            <td>
+                                <div style="width: 250px; font-size: 12px;" class="content">
+                                   Name - <span>{{a.bankName}}</span> <br />
+                                   Account No. - <span>{{a.accountNo}}</span> <br />
+                                   IFSCCODE - <span>{{a.ifscCode}}</span> <br />
+                                   Account Type - <span>{{a.accType}}</span> <br />
+                                   Account Holder - <span>{{a.bankAccountHolderName}}</span> 
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width: 250px; font-size: 12px;" class="content">
+                                   Name - <span>{{a.beneName}}</span> <br />
+                                   ID - <span>{{a.beneId}}</span> <br />
+                                   Mobile - <span>{{a.beneMobile}}</span> <br />
+                                   E-mail - <span>{{a.beneMail}}</span> <br />
+                                </div>
+                            </td>
+                            <td>
+                                <a class="btn btn-link" style="color: blue;" href="{{a.documentUrl}}" target="_blank" *ngIf="a.documentUrl; else nodoc">View</a>
+                                <ng-template #nodoc>
+                                    <div class="text-center">-</div>
+                                </ng-template>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p1 = $event"></pagination-controls>
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+<ng-template #listViewSozhan let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"  style="text-align:center;">customer view list</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive mt-3">
+            <table class="table table-striped table-bordered fin-custom-table fbig  " >
+                <thead>
+                    <tr>
+                        <th style="width:16.6%;">Total invoices|amount</th>
+                        <th style="width:16.6%;">UnFinancedInvoice | amount</th>
+                        <th style="width:16.6%;">Tranche-Open Invoices | amount</th>
+                        <th style="width:16.6%;">Tranche-Under Repayment Invoices | amount</th>
+                        <th style="width:16.6%;">Tranche-Fully Paid Invoices|amount</th>
+                        <th style="width:16.6%;">Over Due Invoices |amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor ="let i of invoiceLista">
+                        <td>{{i.totalInvoices}}|{{indianCurrency(i.totalInvoiceAmount)}}</td>
+                        <td>{{i.UnFinancedInvoices}}|{{indianCurrency(i.UnFinancedInvoiceAmount)}}</td>
+                        <td>{{i.TrancheOpenInvoices}}|{{indianCurrency(i.TrancheOpenInvoiceAmount)}}</td>
+                        <td>{{i.TrancheRepayInvoices}}|{{indianCurrency(i.TrancheRepayInvoiceAmount)}}</td>
+                        <td>{{i.TrancheFullyInvoices}}|{{indianCurrency(i.TrancheFullyInvoiceAmount)}}</td>
+                        <td>{{i.overDueInvoices}}|{{indianCurrency(i.overDueInvoiceAmount)}}</td>
+                    </tr>
+                </tbody>
+                </table></div>
+
+        <mat-tab-group    (selectedTabChange)= "onNewtabClick($event)" mat-align-tabs="center" >
+            <mat-tab label="Total Invoices" >
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered"  width="90%">
+                        <thead>
+                            <tr>
+                                <th>Sno</th>
+                                <th>Invoice No</th>
+                                <th>Invoice Date</th>
+                                <th>Invoice Amount</th>
+                                <th>GRN Date</th>
+                                <th>Actual Due Date</th>
+                                <th>Financed Amount</th>
+                                <th>Disbursement Amount</th>
+                                <th>Disbursement Date</th>
+                                <th>System Date</th>
+                                <th>Tenure</th>
+                                <th>Funding Status</th>
+                                <th>Paid Status</th>
+                                <th>Front End Interest</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let ti of totaldInvoiceList; let i=index;">
+                                <td>{{i+1}}</td>
+                                <td>{{ti.invoiceNo}}</td>
+                                <td class="wordBreak">{{ti.invoiceDate}}</td>
+                                <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                                <td class="wordBreak">{{ti.grnDate}}</td>
+                                <td class="wordBreak">{{ti.DUE_Date}}</td>
+                                <td class="wordBreak">{{indianCurrency(ti.financedAmount)}}</td>
+                                <td>{{ti.disbursableAmount}}</td>
+                                <td class="wordBreak">{{ti.disbursalDate}}</td>
+                                <td class="wordBreak">{{ti.createdOn}}</td>
+                                <td>{{ti.Tenor}}</td>
+                                <td>
+                                    <ng-container *ngIf="ti.fundingStatus=='InProgress'"><span class="label label-warning text-color">{{ti.fundingStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.fundingStatus=='Partially Financed'"><span class="label label-warning text-color">{{ti.fundingStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.fundingStatus=='Fully Financed'"><span class="label label-success text-color">{{ti.fundingStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.fundingStatus=='UnFinanced'"><span class="label label-danger text-color">{{ti.fundingStatus}}</span></ng-container>
+                                </td>
+                                <td>
+            
+                                    <ng-container *ngIf="ti.paidStatus=='Pending'"><span class="label label-primary text-color">{{ti.paidStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.paidStatus=='Fully Paid'"><span class="label label-success text-color">{{ti.paidStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.paidStatus=='Partially Paid'"><span class="label label-info text-color">{{ti.paidStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.paidStatus=='Due'"><span class="label label-warning text-color">{{ti.paidStatus}}</span></ng-container>
+                                    <ng-container *ngIf="ti.paidStatus=='OverDue'"><span class="label label-danger text-color">{{ti.paidStatus}}</span></ng-container>
+                                </td>
+                                <td>{{ti.frontEndInterest}}</td>
+                            </tr>
+                        </tbody>
+            
+                    </table>
+                </div>
+                </mat-tab>
+                <mat-tab label="UnFinanced Invoices"  >
+                    <div class="modal-body">
+                        <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="90%" >
+                            <thead>
+                                <tr class="ad">
+                                    <th>Sno</th>
+                                    <th>Invoice No</th>
+                                    <th>Invoice Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th>GRN Date</th>
+                                    <th>Actual Due Date</th>
+                                    <th>Financed Date</th>
+                                    <th>Paid Status</th>
+                                    <th>Funding Status</th>
+                                    <th>Tenure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="showAnger" style="color: red; text-align: center;">
+                                    <td colspan="100">
+                                        Oh no! There are no invoices here!
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let ti of undfinancedInvoiceList; let i=index;" class="ad" >
+
+                                    <td>{{i+1}}</td>
+                                    <td>{{ti.invoiceNo}}</td>
+                                    <td>{{ti.invoiceDate}}</td>
+                                    <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                                    <td>{{ti.grnDate}}</td>
+                                    <td>{{ti.DUE_Date}}</td>
+                                    <td>{{ti.FinancedDate}}</td>
+                                    <td>
+                                        <ng-container *ngIf="ti.paidStatus=='Pending'"><span class="label label-primary text-color">{{ti.paidStatus}}</span></ng-container>
+                                        <ng-container *ngIf="ti.paidStatus=='Fully Paid'"><span class="label label-success text-color">{{ti.paidStatus}}</span></ng-container>
+                                        <ng-container *ngIf="ti.paidStatus=='Partially Paid'"><span class="label label-info text-color">{{ti.paidStatus}}</span></ng-container>
+                                        <ng-container *ngIf="ti.paidStatus=='Due'"><span class="label label-warning text-color">{{ti.paidStatus}}</span></ng-container>
+                                        <ng-container *ngIf="ti.paidStatus=='OverDue'"><span class="label label-danger text-color">{{ti.paidStatus}}</span></ng-container>
+                                    </td>
+                                    <td>
+                                        <ng-container *ngIf="ti.fundingStatus=='Partially Financed'"><span class="label label-warning text-color">{{ti.fundingStatus}}</span></ng-container>
+                                        <ng-container *ngIf="ti.fundingStatus=='Fully Financed'"><span class="label label-success text-color">{{ti.fundingStatus}}</span></ng-container>
+                                        <ng-container *ngIf="ti.fundingStatus=='UnFinanced'"><span class="label label-danger text-color">{{ti.fundingStatus}}</span></ng-container>
+                                    </td>
+                                    <td>{{ti.Tenor}}</td>
+                                </tr>
+                            </tbody>
+                
+                        </table>
+                        </div>
+                    </div>
+
+                </mat-tab >
+                <mat-tab label="Tranche-Open Invoices">
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered" width="90%">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Invoice No</th>
+                                    <th>Invoice Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th>GRN Date</th>
+                                    <th>Actual Due Date</th>
+                                    <th>Financed Date</th>
+                                    <th>Financed Amount</th>
+                                    <th>Tenure</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="showAnger2" style="color: red; text-align: center;">
+                                    <td colspan="100">
+                                        Oh no! There are no invoices here!
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let ti of tranchOpendInvoiceList; let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{ti.invoiceNo}}</td>
+                                    <td>{{ti.invoiceDate}}</td>
+                                    <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                                    <td>{{ti.grnDate}}</td>
+                                    <td>{{ti.DUE_Date}}</td>
+                                    <td>{{ti.FinancedDate}}</td>
+                                    <td>{{indianCurrency(ti.financedAmount)}}</td>
+                                    <td>{{ti.Tenor}}</td>
+                                </tr>
+                            </tbody>
+                
+                        </table>
+                
+                    </div>
+                </mat-tab><mat-tab label="Tranche-Under Repayment Invoices">
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered" width="90%">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Invoice No</th>
+                                    <th>Invoice Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th>GRN Date</th>
+                                    <th>Actual Due Date</th>
+                                    <th>Financed Amount</th>
+                                    <th>Disbursement Amount</th>
+                                    <th>Disbursement Date</th>
+                                    <th>Tranch No</th>
+                                    <th>Tranch Repay Amount</th>
+                                    <th>Tenure</th>
+                                    <th>Last Paid Date</th>
+                                    <th>Paid Amount</th>
+                                    <th>Front End Interest</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="showAnger3" style="color: red; text-align: center;">
+                                    <td colspan="100">
+                                        Oh no! There are no invoices here!
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let ti of tranchdRepayInvoiceList; let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{ti.invoiceNo}}</td>
+                                    <td>{{ti.invoiceDate}}</td>
+                                    <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                                    <td>{{ti.grnDate}}</td>
+                                    <td>{{ti.DUE_Date}}</td>
+                                    <td>{{indianCurrency(ti.financedAmount)}}</td>
+                                    <td>{{ti.disbursableAmount}}</td>
+                                    <td>{{ti.disbursalDate}}</td>
+                                    <td>{{ti.tranchNo}}</td>
+                                    <td>{{indianCurrency(ti.RepayAmount)}}</td>
+                                    <td>{{ti.Tenor}}</td>
+                                    <td>{{ti.LastPaidDate}}</td>
+                                    <td>{{indianCurrency(ti.PaidAmount)}}</td>
+                                    <td>{{ti.frontEndInterest}}</td>
+                                </tr>
+                            </tbody>
+                
+                        </table>
+                
+                    </div>
+                </mat-tab><mat-tab label="Tranche-Fully Paid Invoices">
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered" width="90%">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Invoice No</th>
+                                    <th>Invoice Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th>GRN Date</th>
+                                    <th>Review Due Date</th>
+                                    <th>Financed Amount</th>
+                                    <th>Disbursement Amount</th>
+                                    <th>Disbursement Date</th>
+                                    <th>Financed Date</th>
+                                    <th>Tranch No</th>
+                                    <th>Tranch Repay Amount</th>
+                                    <th>Last Paid Date</th>
+                                    <th>Tenure</th>
+                                    <th>Paid Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="showAnger4" style="color: red; text-align: center;">
+                                    <td colspan="100">
+                                        Oh no! There are no invoices here!
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let ti of tranchdFullyInvoiceList; let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{ti.invoiceNo}}</td>
+                                    <td>{{ti.invoiceDate}}</td>
+                                    <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                                    <td>{{ti.grnDate}}</td>
+                                    <td>{{ti.DUE_Date}}</td>
+                                    <td>{{indianCurrency(ti.financedAmount)}}</td>
+                                    <td>{{ti.disbursableAmount}}</td>
+                                    <td>{{ti.disbursalDate}}</td>
+                                    <td>{{ti.FinancedDate}}</td>
+                                    <td>{{ti.tranchNo}}</td>
+                                    <td>{{indianCurrency(ti.RepayAmount)}}</td>
+                                    <td>{{ti.LastPaidDate}}</td>
+                                    <td>{{ti.Tenor}}</td>
+                                    <td>{{indianCurrency(ti.PaidAmount)}}</td>
+                                </tr>
+                            </tbody>
+                
+                        </table>
+                
+                    </div>
+                </mat-tab><mat-tab label="Over Due Invoices">
+                    <div class="modal-body">
+                        <table class="table table-striped table-bordered" width="90%">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Invoice No</th>
+                                    <th>Invoice Date</th>
+                                    <th>Invoice Amount</th>
+                                    <th>GRN Date</th>
+                                    <th>Actual Due Date</th>
+                                    <th>Financed Amount</th>
+                                    <th>Disbursement Amount</th>
+                                    <th>Disbursement Date</th>
+                                    <th>Financed Date</th>
+                                    <th>Tranch No</th>
+                                    <th>Tranch Repay Amount</th>
+                                    <th>Paid Amount</th>
+                                    <th>Last Paid Date</th>
+                                    <th>Tenure</th>
+                                    <th>Over Due By Days</th>
+                                    <th>Front End Interest</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="showAnger5" style="color: red; text-align: center;">
+                                    <td colspan="100">
+                                        Oh no! There are no invoices here !
+                                    </td>
+                                </tr>
+                                <tr *ngFor="let ti of overDuedInvoiceList; let i=index;">
+                                    <td>{{i+1}}</td>
+                                    <td>{{ti.invoiceNo}}</td>
+                                    <td>{{ti.invoiceDate}}</td>
+                                    <td>{{indianCurrency(ti.invoiceAmount)}}</td>
+                                    <td>{{ti.grnDate}}</td>
+                                    <td>{{ti.DUE_Date}}</td>
+                                    <td>{{indianCurrency(ti.financedAmount)}}</td>
+                                    <td>{{ti.disbursableAmount}}</td>
+                                    <td>{{ti.disbursalDate}}</td>
+                                    <td>{{ti.FinancedDate}}</td>
+                                    <td>{{ti.tranchNo}}</td>
+                                    <td>{{indianCurrency(ti.RepayAmount)}}</td>
+                                    <td>{{indianCurrency(ti.PaidAmount)}}</td>
+                                    <td>{{ti.LastPaidDate}}</td>
+                                    <td>{{ti.Tenor}}</td>
+                                    <td>{{ti.OverDUeByDays}}</td>
+                                    <td>{{ti.frontEndInterest}}</td>
+                                </tr>
+                            </tbody>
+                
+                        </table>
+                
+                    </div>
+                </mat-tab>  
+                </mat-tab-group>
+    </div>
+   
+    </ng-template>
+

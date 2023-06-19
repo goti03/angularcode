@@ -1,0 +1,64 @@
+/* .container {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    color: #405065;
+  } */
+  
+  
+  #brandcolor th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #438494;
+    color: white;
+  }
+  td 
+{
+    height: 50px; 
+    width: 50px;
+}
+
+#cssTable td 
+{
+    text-align: center; 
+    vertical-align: middle;
+}
+  .search-hero {
+    max-width: 500px;
+    padding-bottom: 50px;
+    margin:auto;
+  }
+  
+  .form-control {
+    box-shadow: 0 10px 40px 0 #B0C1D9;
+  }
+  .fin-row {
+    --bs-gutter-x: 1.5rem;
+      --bs-gutter-y: 0;
+      display: block;
+      flex-wrap: wrap;
+  }
+  
+  .fin-card {
+    border:0px none;
+    border-radius:3px !important;
+    padding:15px;
+    background-color:#fff;
+    box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+      -webkit-box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+      -moz-box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+      -ms-box-shadow: 0 5px 20px rgb(0 0 0 / 5%);
+    
+  }
+  
+  .form-control::placeholder  {
+    font-family: FontAwesome;
+  }
+  .fa-file-pdf-o{
+    font-size: 50px;
+    color: red;
+}
+.fa-file-excel-o{
+    font-size: 50px;
+    color: green;
+}

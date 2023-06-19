@@ -1,0 +1,50 @@
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="content-wrapper d-flex align-items-center auth px-0">
+      <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+          <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+            <div class="brand-logo text-center">
+              <img src="assets/images/login-logo.png" alt="logo">
+            </div>
+            <h4 class="text-center">Get Hassle-free finance in just <br>2 simple steps</h4>
+            <h4 class="text-center" style="color:red;">{{errormsg}}</h4>
+            <h4 class="text-center" style="color: blue;">{{errosmsg}}</h4>
+            <form class="pt-3">
+              <div class="form-group">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="gsts"
+                  [ngModelOptions]="{standalone: true}" maxlength="15" placeholder="*GSTN number"
+                  (keypress)="alphanumkeyPress($event)" style="text-transform: uppercase;">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="names"
+                  [ngModelOptions]="{standalone: true}" placeholder="Company Name">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="pins"
+                  [ngModelOptions]="{standalone: true}" placeholder="PIN Code of Business Location"
+                  (keypress)="keyPress($event)" maxlength="6">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="credits"
+                  [ngModelOptions]="{standalone: true}" placeholder="Amount of Credit Line Required"
+                  (keypress)="keyPress($event)">
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control form-control-sm" [(ngModel)]="turnovers"
+                  [ngModelOptions]="{standalone: true}" placeholder="Business Turnover" (keypress)="keyPress($event)">
+              </div>
+              <div class="mt-2">
+                <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" (click)="submit()"
+                  href="#">Apply Now</button>
+              </div>
+             
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>

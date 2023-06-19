@@ -1,0 +1,166 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>#</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h2>Upload Nach Form</h2>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table table-striped" >
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th></th>
+                                    <th>Bank Name</th>
+                                    <th>Account Type</th>
+                                    <th>Account No</th>
+                                    <th>Account Holder Name</th>
+                                    <th>IFSC Code</th>
+                                    <th>Upload File</th>
+                                    <th>Nach Download</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                   <td>1</td>
+                                   <td></td>
+                                   <td>
+                                       <input class="form-control" style="width: 150px;" name="branchName" [(ngModel)]="nachDataautoload.bankName" readonly>
+                                   </td>
+                                   <td>
+                                    <input class="form-control" style="width: 150px;" name="accountType" [(ngModel)]="nachDataautoload.accountType" readonly>   
+                                    </td>
+                                <td>
+                                    <input class="form-control" style="width: 150px;" name="accountNo" [(ngModel)]="nachDataautoload.accountNo" readonly>
+                                   </td>
+                                   <td>
+                                    <input class="form-control" style="width: 150px;" name="accHolderName" [(ngModel)]="nachDataautoload.accountHolderName" readonly> 
+                                   </td>
+                                   <td>
+                                    <input class="form-control" style="width: 150px;" name="ifscCode" [(ngModel)]="nachDataautoload.ifscCode" readonly>
+                                   </td>
+                                   <td>
+                                       <input type="file" name="file" id="file" (change)="fileChangeEvent($event)" style="width: 200px;" 
+                                        class="form-control" accept="image/jpeg">
+                                   </td>
+                                   <td align="center">
+                                     <span (click)="downloadNachForm()" class="pointer" style="font-size: xx-large;"><i class="fa fa-download"></i></span>
+                                   </td>
+                                 </tr>
+                            </tbody>
+                        </table>
+                        <div class="col text-center">
+                            <button type="button" style="height:35px;width:150px" class="btn btn-success mb-2"
+                                (click)="submit()" [disabled]="!submitButton">
+                              Submit
+                            </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <!-- <button type="button" style="height:35px;width:150px" class="btn btn-success mb-2"
+                                (click)="checkStatus()">
+                              CheckStatus
+                            </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+<button (click)="rotateLeft()" class="btn btn-info">Rotate left</button>&nbsp;  |&nbsp;  
+<button (click)="rotateRight()" class="btn btn-info">Rotate right</button> &nbsp; |&nbsp;  
+<button (click)="flipHorizontal()" class="btn btn-info">Flip horizontal</button> &nbsp; |&nbsp; 
+<button (click)="flipVertical()" class="btn btn-info">Flip vertical</button> | 
+<button (click)="toggleContainWithinAspectRatio()" class="btn btn-info">{{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within Aspect Ratio'}}</button>&nbsp; |&nbsp; 
+
+<button (click)="resetImage()" class="btn btn-success">Reset image</button> &nbsp; |&nbsp;  <input [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" />
+<button (click)="zoomOut()"  class="btn btn-success">Zoom -</button> &nbsp;  | &nbsp;  <button (click)="zoomIn()"  class="btn btn-success">Zoom +</button> <br/>
+<button mat-button (click)="open(mymodal)" class="btn btn-success">Crop Image</button>
+
+
+<div >
+    <image-cropper
+        [imageChangedEvent]="imageChangedEvent"
+        [maintainAspectRatio]="false"
+        [containWithinAspectRatio]="containWithinAspectRatio"
+        [aspectRatio]="0"
+        [resizeToWidth]="0"
+        [cropperMinWidth]="0"
+        [onlyScaleDown]="false"
+        [roundCropper]="false"
+        [imageQuality]="200"
+        [canvasRotation]="canvasRotation"
+        [transform]="transform"
+        [alignImage]="'center'"
+        [style.display]="showCropper ? null : 'none'"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded($event)"
+        (cropperReady)="cropperReady($event)"
+        (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+</div>
+
+
+
+<ng-template #mymodal let-modal>
+
+    <div class="modal-header">
+  
+      <h4 class="modal-title" id="modal-basic-title">Corp Image of NACH</h4>
+  
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+  
+        <span aria-hidden="true">×</span>
+  
+      </button>
+  
+    </div>
+  
+    <div class="modal-body">
+  
+     
+     <img src="data:image/jpeg;base64,{{croppedImage}}" />
+    </div>
+  
+    <div class="modal-footer">
+  Image Size={{kbytes}}   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+  
+    </div>
+  
+  </ng-template>
+  
+
+    </div>
+</div>
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()" ></app-action-tab>

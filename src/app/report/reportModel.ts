@@ -1,0 +1,53 @@
+export class ReportModel {
+  
+  email:string;
+  loanAmount:number;
+  customerName:string;
+  cusomertId:number;
+  loanReqId:number;
+  mobile:number;
+  approvalOn:Date;
+  compayName:string;
+  loanNo:string;
+  approvalStatus:string;
+  approvalBy:string;
+  createdOn:Date;
+  retailerName:string;
+  retailerAddress:string;
+  gstNo:string;
+  Dob:Date;
+  curAddress:string;
+  ApplicantName:string;
+  PanNo:string;
+  permanentAddress:string;
+  simtype:string;
+  address:string;
+  provider:string;
+  model:string;
+  documentId:String;
+  startDate:String;
+  endDate:String;
+  statusId:String;
+  reasonId:String;
+  remarks:String;
+  id:String;
+  resultStatus:String;
+  documentTypeId:String;
+  loanDisbursalId:String;
+  fileName:String;
+  substatusId:String;
+  userName:String;
+  password:String;
+  devUniqueId:String;
+  loginType:String;
+  token:String;
+  mobileNo:String;
+  sequenceNo:number;
+  accounttype:String;
+  bankName:String;
+  fileContent:String;
+  manualPass: number;
+  resultValue: String;
+  parameter1: String;
+
+}

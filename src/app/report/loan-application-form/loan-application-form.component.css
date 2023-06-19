@@ -1,0 +1,37 @@
+/* .form-control {
+    box-shadow: 0 10px 40px 0 #B0C1D9;
+  } */
+  .form-control::placeholder  {
+    font-family: FontAwesome;
+  }
+  .form-control::placeholder  {
+
+    font-family: FontAwesome;
+
+  }
+
+  .box-size{
+
+    width: 250px;
+
+  }
+
+  .pos-abs{
+
+    position: absolute;
+
+    right: -.5rem;
+
+  }
+
+  .pad-2{
+
+    padding: .3rem 0;
+
+  }
+
+  .input-group > .form-control{
+
+    flex: 0 !important;
+
+  }

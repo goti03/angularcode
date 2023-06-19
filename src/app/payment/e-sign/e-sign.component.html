@@ -1,0 +1,183 @@
+<div class="fin-row">
+    <div class="fin-card">
+        <div class="table-responsive">
+            <table class="table fin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="gotoList(h.companyName)">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body" style="padding:0%; border-radius: 10px;">
+        <table class="table table-responsive"
+            style="font-size: 14px;padding: 0px !important;width:100% ; display: inline-table;">
+            <thead style="border-radius: 10px !important;text-align: center;">
+                <tr>
+                    <th ><b>S.No</b></th>
+                    <th title="Loan Reference Number"><b>LOS Ref. No.</b></th>
+                    <!-- <th><b>Document Type</b></th> -->
+                    <th title="Electronic Signature"><b>E-Sign</b></th>
+                    <th title="Electronic stamping" *ngIf="env!='Jana'"><b>E-Stamp</b></th>
+                    <th><b>Invitation Sent Date</b></th>
+                    <th><b>Remarks</b></th>
+                    <th><b>Action</b></th>
+
+
+                </tr>
+            </thead>
+            <tbody *ngFor="let ESignDetails of ESignDetails ; let i = index "style="border-radius: 10px !important;text-align: center;">
+                <td>&nbsp;{{((p-1)*10)+i+1}}</td>
+                <td>{{ESignDetails.loanReqId}}</td>
+                <!-- <td>  <ng-container *ngIf="ESignDetails.documentType=='93'">
+                    <div class="btn btn-info btn-sm">Sanction Letter</div>
+                </ng-container>
+                <ng-container *ngIf="ESignDetails.documentType=='18'">
+                    <div class="btn btn-success btn-sm">Loan Agreement</div>
+                </ng-container>
+                <ng-container *ngIf="ESignDetails.documentType=='91'">
+                    <div class="btn btn-warning btn-sm">Hypothecation Letter</div>
+                </ng-container>
+            </td> -->
+                <td>
+                    <ng-container *ngIf="ESignDetails.eSignFlag=='1' &&  ESignDetails.remarks=='Invitations sent successfully'">
+                        <h6 style="color: #eea217;font-weight: 1000;">INPROGRESS</h6>
+                    </ng-container>
+                    <ng-container *ngIf="ESignDetails.eSignFlag=='1' && ESignDetails.remarks=='Signed Successfully'">
+                        <!-- <div class="btn btn-success btn-sm" style="color: black;">COMPLETED</div> -->
+                        <h6 style="color: green;font-weight: 1000;">COMPLETED</h6>
+                    </ng-container>
+                    <ng-container *ngIf="ESignDetails.eSignFlag=='0'">
+                        <!-- <div class="btn btn-danger btn-sm" style="color: black;">NOT AVAILABLE</div> -->
+                        <h6 style="color: red;font-weight: 1000;">NOT AVAILABLE</h6>
+                    </ng-container>
+                </td>
+                <td *ngIf="env!='Jana'">
+                    <ng-container *ngIf="ESignDetails.eStampFlag=='1' &&  ESignDetails.remarks=='Invitations sent successfully'">
+                        <h6 style="color: #eea217;font-weight: 1000;">INPROGRESS</h6>
+                    </ng-container>
+                    <ng-container *ngIf="ESignDetails.eStampFlag=='1' && ESignDetails.remarks=='Signed Successfully'">
+                        <h6 style="color: green;font-weight: 1000;">COMPLETED</h6>
+                    </ng-container>
+                    <ng-container *ngIf="ESignDetails.eStampFlag=='0'">
+                        <h6 style="color: red;font-weight: 1000;">NOT AVAILABLE</h6>
+                    </ng-container>
+                </td>
+                <td>{{toinviteDate}}</td>
+                <td>{{ESignDetails.remarks}}</td>
+                <td><button class="nbtn"
+                    (click)="esignfunction(esignpopup,ESignDetails.loanReqId,ESignDetails.documentType,ESignDetails.eSignFlag,ESignDetails.eStampFlag,ESignDetails.docId)"
+                   *ngIf="ESignDetails.remarks!='Signed Successfully'" >Current Status</button>
+                   <div *ngIf="ESignDetails.remarks=='Signed Successfully'" style="text-align: center;">
+                    <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+
+                   </div>
+
+                </td>
+            </tbody>
+        </table>
+
+        <!-- <div style="justify-content: center; padding: 10px 0;" class="pagination">
+            <button style="border: 1;" (click)="previousButton()" class="btn ml-2"
+                style="border: 1px solid #3775EE; color: #fff; background-color:#3775EE;border-radius: 5px !important;width: 128px;"
+                [disabled]="p==1">Previous</button>
+            <button
+                style="height: 41px;margin-top: auto; width: 128px; background-color: white; border: 1px solid #dee2e6 !important;border-radius: 5px !important;">Page
+                no: | {{p}} </button>
+
+
+            <button class="btn ml-2" (click)="nextButton()"
+                style="border: 1px solid #3775EE; background-color:#3775EE; color: #fff; border-radius: 5px !important; width: 128px;"
+                [disabled]="ESignDetails.length!=10">Next</button>
+        </div> -->
+
+    </div>
+</div>
+
+<ng-template let-modal #esignpopup>
+    <div class="modal-header">
+        <h4 id="modal-basic-title" style="text-align: center;font-size: larger;"><b>SIGNATORIES</b></h4>
+        <h4 style="text-align: right !important;font-size: larger; margin-left: 50%;"><b style="text-align: end">LOS-ID:{{lid}}</b></h4>
+        <button type="button" style="color: red;" class="close" aria-label="Close"
+            (click)="close()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <!-- <div>
+        <h4 id="modal-basic-title" style="text-align: center;font-size: larger;"><b>Document Type:{{document}}</b></h4>
+
+    </div> -->
+    <div class="modal-body">
+        <table class="table table-responsive"
+        style="font-size: 14px;padding: 0px !important;width:100% ; display: inline-table;">
+        <thead style="border-radius: 10px !important;">
+            <tr>
+                <th ><b>S.No</b></th>
+                <th ><b>Name</b></th>
+                <th><b>Customer Mobile No</b></th>
+                <th ><b>Mail-Id</b></th>
+                <th ><b>ExpiryDate</b></th>
+                <th ><b>Status</b></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr
+            *ngFor="let geteSignaturetxnStatus of geteSignaturetxnStatus ; let i = index ">
+            <td>&nbsp;{{((p-1)*10)+i+1}}</td>
+            <td>
+                {{geteSignaturetxnStatus.name}}
+            </td>
+            <td>
+                {{geteSignaturetxnStatus.phone}}
+            </td>
+            <td>
+                {{geteSignaturetxnStatus.email}}
+            </td>
+            <td>
+                {{newexpiryDate}}
+            </td>
+            <td>
+                <div *ngIf="(geteSignaturetxnStatus.rejected == false) && (geteSignaturetxnStatus.signed ==false)">
+                      NOT SIGNED
+                </div>
+                <div *ngIf="geteSignaturetxnStatus.rejected==true && geteSignaturetxnStatus.signed ==false">
+                       REJECTED             
+                     </div>
+              <div *ngIf="geteSignaturetxnStatus.rejected==false && geteSignaturetxnStatus.signed ==true">
+                       SIGNED
+          </div>
+            </td>
+</tr>
+        </tbody>
+    </table>
+   </div>
+</ng-template>
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()" ></app-action-tab>

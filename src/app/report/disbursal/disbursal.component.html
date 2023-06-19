@@ -1,0 +1,149 @@
+<div class="contentpanel">  
+  <div class="col-12">
+      <div class="table-responsive">
+        <div class="col-sm-8" >          
+          <table  class="table table-striped table-bordered">
+            <thead>
+              <tr class="table-info">
+                <th colspan=3>PRE APPROVAL</th>
+            </tr> 
+                <tr>
+                    <th>LIMIT</th>                                                                            
+                    <th>DATE</th>                                      
+                    <th>BY</th>
+                </tr> 
+            </thead>
+            <tbody *ngFor="let ds of disbursalData">
+              <tr >
+                   
+                  <td>{{ds.pre_approved_credit_limit}}</td>                                                                               
+                  <td>{{ds.created_on}}</td>                                                                                
+                  <td>{{ds.created_by}}</td>                                                                              
+              </tr>
+              <tr class="table-info">
+                <th colspan=3>APPROVAL</th>                                                                            
+            </tr>             
+                <tr>
+                    <th>LIMIT</th>                                                                            
+                    <th>DATE</th>                                      
+                    <th>BY</th>
+                </tr>             
+            <tr>
+              <td>{{ds.creditlimit}}</td>                                                                                
+              <td>{{ds.approved_on}}</td>                                                                                
+              <td>{{ds.approved_by}}</td>                                                                              
+          </tr>
+
+            </tbody>
+        </table>
+</div>
+<br>
+
+          <div class="col-sm-15">       
+          <h4 class="card-title">Disbursals</h4>
+          <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;">
+          <thead><tr class="table-info">
+          <th>Sno</th>
+          <th>Invoice No</th>
+          <th>Invoice Date</th>
+          <th>Invoice Amount</th>
+          <th>Processed Date</th>
+          <th>Processed Amount</th>
+          <th>Processed By</th>
+          <th>Available Limit</th>
+          <th>Instalment Plan</th>
+          <th>Loan Agreement</th>
+          </tr>
+          </thead>
+          <tbody >
+            <tr *ngFor="let dsv of disbursalInvoiceData ; let i = index">
+              <td>{{i + 1}}</td>
+              <td>INV/{{dsv.loan_request_no}}/2020</td>
+              <td>{{dsv.created_on}}</td>
+              <td>{{dsv.product_amount}}</td>
+              <td>{{dsv.created_on}}</td>
+              <td>{{dsv.loan_amount}}</td>
+              <td>{{dsv.created_by}}</td>
+              <td>{{dsv.approved_amount}}</td>
+              <td>
+                <button class="btn btn-primary" style="width: 90px;height:35px"  (click)="open(mymodal,dsv.emi_date,dsv.emi_amount);">Schedule</button>               
+                <input type="hidden" id="emidate" name="emidate" value="{{dsv.emi_date}}"/>
+                <input type="hidden" id="emiamount" name="emiamount" value="{{dsv.emi_amount}}"/>
+              </td>
+              <td>
+                <div *ngIf="dsv.approval_status=='Approved'; then thenBlock else elseBlock"></div>
+              <ng-template #thenBlock> <span class="label label-success">
+                <a href="http://59.144.140.13:8088/ThrottleService/uploadFiles/loanAgreement/{{dsv.loan_agreement_file}}" target="_blank">
+                  Loan Agreement</a>
+              </span></ng-template> 
+              <ng-template #elseBlock> <span class="label label-warning">
+                <a href="http://59.144.140.13:8088/ThrottleService/uploadFiles/loanAgreement/{{dsv.loan_agreement_file}}" target="_blank">
+                  Loan Agreement</a>
+              </span></ng-template>           
+
+                
+              </td>
+            </tr>
+          </tbody>  
+          </table>
+      </div>
+    
+      
+      <ng-template #mymodal let-modal>
+        <div class="modal-header">      
+          <h4 class="modal-title" id="modal-basic-title">EMI PLAN</h4>      
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">      
+            <span aria-hidden="true">×</span>      
+          </button>      
+        </div>      
+        <div class="modal-body">      
+          
+          <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;">
+            <thead><tr class="table-info">
+            <th>Sno</th>
+            <th>Collection Date</th>
+            <th>Collection Amount</th>
+            </tr>
+            </thead>
+            <tbody >
+              <tr >
+                <td>1</td>
+                <td>{{date1}}</td>
+                <td>{{amount}}</td>                            
+              </tr>
+              <tr >
+                <td>2</td>
+                <td>{{date2}}</td>
+                <td>{{amount}}</td>
+              </tr>
+              <tr >
+                <td>3</td>            
+                <td>{{date3}}</td>
+                <td>{{amount}}</td>                            
+              </tr>
+              <tr >
+                <td>4</td>            
+                <td>{{date4}}</td>
+                <td>{{amount}}</td>                
+              </tr>
+              <tr >
+                <td>5</td>            
+                <td>{{date5}}</td> 
+                <td>{{amount}}</td>                   
+              </tr>
+              <tr >
+                <td>6</td>            
+                <td>{{date6}}</td>
+                <td>{{amount}}</td>                   
+              </tr>
+            </tbody>  
+            </table>
+
+        </div>
+      
+        <div class="modal-footer">      
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>      
+        </div>      
+      </ng-template>
+    </div> 
+  </div> 

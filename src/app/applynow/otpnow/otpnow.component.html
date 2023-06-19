@@ -1,0 +1,48 @@
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+      <div class="content-wrapper d-flex align-items-center auth px-0">
+        <div class="row w-100 mx-0">
+          <div class="col-lg-4 mx-auto">
+            <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+              <div class="brand-logo text-center">
+                <img src="assets/images/login-logo.png" alt="logo">
+              </div>
+              <h4 class="text-center">Get Hassle-free finance in just 3 simple steps</h4>
+              <h4 class="text-center" style="color: red;">{{errormsg}}</h4>
+              <form class="pt-3">
+                <div class="form-group" style="margin-left: 80px;"> 
+				  <label class="label-text-bold" style="margin-left: 25px;">Enter OTP </label>	
+                  <input type="password" class="form-control otp-textbox" id="exampleInputEmail1" (keypress)="keyPress($event)" [(ngModel)]="otp1" [ngModelOptions]="{standalone: true}" maxlength="1">
+				  <input type="password" class="form-control otp-textbox" id="exampleInputEmail2" maxlength="1" (keypress)= "keyPress($event)" [(ngModel)]="otp2" [ngModelOptions]="{standalone: true}">
+				  <input type="password" class="form-control otp-textbox" id="exampleInputEmail3" maxlength="1" (keypress)="keyPress($event)" [(ngModel)]="otp3" [ngModelOptions]="{standalone: true}">
+				  <input type="password" class="form-control otp-textbox" id="exampleInputEmail4" maxlength="1" (keypress)="keyPress($event)" [(ngModel)]="otp4" [ngModelOptions]="{standalone: true}">
+				
+                </div>
+                <div class="mt-2">
+                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" (click)="verifyOTP()" >Get Started</button>
+                </div>
+              <label *ngIf="resent">Resend OTP will be enabled in {{timer}} seconds</label>
+                <div class="mt-2">
+                  <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" (click)="generateOTP()"  *ngIf="!resent">Resend OTP</button>
+                </div>
+                <div class="mt-10">
+                  <input type="checkbox" (onclick)="confirms()" (change)="confirms()" >
+                	<span>I have read and agreed to Terms of use, Privacy Policy and platform Terms of use and hereby consent to CreditEnable being appointed as my authorised representative to receive mt Credit Information from Experian.</span>
+		</div>
+                  <!-- <div class="my-2 d-flex justify-content-between align-items-center"></div>
+                  <div class="text-align">
+                    <label class="text-align">
+                      <input type="checkbox" checked="confirm()" onchange="confirm()">
+                    </label>
+					<span>I have read and agree to Terms of use, Privacy Policy and platform Terms of use and hereby consent to CreditEnable being appointed as my authorised representative to receive mt Credit Information from Experian.</span>
+                  </div>
+                </div> -->
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>

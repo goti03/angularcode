@@ -1,0 +1,113 @@
+<div class="fin-row">
+  <div class="fin-card">
+    <div class="table-responsive">
+      <table class="table fin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Company Name</th>
+            <th>Program Name</th>
+            <th>Customer Name</th>
+            <th>Pan</th>
+            <th>Application ID</th>
+            <th>Application Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let h of HeaderDetails">
+            <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+            <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+            <td>{{h.programName}}</td>
+            <td>{{h.customerName}}</td>
+            <td>{{h.panNo}}</td>
+            <td>{{h.applicationNo}}</td>
+            <td>{{h.applicationDate}}</td>
+            <td>{{indianCurrency(h.loanAmount)}}</td>
+            <td>{{h.status}}</td>
+            <td>{{h.remarks}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="fin-row mt-20">
+  <div class="fin-card">
+
+<div class="clearfix fin-heading">Upload Document Type</div>
+    <div class="search-filters">
+      <table class="table">
+        <tr>
+          <td  *ngFor="let l1 of list1">
+            <button class="btn-label text-left" (click)="docListfunction(l1)" *ngIf="!l1.selected"><i [class]="l1.icon"></i> {{l1.name}}</button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l1)" *ngIf="l1.selected"><i [class]="l1.icon"></i> {{l1.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+        <tr >
+          <td *ngFor="let l2 of list2">
+            <button class="btn-label text-left" (click)="docListfunction(l2)" *ngIf="!l2.selected"><i [class]="l2.icon"></i> {{l2.name}} </button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l2)" *ngIf="l2.selected"><i [class]="l2.icon"></i> {{l2.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+        <tr >
+          <td *ngFor="let l3 of list3">
+            <button class="btn-label text-left" (click)="docListfunction(l3)" *ngIf="!l3.selected"><i [class]="l3.icon"></i> {{l3.name}} </button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l3)" *ngIf="l3.selected"><i [class]="l3.icon"></i> {{l3.name}} <i class="fas fa-check move-right" ></i> </button>
+          </td>
+        </tr>
+        <tr >
+          <td *ngFor="let l4 of list4">
+            <button class="btn-label text-left" (click)="docListfunction(l4)" *ngIf="!l4.selected"><i [class]="l4.icon"></i> {{l4.name}} </button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l4)" *ngIf="l4.selected"><i [class]="l4.icon"></i> {{l4.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="table-responsive mt-10">
+      <table class="table fin-table-blue">
+        <thead>
+          <tr>
+            <th>Sno</th>
+            <th>Document Type</th>
+            <th>File Source</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dynamic of fileDynamicList; let i = index;">
+            <td>{{i+1}}</td>
+            <td>
+              <select class="form-select form-control" aria-label="Default select example" [(ngModel)]="dynamic.docType" (change)="validate()" id="docType_{{i}}">
+                <option [value]="0">Select Docs Type</option>
+                <optgroup [label]="d[0]" *ngFor="let d of docList">
+                  <option *ngFor="let d1 of d[1]" [value]="d1.id">{{d1.name}}</option>
+              </select>
+            </td>
+            <td>
+              <div class="input-group">
+                <input type="text" class="form-control file-upload-text" disabled placeholder="select a file..." [(ngModel)]="dynamic.fileName"/>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-info file-upload-btn">
+                    <i class="fas fa-upload"></i> Browse...
+                    <input type="file" class="file-upload" name="myFile" (change)="uploadfilearray(i,$event.target.files)" [(ngModel)]="dynamic.file" id="file_{{i}}" (change)="validate()"/>
+                  </button>
+                </span>
+              </div>
+            </td>
+            <td><button type="button" class="btn btn-danger btn-sm fin-btn" (click)="deleteRowFile(i)"><i class="fas fa-trash-alt"></i></button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="fin-bottom-btn two-btn">
+      <button type="button" class="btn btn-success fin-btn" (click)="onSubmit()"><i class="fas fa-save"></i> Save</button>
+      <button type="button" class="btn btn-info fin-btn" (click)="addRowFile()"><i class="fas fa-plus-square"></i> Add</button></div>
+  </div>
+</div>
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()" ></app-action-tab>

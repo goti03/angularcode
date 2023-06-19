@@ -1,0 +1,40 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row justify-content-center align-items-center">
+            <div class="col">
+                <table class="table table-stripped table-responsive">
+                    <tbody *ngFor="let d of description">
+                        <tr>
+                            <th>Customer Name</th>
+                            <td>{{d.customerName}}</td>
+                        </tr>
+                        <tr>
+                            <th>Virtual Account Number</th>
+                            <td>{{d.VaNumber}}</td>
+                        </tr>
+                        <tr>
+                            <th>Remitter Name</th>
+                            <td>{{d.remitterName}}</td>
+                        </tr>
+                        <tr>
+                            <th>Customer Name</th>
+                            <td>
+                                <input #customer (keyup)="0" matInput aria-label="customer" [matAutocomplete]="auto1"
+                                    class="form-control" [formControl]="customerCtrl">
+                                <mat-autocomplete #auto1="matAutocomplete">
+                                    <mat-option (onSelectionChange)="customer.value !=undefined"
+                                        *ngFor="let customer of filteredCustomer| async" [value]="customer.customerInfo">
+                                        <span>{{customer.orgName}} - {{customer.lenderName}} ({{customer.loanRequestNo}})</span>
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </td>
+                        </tr>
+                        <tr>
+                            <button class="btn btn-primary mt-3" (click)="descriptioncall()">Submit</button>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

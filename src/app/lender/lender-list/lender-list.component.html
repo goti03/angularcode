@@ -1,0 +1,47 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+        <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h2>Master Lender List</h2>
+    </div>
+    <div class="search-hero">
+      <input class="form-control" type="text" name="search" [(ngModel)]="searchLenderList" autocomplete="off" placeholder="&#61442;  Start searching " (ngModelChange)="p=1;">
+    </div>
+    <div class="panel-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Lender Name</th>
+            <th>Lender Address</th>
+            <th>Lender Contact</th>
+            <th>Lender Certificate No.</th>
+            <th>Lender Mobile No.</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let lender of lender | filter:searchLenderList | paginate: { itemsPerPage: 5, currentPage: p }">
+            <td>{{lender.lenderName}}</td>
+            <td>{{lender.lenderAddress}}</td>
+            <td>{{lender.contactName}}</td>
+            <td>{{lender.certificateNo}}</td>
+            <td>{{lender.mobileNo}}</td>
+            <td>
+              <button (click)="updateLender(lender.lenderId)" class="btn" style="margin-left: 10px" *ngIf="!readRole"><i class="fa fa-edit fa-2x" style="color: #1fc1f7;" title="Update"></i></button>
+              <button (click)="lenderDetails(lender.lenderId)" class="btn" style="margin-left: 10px"><i class="fa fa fa-eye fa-2x" style="color: #1fad3c;" title="View"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="lenderAdd()" class="btn btn-success" *ngIf="!readRole">Add</button>
+    </div>
+  </div>
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    
+</div>
+</div>
+</div>
+</div>

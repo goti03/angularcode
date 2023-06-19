@@ -1,0 +1,179 @@
+<div class="row bg" *ngIf="!err && !action">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                
+
+                <div class="row">
+                    <div class="col">
+                        <h3>FinAGG – Auto Disbursement</h3>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row">
+                    <div class="col">
+                        Dear <b>{{orgName}}</b>,
+                    </div>
+                </div>
+                
+                
+                <div class="row m-3 justify-content-around text-center">
+
+                        <table class="table-bordered table col">
+                            <tr>
+                                <th>Invoice No</th>
+                                <td>{{invoiceNo}}</td>
+                            </tr>
+                            <tr>
+                                <th>Anchor</th>
+                                <td>{{brandName}}</td>
+                            </tr>
+                            <tr>
+                                <th>Invoice Amount</th>
+                                <td>{{invoiceAmount}}</td>
+                            </tr>
+                            <tr>
+                                <th>Funding Amount</th>
+                                <td>{{fundingAmount}}</td>
+                            </tr>
+                            <tr>
+                                <th>Invoice Date</th>
+                                <td>{{invoiceDate}}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Invoice Received at FinAGG</th>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{irDate}}</td>
+                            </tr>
+                            <tr>
+                                <th>Time</th>
+                                <td>{{irTime}}</td>
+                            </tr>
+                            <tr>
+                                <th colspan="2">Auto Disbursement Schedule</th>
+                            </tr>
+                            <tr>
+                                <th>Date</th>
+                                <td>{{adDate}}</td>
+                            </tr>
+                            <tr>
+                                <th>Time</th>
+                                <td>{{adTime}}</td>
+                            </tr>
+                        </table>
+                </div>
+
+                <div class="row mt-3 text-center" *ngIf="!remarkStatus">
+                    <div class="col-6"><button class="btn btn-success" (click)="popBefore(1,Confirm)">Initiate Disbursement</button></div>
+                    <div class="col-6"><button class="btn btn-danger" (click)="popBefore(2,Confirm)">Stop Disbursement</button></div>
+                </div>
+                
+                <div class="row text-center mt-3" *ngIf="remarkStatus">
+                    <div class="col">
+                        <label>Remarks</label>
+                        <textarea [(ngModel)]="remark" class="form-control" >
+                        </textarea>
+                        <button class="btn btn-info" (click)="stop()">Submit</button>
+                    </div>
+                </div>
+
+     
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" *ngIf="err" style="height: 100%  !important; background-color: #ffcccb;">
+    <div class="col">
+
+        <div class="card mt-5" style="background-color: #ffcccb;">
+            <div class="card-body">
+
+                <div class="row mt-5 text-center">
+                    <div class="col lead" style="font-weight: 700;">
+                        {{message}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row bg" *ngIf="action" >
+    <div class="col">
+
+        <div class="card">
+            <div class="card-body" style="background-image: url('assets/images/background/success.png'); height: 650px;">
+
+                <div class="row" *ngIf="initiated">
+                    <div class="col">
+                        <h3>Sucsessful Disbursement</h3>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="stopped">
+                    <div class="col">
+                        <h3>Auto Disbursement Cancel</h3>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row justify-content-center mt-5" >
+                        <img src="assets/images/gallery/wallet.png" class="col" height="250" width="80" *ngIf="initiated"/>
+                        <img src="assets/images/gallery/warning.png" class="col" height="250" width="40" *ngIf="stopped"/>
+                </div>
+
+                <div class="row text-center mt-5" *ngIf="initiated">
+                    <div class="col" style="color: #00ee00;">
+                        <i class="fa fa-check-circle" style="color: green;"></i>
+                        Invoices of total {{indianCurrency(fundingAmount)}}, is disbursed successfully.
+                    </div>
+                </div>
+
+                <div class="row text-center mt-5" *ngIf="stopped">
+                    <div class="col" style="color: #ffbbbb;">
+                        <i class="fa fa-stop"></i>
+                        Invoice of total {{indianCurrency(fundingAmount)}}, is stopped from Auto Disbursing successfully.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #Confirm let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirmation</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row mt-3 text-center">
+          <div class="col">
+              Are you certain to {{popMessage}} Disbursemet?
+          </div>
+      </div>
+      <div class="row mt-3">
+          <div class="col-6">
+            <button class="btn btn-danger" (click)="close()">Cancel</button>
+          </div>
+          <div class="col-6">
+            <button class="btn btn-success" (click)="popAfter()">Proceed</button>
+          </div>
+      </div>
+    </div>
+  </ng-template>

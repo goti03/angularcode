@@ -1,0 +1,108 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <h4 class="card-title">Repayment Details</h4>
+                <table style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <td>Program</td>
+                        <td>
+                                <select  class="form-control" name="programId" id="programId" [(ngModel)]="programId"
+                                (change)="getBrandDetails()" style="width: 240px;">
+                                <option [value]="0" >Select Program Name</option>
+                                    <option *ngFor="let p of programList" [value]="p.id">{{p.name}}</option>
+                                 
+                                </select>
+                                
+                        </td>
+                        <td>Brand</td>
+                        <td>
+                                <select  class="form-control" name="brandId" id="brandId" [(ngModel)]="brandId"
+                                (change)="getRetailerDetails()" style="width: 240px;">
+                                   <option [value]="0" >Select Brand Name</option>
+                                    <option *ngFor="let b of brandList" [value]="b.brandId">{{b.brandName}}</option>
+                                </select>
+                                
+                        </td>
+                        <td>Dealer / Retailer</td>
+                        <td>
+                                <select  class="form-control" name="orgId" id="orgId" [(ngModel)]="orgId" style="width: 240px;">
+                                  
+                                    <option [value]="0" >Select Dealer / Retailer </option>
+                                    <option *ngFor="let a of retailerList" [value]="a.orgId">{{a.orgName}}</option>
+                                </select>
+                                
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Start Date</td>
+                        <td>
+                            <input type="date" class="form-control" style="width: 200px;" [(ngModel)]="startDate"
+                             placeholder="dd-mm-yyyy" id="startDate" name="startDate" (keypress)="preventTyping()">
+                                
+                        </td>
+                        <td>End Date</td>
+                        <td>
+                            <input type="date" class="form-control" placeholder="dd-mm-yyyy" id="endDate"
+                            [(ngModel)]="endDate" name="endDate" style="width: 200px;" (keypress)="preventTyping()" />
+                            </td>
+                        <td><button (click)="submit()" href="/images/myw3schoolsimage.jpg" download
+                                class="btn btn-primary mb-2" style="margin-left: 6px"><i
+                                    class="fa fa-submit"></i>Submit</button></td>
+                    </tr>
+                </table>
+                <br>
+                <div class="search-hero">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="searchBrandList" autocomplete="off"
+                      placeholder="&#61442;  Start searching " (ngModelChange)="p=1;">
+                  </div>
+                  <!-- <span [hidden]="errorMessage" style="color: red;"> No Data Available</span> -->
+                <table style="width: 100%;" class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Program Name</th>
+                            <th>Dealer / Retailer</th>
+                            <th>Mobile No</th>
+                            <th>Email ID</th>
+                            <th>Disbursal Id</th>
+                            <th>Draw Down No</th>
+                            <th>Emi Date</th>
+                            <th>Calculated Emi</th>
+                            <th>Pending Amount</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let cl of repaymentDetailList | filter:searchBrandList | paginate: { itemsPerPage: p1, currentPage: p }; let i=index">
+                          
+                           <td>{{((p-1)*p1)+j+1}}</td>
+                            <td>{{cl.programname}}</td>
+                            <td>{{cl.orgName}}</td>
+                            <td>{{cl.mobileno}}</td>
+                            <td>{{cl.email}}</td>
+                            <td>{{cl.disbursalCaseId}}</td>
+                            <td>{{cl.drawdownNo}}</td>
+                            <td>{{cl.emiDate}}</td>
+                            <td>{{cl.calculatedEmiAmt}}</td>
+                            <td>{{cl.tobepay}}</td>
+                            <td>
+                                <ng-container *ngIf="cl.paidStatus=='0'">
+                                    <span class="label label-danger">Not Paid</span>
+                                </ng-container>
+                                <ng-container *ngIf="cl.paidStatus=='1'">
+                                    <span class="label label-success">Paid</span>
+                                </ng-container>
+                                <ng-container *ngIf="cl.paidStatus=='2'">
+                                    <span class="label label-warning">Partial Paid</span>
+                                </ng-container>
+                                </td>
+                        </tr >
+                        <tr *ngIf="repaymentDetailList.length==0"><td colspan="11">No Data Available</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+
+    </div>
+</div>

@@ -1,0 +1,1042 @@
+<ng-template #action let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Action</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table style="margin-top: 3%;" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>SNo</th>
+                    <th>File</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let dynamic of fileDynamicList; let i = index;">
+                    <td>
+                        {{i+1}}
+                    </td>
+                    <td>
+                        <input formControlName="file" [(ngModel)]="dynamic.file" id="file" name="file" type="file"
+                            class="form-control" style="width: 200px;"
+                            accept="application/pdf,image/jpeg,application/vnd.ms-excel">
+                    </td>
+                    <td>
+                        <textarea style="width: 300px;" class="form-control" [(ngModel)]="dynamic.comment"
+                            name="comment" id="comment"></textarea>
+                    </td>
+                    <td>
+                        <img src="../assets/images/remove-icon.jpg" style="width: 30px; height: 30px;" alt="Delete"
+                            (click)="deleteRowFile(i)" />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="col text-center">
+            <button type="button" style="height:35px;width:150px" class="btn btn-primary mb-2" (click)="addRowFile()">
+                Add
+            </button>
+            <table>
+                <tr>
+                    <td>remarks :</td>
+                    <td><textarea style="width: 300px;" id="commonRemarks" name="commonRemarks"></textarea></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col text-center">
+            <button type="button" class="btn btn-success" (click)="[saveFile(),modal.close('Save click')]">
+                Save
+            </button>
+        </div>
+    </div>
+</ng-template>
+<ng-template #repaymentPopUp let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Repayment</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Attempt #</th>
+                    <th>EI Amount</th>
+                    <th>EI Date</th>
+                    <th>ReScheduled On</th>
+                    <th>Reschedule Mode</th>
+                    <th>Attempt Date</th>
+                    <th>Status</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+
+
+                <tr>
+                    <td>1</td>
+                    <td>1</td>
+                    <td>2200.50</td>
+                    <td>21/05/2020</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>21/05/2020</td>
+                    <td>Fail</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>2</td>
+                    <td>2200.50</td>
+                    <td>21/05/2020</td>
+                    <td>22/05/2020</td>
+                    <td>eNach</td>
+                    <td>24/06/2020</td>
+                    <td>Fail</td>
+                    <td>rescheduled for eNach on 24-06-2020</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>3</td>
+                    <td>2200.50</td>
+                    <td>21/05/2020</td>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>26/06/2020</td>
+                    <td>Pass</td>
+                    <td></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+<ng-template #disb_update let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Disbursals</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <span *ngIf="showErrorMSG" style="color: red;">{{errorMSG}}</span>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Transaction Refference No</th>
+                    <th>Transaction Date</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" id="utr" name="utr" class="form-control"></td>
+                    <td><input type="date" id="disb_date" name="disb_date" class="form-control"
+                            (keypress)="preventTyping()"></td>
+                    <td><input type="text" id="remarks" name="remarks" class="form-control"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer" style="text-align: center;">
+        <button type="button" class="btn btn-success" (click)="saveDisbursal()">save</button>
+    </div>
+</ng-template>
+<ng-template #applicationForm let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Applicaton Form</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-application-form></app-application-form>
+    </div>
+</ng-template>
+<ng-template #checkList let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Check List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-checklist></app-checklist>
+    </div>
+</ng-template>
+<ng-template #CheckBox let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Check List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table align="left" style="width: 100%;" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>CheckList Name</th>
+                    <th>Mandatory</th>
+                    <th>System Source</th>
+                    <th>Manual/Automated</th>
+                    <th>System Remarks</th>
+                    <th>Manual Remarks</th>
+                    <th>Date & Time</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"> <b>Application Form</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Application Form'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea style="width: 100px;height: 20px;"></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+
+                    </ng-container>
+
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>KYC</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='KYC'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Banking</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Banking'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Business Address Proof</b>
+                    </td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Business Address Proof'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea style="width: 150px;height: 40px;"></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+                    </ng-container>
+
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Ownership of Property</b>
+                    </td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Ownership of Property'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea style="width: 150px;height: 40px;"></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Business Vintage /
+                            Stability</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Business Vintage / Stability'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Digital</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Digital'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Loan Agreement</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Loan Agreement'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>Invoice</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+                    <ng-container *ngIf="la.section=='Invoice'">
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8" style="background-color: rgb(197, 196, 196);"><b>ENACH</b></td>
+                </tr>
+                <tr *ngFor="let la of loanCheckListDetails;let i = index">
+
+                    <ng-container *ngIf="la.section=='ENACH'">
+
+                        <td>{{la.checkListName}}</td>
+                        <td>{{la.mandatory}}</td>
+                        <td>{{la.systemSource}}</td>
+                        <td>{{la.manualOrAutomated}}</td>
+                        <ng-container *ngIf="la.manualOrAutomated=='A'">
+                            <td>{{la.systemRemarks}}</td>
+                            <td>NA</td>
+                        </ng-container>
+                        <ng-container *ngIf="la.manualOrAutomated=='M'">
+                            <td>NA</td>
+                            <td><textarea></textarea></td>
+                        </ng-container>
+                        <td>{{la.dateTime}}</td>
+                        <td *ngIf="la.status=='Y'">
+                            <input type="checkbox" checked>
+                        </td>
+                        <td *ngIf="la.status=='N'">
+                            <input type="checkbox">
+                        </td>
+
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td colspan="8">
+                        <!-- <button class="btn btn-primary" (click)="downloadPdf()" style="width: 90px;height:35px;text-align: center;">download</button> -->
+                        <button class="btn btn-primary" [hidden]="!checkButton"
+                            style="width: 90px;height:35px;text-align: center;">Update</button>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</ng-template>
+<ng-template #doc let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Document Type List</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Document Type</th>
+                    <th>File Source</th>
+                    <th>Download</th>
+                    <!-- <th>Remove</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let doc of disbursalDocuments; let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{doc.documentName}}</td>
+                    <td>{{doc.fileSource}}</td>
+                    <td><button (click)="downloadView(doc.filePath,doc.fileSource)" href="/images/myw3schoolsimage.jpg"
+                            download class="btn btn-warning" style="margin-left: 6px"><i
+                                class="fa fa-download"></i>Download</button>
+                    </td>
+                    <!-- <td> <button (click)="removeView(doc.documentId)" class="btn btn-info" style="margin-left: 6px"><i
+                class="fa fa-remove"></i>Remove</button>
+          </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</ng-template>
+<ng-template #mymodal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">EMI PLAN</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+        <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;">
+            <thead>
+                <tr class="table-info">
+                    <th>Sno</th>
+                    <th>Collection Date</th>
+                    <th>Collection Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let emi of LoanEmiSchedule">
+                    <td>{{emi.emiNo}}</td>
+                    <td>{{emi.emiDate}}</td>
+                    <td>{{indianCurrency(emi.emiAmount)}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+</ng-template>
+<ng-template #panCheck let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Information</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true" style="color: red;">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row text-center">
+            <div class="col-12" style="color: cadetblue;">
+                <i class="fa fa-info-circle" style="color: green;"></i>&nbsp;You cannot uncheck PAN, which is already
+                present in ANCHOR FUNDING LIMIT section. If you wish to remove that PAN, you can inactivate its status
+                in the last column of table in
+                ANCHOR FUNDING LIMIT section
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<div class="fin-row">
+    <div class="fin-card">
+        <div class="table-responsive">
+            <table class="table fin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td style="white-space: nowrap;">{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<ul class="nav nav-pills mt-20" id="pills-tab" role="tablist">
+    <li class="nav-item radius-none">
+        <button class="nav-link " data-bs-toggle="pill" role="tab" aria-controls="pills-disbursal"
+            (click)="tabSwitch(0)" id="tab_0">Disbursals</button>
+    </li>
+    <li class="nav-item radius-none">
+        <button class="nav-link " data-bs-toggle="pill" role="tab" aria-controls="pills-repayment"
+            (click)="tabSwitch(1)" id="tab_1">Repayment</button>
+    </li>
+    <li class="nav-item radius-none">
+        <button class="nav-link " data-bs-toggle="pill" role="tab" aria-controls="pills-repayment"
+            (click)="tabSwitch(2)" id="tab_2">Anchor List</button>
+    </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane  active" role="tabpanel" *ngIf="tab == 'Disbursal'">
+        <div class="fin-card">
+            <table>
+                <tr>
+                    <td><div class="clearfix fin-heading">Disbursal List </div></td>
+                    
+                    <td><div style="width: 250px; margin-left: 10px;">
+                        <select name="status" id="status" [(ngModel)]="statustype"  class="form-control" (change)="getDisInvoiceDetails()">
+                        <option [value]="0">All</option>
+                        <option [value]="1">In Progress</option>
+                        <option [value]="2">Approved</option>
+                    </select></div></td>
+                </tr>
+            </table>
+            <div class="table-responsive mt-10">
+                <table class="table table-striped table-bordered fin-table-blue fin-custom-table">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Invoice No</th>
+                            <th>Invoice Date</th>
+                            <th>Invoice Amount</th>
+                            <th>Processed Date</th>
+                            <th>Processed Amount</th>
+                            <th>Instalment Plan</th>
+                            <th>Status</th>
+                            <th>Loan Agreement</th>
+                            <th>Action</th>
+                            <th>Paid Principal</th>
+                            <th>Paid Interest</th>
+                            <th>Total Paid Amount</th>
+                            <th>Lender Name</th>
+                            <th>Paid Status</th>
+                            <th>Application Form</th>
+                            <th>Check List</th>
+                            <th>View Doc</th>
+                            <th>Disbursal-Update</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="disbursalMSG">
+                            <td colspan="19" style="color: red;">{{disbursalMSG}}</td>
+                        </tr>
+                        <tr
+                            *ngFor="let dsv of disbursalInvoiceData | paginate: { id : 'first' ,itemsPerPage: p1, currentPage: p111 };let i = index">
+                            <td>{{((p111-1)*p1)+i+1}}</td>
+                            <td [ngClass]="{'Scheduled':dsv.repaidStatus==='Not Paid' }">
+                                <div *ngFor="let a of dsv.invoiceList">{{a}}</div>
+                            </td>
+                            <td style="width:80px;">
+                                <div *ngFor="let a of dsv.invoiceDateList">{{a}}</div>
+                            </td>
+                            <td>{{indianCurrency(dsv.invoice_amount)}}</td>
+                            <td>{{dsv.created_on}}</td>
+                            <td>{{indianCurrency(dsv.loan_amount)}}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm fin-btn" type="button"
+                                    (click)="openSchedule(mymodal,dsv.loanDisbursalId);"><i
+                                        class="far fa-calendar-alt"></i>
+                                    Schedule</button>
+                                <input type="hidden" id="emidate" name="emidate" value="{{dsv.emi_date}}" />
+                                <input type="hidden" id="emiamount" name="emiamount" value="{{dsv.emi_amount}}" />
+                            </td>
+                            <td>{{dsv.status}} </td>
+                            <td>
+                                <div *ngIf="dsv.approval_status=='Approved'; then thenBlock else elseBlock">
+                                </div>
+                                <ng-template #thenBlock>
+                                    <button class="btn btn-link" style="color: #1fad3c;"
+                                        (click)="downloadView(dsv.filePath,dsv.fileName)">
+                                        <!-- <a href="{{dsv.filePath}}{{dsv.fileName}}" target="_blank"> -->
+
+                                        Loan Agreement
+                                        <!-- </a> -->
+                                    </button>
+                                </ng-template>
+                                <ng-template #elseBlock>
+                                    <button class="btn btn-link" style="color: #1fad3c;"
+                                        (click)="downloadView(dsv.filePath,dsv.fileName)">
+                                        <!-- <a href="{{dsv.filePath}}{{dsv.fileName}}" target="_blank"> -->
+                                        Loan Agreement
+                                        <!-- </a> -->
+                                    </button>
+                                </ng-template>
+                            </td>
+                            <td *ngIf="statusFlow == sellerStatusFlow">
+                                <!-- {{dsv.loanDisbursalId}} -->
+                                <button class="btn btn-link"
+                                    (click)="disbursalAction(dsv.loanid,dsv.loanDisbursalId,dsv.substatusId)">
+                                    <img src="assets/images/icon/action icon.jpeg" style="width: 70px; height:30px;" />
+                                </button>
+                            </td>
+                            <td *ngIf="statusFlow != sellerStatusFlow">
+                                <i class="fa fa-ban" aria-hidden="true"></i>
+                            </td>
+                            <td>{{indianCurrency(dsv.paidPrincipal)}}</td>
+                            <td>{{indianCurrency(dsv.paidInterest)}}</td>
+                            <td>{{indianCurrency(dsv.totalpaidAmount)}}</td>
+                            <td>{{dsv.lenderName}}</td>
+                            <!-- <td>{{dsv.repaidStatus}}</td> -->
+                            <td *ngIf="dsv.repaidStatus==='Not Paid';else other">Scheduled</td>
+                            <ng-template #other>
+                                <td>{{dsv.repaidStatus}} </td>
+                            </ng-template>
+                            <td>
+                                <i *ngIf="digital==0" class="fa fa-ban" aria-hidden="true"></i>
+                                <button class="btn btn-link" *ngIf="digital==1"
+                                    (click)="openApplicationForm(applicationForm,dsv.loanDisbursalId)">
+                                    <img src="assets/images/icon/loan.png" style="width: 30px; height:30px;" />
+                                </button>
+
+                            </td>
+                            <td class="fin-big">
+                                <a (click)="openCheckBox(CheckBox,dsv.loanDisbursalId)">
+                                    <i class="fas fa-clipboard-list"></i>
+                                </a>
+
+                            </td>
+                            <td class="fin-big">
+                                <a (click)="openDoc(doc,dsv.loanDisbursalId)">
+                                    <i class="fas fa-file-alt"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-warning btn-sm fin-btn"
+                                    (click)="updateDisbursal(disb_update,dsv.loanDisbursalId)"
+                                    *ngIf="updateDisbursalButton">
+                                    <i class="fas fa-pencil-alt"></i> Update Disbursal
+                                </button>
+                            </td>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p111 = $event" id="first"></pagination-controls>
+                <!-- <nav aria-label="...">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+              <span class="page-link">
+                2
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav> -->
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane  active" role="tabpanel" *ngIf="tab == 'Repayment'">
+        <div class="fin-card">
+            <div class="clearfix fin-heading">Repayment List </div>
+            <div class="table-responsive mt-10">
+                <table class="table table-striped table-bordered fin-table-blue fin-custom-table">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+
+                            <th>Paid Date</th>
+
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="repaymentMSG" class="text-center">
+                            <td colspan="5" style="color: red;">{{repaymentMSG}}</td>
+                        </tr>
+                        <tr
+                            *ngFor="let r of repaymentList | paginate: { id : 'second', itemsPerPage: 5, currentPage: p222 };let i=index;">
+                            <td>{{((p222-1)*5)+i+1}}</td>
+
+                            <td>{{r.TxnDate}}</td>
+
+                            <td class="fin-paid"><i class="far fa-check-circle"></i>{{indianCurrency(r.amount)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pagination-controls (pageChange)="p222 = $event" id="second"></pagination-controls>
+                <!-- <nav aria-label="...">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+              <span class="page-link">
+                2
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav> -->
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane  active" role="tabpanel" *ngIf="tab == 'AnchorList'">
+
+        <div class="fin-row">
+            <div class="fin-card">
+                <div class="clearfix fin-heading">Anchor Funding Limit <a class="fin-right fin-dash-icon "
+                        (click)="excel()"><i class="far fa-file-excel green" style="font-size: 30px;"></i></a> <a
+                        (click)="pdf()" class="fin-right fin-dash-icon "><i class="far fa-file-pdf red"
+                            style="font-size: 30px;"></i></a></div>
+                <div class="table-responsive">
+                    <table class="table fin-table green-top">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Pan No</th>
+                                <th>Anchor Name</th>
+                                <th>Company Type</th>
+                                <th>Company Rating</th>
+                                <th>Funding %age</th>
+                                <th>Escrow A/c No</th>
+                                <th>Limit Usage</th>
+                                <th>Amount</th>
+                                <th>Tenure</th>
+                                <th>ROI</th>
+                                <th>Since</th>
+                                <th>No of Invoices</th>
+                                <th>Invoice Amount</th>
+                                <th>Gst Register Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let f of anchorData | filter:searchAnchorPanNo | paginate: { id:'Anchorlist', itemsPerPage: 5, currentPage: p333 };let i=index">
+                                <td>{{((p333-1)*5)+i+1}}</td>
+                                <td>{{f.panNo}}</td>
+                                <td>{{f.buyerName}}</td>
+                                <td>
+                                    <select class="form-select" name="ratingCompanyTypeId_{{i}}" required
+                                        id="ratingCompanyTypeId_{{i}}" [(ngModel)]="f.ratingCompanyTypeId"
+                                        (change)="checkChanges(f)">
+                                        <option [value]="0">Choose Company Type</option>
+                                        <option *ngFor="let ms of companyTypeList" [value]="ms.id">
+                                            {{ms.name}}</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select class="form-select" name="ratingId_{{i}}" required id="ratingId_{{i}}"
+                                        [(ngModel)]="f.ratingId" (change)="setFundingPercentage(i,f)">
+                                        <option [value]="0">Choose Company Rate</option>
+                                        <option *ngFor="let ms of companyRatingList" [value]="ms.raingId">
+                                            {{ms.ratingName}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td>
+                                    {{f.fundingPercentage}}
+                                </td>
+                                <td>{{f.vaNumber}}</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <input type="date" class="form-control" required [(ngModel)]="f.startDate"
+                                        id="startDate_{{i}}" name="startDate_{{i}}" (change)="checkChanges(f)"
+                                        (keypress)="preventTyping()">
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" required [(ngModel)]="f.totalInvoices"
+                                        id="totalInvoices_{{i}}" name="totalInvoices_{{i}}" (change)="checkChanges(f)">
+                                </td>
+                                <td>
+                                    <input type="number" style="width: 120px;" class="form-control" required
+                                        [(ngModel)]="f.invoiceValue" id="invoiceValue_{{i}}" name="invoiceValue_{{i}}"
+                                        (change)="checkChanges(f)">
+                                </td>
+                                <td>{{f.gstRegisterDate}}</td>
+                                <td>
+                                    <select [(ngModel)]="f.isAnchorActive" style="width: 100px;"
+                                        name="isAnchorActive_{{i}}" class="form-select" id="isAnchorActive_{{i}}"
+                                        (change)="checkChanges(f)">
+                                        <option *ngFor="let s of status" [value]="s.status">
+                                            {{s.name}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination-controls id="Anchorlist" (pageChange)="p333 = $event">
+                </pagination-controls>
+                <!-- <pagination-controls (pageChange)="q1 = $event"></pagination-controls> -->
+                <div class="fin-bottom-btn"><button type="button" class="btn btn-warning btn-sm fin-btn"
+                        (click)="updateFundingLimit()"><i class="fas fa-pencil-alt"></i> Upadte</button></div>
+            </div>
+        </div>
+
+        <div class="fin-row mt-20 clearfix">
+            <div class="fin-col-left">
+                <div class="fin-card">
+                    <div class="clearfix fin-heading">Anchor Update </div>
+                    <div class="table-responsive mt-10">
+                        <table class="table fin-table-green nowrap">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a (click)="DownloadR1Data()" class="btn btn-link" name="Details"><i
+                                                class="fa fa-file-excel-o green" style="font-size: 30px;"
+                                                aria-hidden="true"></i></a> Download R1 Details
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        <a (click)="DownloadR1Summary()" class="btn btn-link"><i
+                                                class="fa fa-file-excel-o green" style="font-size: 30px;"
+                                                aria-hidden="true"></i></a> Download R1 Summary
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Enter PAN No.</td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" placeholder="" [(ngModel)]="newPan"
+                                                required maxlength="10">
+                                        </div>
+                                    </td>
+                                    <td><button type="button" class="btn btn-dark fin-btn" (click)="addPan()"><i
+                                                class="fas fa-user-alt"></i> New
+                                            Anchor</button></td>
+                                </tr>
+                                <tr>
+                                    <td>Selected PAN No.</td>
+                                    <td colspan="2">{{resultVallue}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fin-bottom-btn"><button type="button" class="btn btn-warning fin-btn"
+                            (click)="generateAnchorProfile()"><i class="fas fa-user-alt"></i> Generate Anchor
+                            Profile</button>
+                    </div>
+                </div>
+            </div>
+            <div class="fin-col-right">
+                <div class="fin-card">
+                    <div class="clearfix fin-heading">Filter Anchor List</div>
+                    <div class="mt-10 text-center"><button type="button"
+                            class="btn btn-info btn-sm fin-btn fin-btn-width" (click)="top(5)"><i
+                                class="fas fa-sort"></i> Top 5</button> <button type="button"
+                            class="btn btn-success btn-sm fin-btn fin-btn-width" (click)="top(10)"><i
+                                class="fas fa-sort"></i>
+                            Top 10</button>
+                        <button type="button" class="btn btn-warning btn-sm fin-btn fin-btn-width" (click)="top(0)"><i
+                                class="fas fa-sort"></i>
+                            All</button>
+                    </div>
+                    <div class="table-responsive mt-10">
+                        <table class="table fin-table-blue">
+                            <thead>
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Pan Card No</th>
+                                    <th>No Of Invoices</th>
+                                    <th>Invoice Value</th>
+                                    <th>Since</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr
+                                    *ngFor="let b of buyerList | filter:searchPanNo | paginate: { itemsPerPage: 10, currentPage: p444 } ;let i=index">
+                                    <td>{{((p444-1)*10)+i+1}}</td>
+                                    <td>{{b.buyerPan}}</td>
+                                    <td class="fin-mulitple">{{b.noOfInvoice}}</td>
+                                    <td>{{indianCurrency(b.invoiceValue)}}</td>
+                                    <td>{{b.date}}</td>
+                                    <td><input type="checkbox" id="check_{{i}}" name="check" [(ngModel)]="b.Checkflag"
+                                            (click)="getCheckedPanNo(b,panCheck)"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- <nav aria-label="...">
+                            <ul class="pagination">
+                                <li class="page-item disabled">
+                                    <span class="page-link">Previous</span>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item active">
+                                    <span class="page-link">
+                                        2
+                                        <span class="sr-only">(current)</span>
+                                    </span>
+                                </li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav> -->
+                    </div>
+                    <pagination-controls (pageChange)="p444 = $event"></pagination-controls>
+                    <div class="fin-bottom-btn"><button type="button" class="btn btn-info fin-btn" *ngIf="showAnger"
+                            (click)="saveBuyer()"><i class="far fa-save"></i>
+                            Save</button></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<app-action-tab *ngIf="tab1" (toggle)="toggle()"></app-action-tab>

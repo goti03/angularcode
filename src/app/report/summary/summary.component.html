@@ -1,0 +1,208 @@
+<div class="contentpanel">
+
+    <div class="col-12">
+        <div class="table-responsive">
+                      <div class="col-sm-15">
+                          <table  class="table table-striped table-bordered">
+                              <thead>
+                                  <tr class="table-info">
+                                      <th>APP ID</th>                                                                            
+                                      <th>TYPE OF BUSINESS</th>                                      
+                                      <th>INDUSTRY</th>
+                                  </tr> 
+                              </thead>
+                              <tbody *ngFor="let company of LoanRequestById">
+                                <tr >
+                                    <td>{{company.loanNo}}</td>                                                                                
+                                    <td>RETAILER</td>                                    
+                                    <td>{{company.industry}}</td>                                                                              
+                                </tr>
+                                
+                                    <tr class="table-info">
+                                        <th>TURNOVER BY BANK</th>
+                                        <th>&emsp;</th>
+                                        <th>MONTHLY</th>
+                                    </tr>
+                                
+                                <tr>
+                                    <td><font>INR {{company.TurnOver}}</font></td>                                                                              
+                                    <td></td>                                    
+                                    <td>INR </td>                                    
+                                </tr>
+  
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+            </div>
+           <br>           
+           <div class="col-12">
+            <div class="table-responsive">
+                      <div class="col-sm-15">
+                          <table class="table table-striped table-bordered">
+                              <thead>
+                                  <tr class="table-info">
+                                      <th colspan="2">CREDIT DETAIL</th>
+                                      </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td *ngFor="let company of LoanRequestById" align="center">
+                                      <br>                                                                              
+                                      <span class="label label-danger"><b>CC Score</b></span>
+                                      <br>
+                                    <b><font size='5' color="orange">{{company.cibil}}</font></b>
+                                  </td>                       
+                                  <td>           
+                                    <div >
+                                        <highcharts-chart
+                                            [Highcharts] = "highcharts" 
+                                            [options] = "chartOptions" 
+                                            style = "width: 400px; height: 75px; display: block;">
+                                        </highcharts-chart>
+                                    </div>                         
+      
+                                </td>
+                                
+                              </tr>
+                              </tbody>                             
+
+                          </table>
+                      </div>
+
+                  </div>
+            </div>
+         
+        <br><br>
+        <div class="col-12">
+            <div class="table-responsive">
+                      <div class="col-sm-15">
+                          <table class="table table-striped table-bordered">
+                              <thead><tr class="table-info">
+                                  <th>BANK NAME </th>
+                                  <th>ACCOUNT NO</th>
+                                  <th>TYPE OF A/C</th>
+                                  <th>TOTAL CREDIT</th>
+                                  <th>TOTAL DEBIT</th>
+                                  <th>LIMIT Assigned</th>
+                                  <th>Limit Utlization</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr *ngFor="let bankDetails of CustomerBankDetails">
+                                  <td>{{bankDetails.bank}}</td>                                            
+                                  <td>{{bankDetails.accNo}}</td>
+                                  <td>{{bankDetails.acctype}}</td>
+                                  <td>{{bankDetails.creditAmt}}</td>
+                                  <td>{{bankDetails.debitAmt}}</td>
+                                  <td>N/A</td>
+                                  <td>N/A</td>
+                              </tr>                            
+                            </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+              <br><br>
+              <div class="col-12">
+                <div class="table-responsive">
+                          <div class="col-sm-15">
+                          <table class="table table-striped table-bordered">
+                              <thead><tr class="table-info">
+                                  <th>System Decision Reasons</th>
+                                  <th></th>
+                              </tr>
+                              </thead>
+                              <tbody><tr>
+                                  <td></td>                                            
+                                  <td></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+              <br><br>
+              <div class="col-12">
+                <div class="table-responsive">
+                          <div class="col-sm-15">
+                          <table class="table table-striped table-bordered">
+                              <thead><tr class="table-info">
+                                  <th colspan="4">Summary for all Applicants</th>                                            
+                              </tr>
+                              <tr class="table-info">
+                                  <th>Name</th>
+                                  <th>Age</th>
+                                  <th>Care Role</th>
+                                  <th>CIBIL Score</th>
+                              </tr>
+                            </thead>
+                              <tbody><tr *ngFor="let customerInfo of CustomerDetail">
+                                  <td>{{customerInfo.ApplicantName}}</td>                                            
+                                  <td>{{customerInfo.Age}}</td>
+                                  <td>Applicant</td>
+                                  <td *ngFor="let company of LoanRequestById">{{company.cibil}}</td>
+                              </tr></tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+              <br><br>
+              <div class="col-12">
+                <div class="table-responsive">
+                          <div class="col-sm-15">
+                          <table class="table table-striped table-bordered">
+                              <thead><tr class="table-info">
+                                  <th colspan="2">Case Highlights</th>                                            
+                              </tr></thead>
+                             <tbody> <tr class="table-info">
+                                  <td><font color="green"><b>Strength</b></font></td>                                            
+                                  <td><font color="orange"><b>Exception</b></font></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          
+                  </div>
+            </div>
+       </div>
+       <br>
+       <div class="col-12">
+        <div class="table-responsive">
+                  <div class="col-sm-15">
+                <table class="table table-striped table-bordered">
+                    <thead><tr class="table-info" >
+                        <th colspan="7">Summary </th>                                            
+                    </tr>
+                    <tr class="table-info">
+                        <th>Entity</th>
+                        <th>Description</th>
+                        <th>Validation</th>
+                        <th>Result Value</th>
+                        <th>Result Status</th>
+                        <th>Sub Condition</th>
+                        <th>Remarks</th>                        
+                    </tr></thead>
+                    <tbody>
+                    <tr *ngFor="let sum of SummaryDetails">
+                        <td>{{sum.entity}}</td>                                            
+                        <td>{{sum.describtion}}</td>
+                        <td>{{sum.validation_value}} {{sum.parameter2}}</td>
+                        <td>{{sum.result_value}}</td>
+                        <td>
+                            <div *ngIf="sum.result_status=='Yes'; then thenBlock else elseBlock"></div>
+                            <ng-template #thenBlock> <span class="label label-success">{{sum.result_status}}</span></ng-template> 
+                            <ng-template #elseBlock> <span class="label label-warning">{{sum.result_status}}</span></ng-template>           
+                        </td>
+
+                        <td>{{sum.subcondition}}</td>
+                        <td>{{sum.remarks}}</td>
+                        
+                    </tr>
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+

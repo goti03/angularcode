@@ -1,0 +1,329 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+
+                        <th>Status</th>
+                     
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div class="card">
+        <div class="card-body">
+            <div class="md-stepper-horizontal green">
+                <ng-container *ngFor="let com of completed">
+                    <div *ngIf="com.failFlag==0" class="md-step active done">
+                        <div class="md-step-circle"><span>{{com.id}}</span></div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                    <div *ngIf="com.failFlag==1" class="md-step fail closed">
+                        <div class="md-step-circle"><span>{{com.id}}</span></div>
+                        <div class="md-step-title">{{com.name}} <br>{{com.date}}</div>
+                        <div class="md-step-bar-left"></div>
+                        <div class="md-step-bar-right"></div>
+                    </div>
+                </ng-container>
+
+                <div *ngFor="let pen of pending" class="md-step">
+                    <div class="md-step-circle"><span>X</span></div>
+                    <div class="md-step-title">{{pen.name}} </div>
+                    <div class="md-step-bar-left"></div>
+                    <div class="md-step-bar-right"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+      
+        <div class="row">
+         
+            <div class="col-sm-12" style="font-size:30px;font-weight: 1000;text-align: center;"><b>Available Limit</b> : {{indianCurrency(availableLimit)}}
+            </div>
+            <div class="btn btn-success" (click)="gotoAction()" style="margin-left: 12px; margin-bottom: 2px;">Loan List</div>
+        </div>
+       
+        
+        <div class="row">
+            <div class="col-sm-12">
+                
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Sno</th>
+                            <th>Invoice No</th>
+                            <th>Invoice Amount</th>
+                            <th>Invoice Date</th>
+                            <th>Company Name</th>
+                            <th>SID/PID</th>
+                            <th>Funding Amount</th>
+                            <th>Funding Percentage</th>
+                            <th>File Name</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let d of disbursalInvoiceDetails; let i = index">
+                            <td>{{i+1}}</td>
+                            <td>{{d.invoiceNo}}</td>
+                            <td align="right">{{indianCurrency(d.invoiceAmount)}}</td>
+                            <td>{{d.invoiceDate}}</td>
+                            <td>{{d.companyName}}</td>
+                            <td *ngIf="d.type==1">SID</td>
+                            <td *ngIf="d.type==2">PID</td>
+                            <td align="right">{{indianCurrency(d.fundingAmount)}}</td>
+                            <td>{{d.fundingPercentage}}</td>
+                            <td><button class="btn btn-link" (click)="downloadFile(d.filePath,d.fileName)">{{d.fileName}}</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" align="right">Total Funding Limit</td>
+                            <td align="right" style="white-space: nowrap;">{{indianCurrency(fundingAmount)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>
+                <div class="col text-center">
+                    <button class="btn btn-link mb-2" (click)="getInvoiceList(invoiceViewPopUp)">View Invoice Details</button>&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-link mb-2" (click)="viewAnchorDetails(anchorViewPopUp)">View SID/PID Details</button>&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-primary mb-2" [hidden]="acceptButton" (click)="submit(confirmationMSG)"> Accept</button>&nbsp;&nbsp;&nbsp;
+                    <button class="btn btn-danger mb-2" [hidden]="rejectButton" (click)="rejectPopupPage(rejectPopup)"> Reject
+          </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #rejectPopup let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Reason for Rejection</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="col text-center">
+            <table>
+                <tr>
+                    <td>remarks :</td>
+                    <td><textarea style="width: 300px;" id="remarks" name="remarks" [(ngModel)]="remarks"></textarea></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="col text-center">
+            <button type="button" class="btn btn-primary" (click)="reject()">
+        Save
+      </button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #confirmationMSG let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><b>Please confirm..</b></h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <p>Do you really want to Accept ?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="acceptMSG()">Okay</button>
+        <button type="button" class="btn btn-danger" (click)="rejectMSG()">Cancel</button>
+    </div>
+</ng-template>
+
+<ng-template #anchorViewPopUp let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><b>SID/PID View</b></h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <table *ngIf="!acceptButton" class="table table-responsive table-striped table-bordered" style="font-size: 14px;padding: 0px !important;">
+            <tr>
+                <td>Available Limit</td>
+                <td  align="right">{{indianCurrency(availableLimit)}}</td>
+            </tr>
+            <tr>
+                <td>Funding Limit</td>
+                <td  align="right">{{indianCurrency(fundingAmount)}}</td>
+            </tr>
+            <tr>
+                <td>Net Available Limit</td>
+                <td  align="right">{{indianCurrency(netAvailableLimit)}}</td>
+            </tr>
+        </table>
+        <select class="form-control" id="borrowerLoanTenureType" style="width:200px" required [(ngModel)]="Sidpid" name="borrowerLoanTenureType"
+                                        (change)="getSidPidType()">
+                                        <option [value]="1">SID</option>
+                                        <option [value]="2">PID</option>
+                                    </select>
+        <table class="table fin-table green-top">
+            <thead>
+                <tr>
+                    
+                    <th>Sl.No</th>
+                    <th>Anchor Name</th>
+                    <th>Pan No</th>
+                    <th>SID/PID</th>
+                    <th>Company Type</th>
+                    <th>Company Rating</th>
+                    <th>Funding %age</th>
+                    <th>Status</th>
+                </tr>
+            </thead>    
+            <tbody>
+                <tr *ngFor="let f of anchorData  | paginate: { itemsPerPage: p1, currentPage: p ,id:'anchorPag'}; let i = index">
+                    <td>{{((p-1)*p1)+i+1}}</td>
+                    <td>{{f.buyerName}}</td>
+                    <td>{{f.panNo}}</td>
+                  <td *ngIf="f.anchorType==1">SID</td>
+                  <td *ngIf="f.anchorType==2">PID</td>
+                 
+                    <td>
+                        <select class="form-select" name="ratingCompanyTypeId_{{i}}" required
+                            id="ratingCompanyTypeId_{{i}}" [(ngModel)]="f.ratingCompanyTypeId" [disabled]="true">
+                            <option [value]="0">Choose Company Type</option>
+                            <option *ngFor="let ms of companyTypeList" [value]="ms.id">
+                                {{ms.name}}</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="form-select" name="ratingId_{{i}}" required id="ratingId_{{i}}"
+                            [(ngModel)]="f.ratingId"  [disabled]="true">
+                            <option [value]="0">Choose Company Rate</option>
+                            <option *ngFor="let ms of companyRatingList" [value]="ms.raingId">
+                                {{ms.ratingName}}
+                            </option>
+                        </select>
+                    </td>
+                    <td>
+                        {{f.fundingPercentage}}
+                    </td>
+                   <td>
+                    <select [(ngModel)]="f.isAnchorActive" style="width: 100px;" name="isAnchorActive_{{i}}"
+                            class="form-select" id="isAnchorActive_{{i}}" [disabled]="true">
+                            <option *ngFor="let s of status" [value]="s.status">
+                                {{s.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                
+            </tbody>
+            
+         
+  
+        </table>
+    </div>
+    <pagination-controls (pageChange)="p = $event" id="anchorPag" ></pagination-controls>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="rejectMSG()">Cancel</button>
+    </div>
+</ng-template>
+<ng-template #invoiceViewPopUp let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><b>Invoice View</b></h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <table *ngIf="!acceptButton" class="table table-responsive table-striped table-bordered" style="font-size: 14px;padding: 0px !important;">
+            <tr>
+                <td>Available Limit</td>
+                <td  align="right">{{indianCurrency(availableLimit)}}</td>
+            </tr>
+            <tr>
+                <td>Funding Limit</td>
+                <td  align="right">{{indianCurrency(fundingAmount)}}</td>
+            </tr>
+            <tr>
+                <td>Net Available Limit</td>
+                <td  align="right">{{indianCurrency(netAvailableLimit)}}</td>
+            </tr>
+        </table>
+        <table class="table fin-table green-top">
+            <thead>
+                <tr>
+                    
+                    <th>Sno</th>
+                    <th>Category Name</th>
+                    <th>Document Type</th>
+                    <th>File Source</th>
+                    <th>Status</th>
+                </tr>
+            </thead>    
+            <tbody>
+                <tr>
+                    <td colspan="5">
+                        <span *ngIf="invoiceList.length==0" style="color: red;">No Data Found</span>
+                    </td>
+                </tr>
+                <tr *ngFor="let la of invoiceList | paginate: { itemsPerPage: q1, currentPage: q,id:'invPag' };let i = index">
+            
+                    <td>{{((p-1)*p1)+i+1}}</td>
+                    <td>{{la.categoryName}}</td>
+                    <td>{{la.documentName}}</td>
+                    <td class="fin-mulitple">
+                      <button (click)="downloadView(la.filePath,la.fileSource)" class="btn btn-link">
+                        {{la.fileSource}}
+                      </button>
+                    </td>
+                    <td style="white-space: nowrap;">
+                      <ng-container *ngIf="la.uploadedStatus==0">
+                        <button type="button" class="btn btn-warning btn-sm fin-btn"><i class="fas fa-clock"></i>
+                          Pending</button>
+                      </ng-container>
+                      <ng-container *ngIf="la.uploadedStatus==1">
+                        <button type="button" class="btn btn-warning btn-sm fin-btn"><i class="far fa-check-circle"></i>
+                          Completed</button>
+                      </ng-container>
+                    </td>
+                </tr>
+                
+            </tbody>
+            
+         
+  
+        </table>
+    </div>
+    <pagination-controls (pageChange)="q = $event" id="invPag" ></pagination-controls>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="rejectMSG()">Cancel</button>
+    </div>
+</ng-template>

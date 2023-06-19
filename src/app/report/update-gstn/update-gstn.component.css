@@ -1,0 +1,38 @@
+.btn-wrapper {
+    text-align: center;
+}
+
+.button {
+    position: absolute;
+}
+
+.invalid {
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.fin-btn {
+	color: #fff !important;
+	box-shadow: 0 3px #999;
+}
+
+.btn-info {
+	color: #000;
+	background-color: #0dcaf0;
+	border-color: #0dcaf0;
+	border-radius: 0.25rem;
+}

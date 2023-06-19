@@ -1,0 +1,985 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <h3>Loan Application Form</h3>
+
+                <!-- <form> -->
+                <table class="table table-striped" *ngFor="let fm of FormDetails">
+                    <tr>
+                        <td><label>Application Ref.no : </label></td>
+                        <td>{{fm.applicationRefNo}}</td>
+                        <td><label>Application Date : </label></td>
+                        <td>{{fm.loanDate}}</td>
+                        <!-- <td><label>City : </label></td>
+                            <td>{{fm.city}} </td> -->
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label>Loan Amount : </label></td>
+                        <td>{{fm.loanAmount}}</td>
+                        <td><label>Desired Tenure : </label></td>
+                        <td>12 Months</td>
+                        <!-- <td><input type="text" style="width: 200px;" class="form-control"
+                                    [(ngModel)]="fm.desiredTenure" readonly id="desiredTenure" required
+                                    name="desiredTenure">
+                            </td> -->
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <!-- <tr>
+                            <td>Purpose of Loan:</td>
+                            <td>
+                                <select class="form-control" formControlName="purposeOfLoan" name="purposeOfLoan"
+                                    id="purposeOfLoan" required [(ngModel)]="fm.purposeOfLoan" style="width: 200px;">
+                                    <option *ngFor="let p of purposeOfLoan" [value]="p.name">{{p.name}}</option>
+                                </select></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr> -->
+                </table>
+                <div class="form-group" style="margin-top:5%;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Company Details</h4>
+                            <table class="table table-striped" *ngFor="let fm of FormDetails">
+                                <tr>
+                                    <td><label>Company Name:</label></td>
+                                    <td>{{fm.companyName}}</td>
+                                    <td><label>Entity Type:</label></td>
+                                    <td>{{fm.companyType}}</td>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font><label>Type of
+                                            Industry:</label>
+                                    </td>
+                                    <td>
+                                        <select class="form-control" name="indstryType" id="indstryType" required
+                                            [(ngModel)]="fm.industryType" style="width: 200px;">
+                                            <option *ngFor="let it of IndustryType" [value]="it.name">{{it.name}}
+                                            </option>
+                                        </select>
+                                        <!-- <div *ngIf="submitted && f.industryType.errors" class="invalid-feedback">
+                                                <div *ngIf="f.industryType.errors.required">Type of Industry is required
+                                                </div>
+                                            </div> -->
+
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Date of Incorporation:</label>
+                                    </td>
+                                    <td>
+                                        <input type="date" style="width: 200px;" class="form-control"
+                                            max="{{todayDate}}" [(ngModel)]="fm.incorporationDate"
+                                            id="incorporationDate_{{i}}" required name="incorporationDate_{{i}}"
+                                            (change)="caluculateInCorpDate()" (keypress)="preventTyping()">
+                                    </td>
+                                    <td><label>No. of years in Business:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control" readonly
+                                            [(ngModel)]="fm.yearsOfBusiness" id="yearsOfBusiness" required
+                                            name="yearsOfBusiness"></td>
+
+                                    <td><label>ID Document Type:</label></td>
+                                    <td>Pan Card</td>
+                                </tr>
+                                <tr>
+                                    <td><label [hidden]="natureofBusiness">
+                                            <font style="color: red;">*</font>Nature of Business:
+                                        </label></td>
+                                    <td>
+                                        <select [hidden]="natureofBusiness" [(ngModel)]="fm.natureOfBusiness" required
+                                            id="natureOfBusiness_{{i}}" name="natureOfBusiness_{{i}}"
+                                            style="width: 200px;" class="form-control">
+                                            <option *ngFor="let a of businessTypeList" [value]="a.name">{{a.name}}
+                                            </option>
+                                        </select>
+                                        <!-- <input matInput [matAutocomplete]="auto" style="width: 200px;" [formControl]="stateCtrl" 
+                                            class="form-control  ">
+                                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="handler($event)">
+                                                <mat-option *ngFor="let state of filteredStates | async" [value]="state">{{ state }}</mat-option>
+                                            </mat-autocomplete> -->
+                                    </td>
+                                    <td><label>Pan Card No:</label></td>
+                                    <td>{{fm.panCard}}</td>
+                                    <td><label>No. of Directors/Partners:</label></td>
+                                    <td>{{fm.noOfPartner}}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Address List:</label>
+                                    </td>
+                                    <td><select class="form-control" name="officeAddress" id="officeAddress" required
+                                            [(ngModel)]="fm.addressOne" style="width: 200px;"
+                                            (change)="getaddress($event.target.value,i)">
+                                            <option *ngFor="let a of addressList"
+                                                value="{{a.city}}~{{a.state}}~{{a.pincode}}~{{a.address}}~{{a.addressId}}">
+                                                {{a.address}}
+                                            </option>
+                                        </select></td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Pin Code:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control" required
+                                            [(ngModel)]="fm.officePincode" id="officePincode"
+                                            (change)="getAddressByPincode($event.target.value)" name="officePincode">
+                                    </td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Office Address:</label>
+                                    </td>
+                                    <td><textarea style="width: 250px;height: 50px;  resize: both; overflow: auto;"
+                                            [(ngModel)]="fm.officeAddress" required class="form-control" required
+                                            name="addressOne">
+                                                    </textarea></td>
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <font style="color: red;">*</font><label>State:</label>
+                                    </td>
+                                    <td>
+                                        <select style="width: 200px;" class="form-control" [(ngModel)]="fm.officeState"
+                                            required id="officeState" name="officeState"
+                                            (change)="setCityValue($event.target.value)">
+                                            <option *ngFor="let s of stateList" [value]="s.stateName">{{s.stateName}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>City:</label>
+                                    </td>
+                                    <td>
+                                        <select style="width: 200px;" class="form-control" [(ngModel)]="fm.officeCity"
+                                            required id="officeCity" name="officeCity">
+                                            <option *ngFor="let c of cityList" [value]="c.cityName">{{c.cityName}}
+                                            </option>
+                                        </select>
+                                    </td>
+
+                                    <td><label>LandMark:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="fm.officeLandmark" id="officeLandmark" name="officeLandmark">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font><label>Mobile
+                                            No:</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" style="width: 200px;" class="form-control" readonly
+                                            [(ngModel)]="fm.mobileNo" id="mobileNo" required name="mobileNo"
+                                            maxlength="10" minlength="10">
+                                    </td>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication" *ngIf="!ugroLender">*
+                                        </font><label>Property
+                                            Type</label>
+                                    </td>
+                                    <td><select class="form-control" name="AddressProperty_{{i}}"
+                                            id="AddressProperty_{{i}}" [(ngModel)]="fm.propertytype" required
+                                            style="width: 200px;">
+                                            <option *ngFor="let ms of addressPropertyList" [value]="ms.id">
+                                                {{ms.name}}</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Residing Since</label>
+                                    </td>
+                                    <td> <input type="date" style="width: 200px;" class="form-control" required
+                                            [(ngModel)]="fm.resideSince" id="resideSince_{{i}}" max="{{todayDate}}"
+                                            name="resideSince_{{i}}" (keypress)="preventTyping()"></td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Company
+                                            Mail</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control" required
+                                            [(ngModel)]="fm.emailId" id="emailId_{{i}}" name="emailId_{{i}}"></td>
+                                    <td *ngIf="idfcLender||janaLender">
+                                        <font style="color: red;">*</font><label>Nearest Branch </label>
+                                    </td>
+                                    <td *ngIf="idfcLender||janaLender">
+                                        <!-- <select style="width: 200px;" class="form-control" [(ngModel)]="fm.branchId"
+                                            required id="branchId_{{i}}" name="branchId_{{i}}">
+                                            <option *ngFor="let b of branchList" [value]="b.id">{{b.name}}</option>
+                                        </select> -->
+                                        <input #branchname (keyup)="0" matInput placeholder="&#61442; Nearest Branch" aria-label="branchname"
+                                        [matAutocomplete]="auto1" class="form-control "
+                                        [(ngModel)]="fm.branchId" [formControl]="branchnameCtrl">
+                                         <mat-autocomplete #auto1="matAutocomplete">
+                                         <mat-option (onSelectionChange)="branchname.value !=undefined"
+                                             *ngFor="let branchname of filteredbranch| async" [value]="branchname.branchInfo">
+                                             <span>{{branchname.branchInfo}}</span>
+                                         </mat-option>
+                                     </mat-autocomplete>
+                                    </td>
+                                   
+                                    <!-- <td><label>Telephone Number:</label></td>
+                                        <td><input type="number" style="width: 200px;" class="form-control"
+                                                [(ngModel)]="fm.telephoneNo" id="telephoneNo_{{i}}"
+                                                name="telephoneNo_{{i}}"></td>
+                                        <td><label>STD Code:</label></td>
+                                        <td><input type="number" style="width: 200px;" class="form-control"
+                                                [(ngModel)]="fm.stdCode" id="stdCode_{{i}}" name="stdCode_{{i}}"></td>
+                                        <td></td>
+                                        <td></td> -->
+                                        
+                                        <td style="white-space: nowrap;">
+                                            <font style="color: red;" *ngIf="!ugroLender">*</font><label>Ownership Proof
+                                                Available</label>
+                                        </td>
+                                        <td>
+                                            <select style="width: 200px;" class="form-control"
+                                                [(ngModel)]="fm.ownershipProof" required id="ownershipProof_{{i}}"
+                                                name="ownershipProof_{{i}}" [disabled]="draftApplication">
+                                                <option value="1">Yes</option>
+                                                <option value="0">No</option>
+                                            </select>
+                                            <!-- <select class="form-control" name="ownershipProof" id="ownershipProof" required
+                                            [(ngModel)]="fm.ownershipProof" style="width: 200px;">
+                                            <option *ngFor="let it of ownershipProof" [value]="it.name">{{it.name}}
+                                            </option>
+                                        </select> -->
+                                        </td>
+                                     
+                                    </tr>
+                                    <tr>
+                                        <td style="white-space: nowrap;" *ngIf="(programTypeId==4 && showAnchorRecom) || programTypeId==6"> <font style="color: red;">*</font><label>Anchor Recommendation</label></td>
+                                        <td *ngIf="(programTypeId==4 && showAnchorRecom) || programTypeId==6">
+                                            <input type="text" style="width: 200px;" class="form-control" required
+                                            [(ngModel)]="fm.anchorRecommendation" id="anchorRecommendation_{{i}}" 
+                                            name="anchorRecommendation_{{i}}" (keypress)="keyPress($event)">
+                                        </td>
+                                    </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" *ngIf="flag==2">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>GST Details</h4>
+                            <table class="table table-stripped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            GST NO
+                                        </th>
+                                        <th>
+                                            3B Return period
+                                        </th>
+                                        <th>
+                                            3B Filling Date
+                                        </th>
+                                        <th>
+                                            R1 Return Period
+                                        </th>
+                                        <th>
+                                            R1 Filling Date
+                                        </th>
+                                        <th>
+                                            GSTN Status
+                                        </th>
+                                        <th>
+                                            System Verify
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let gst of gstList;let i = index">
+                                        <td>
+                                            {{gst.gstNo}}
+                                        </td>
+                                        <td>
+                                            <input type="month" class="form-control"
+                                                [(ngModel)]="gst.gst3b_return_period" required min="{{min[i]}}"
+                                                max="{{maxDate | date:'yyyy-MM'}}" required
+                                                (change)="systemVerifying($event, i)">
+                                        </td>
+                                        <!-- {{new Date(gst.gst3b_return_period).getMonth()}} -->
+                                        <td>
+                                            <!-- {{gst.gst3b_filling_date| date: 'dd/MM/yyyy'}} -->
+                                            <input type="date" class="form-control" required (keypress)="preventTyping()"
+                                                [(ngModel)]="gst.gst3b_filing_date" min="{{min1[i]}}"
+                                                max="{{maxDate | date: 'yyyy-MM-dd'}}" required>
+                                        </td>
+                                        <td>
+                                            <input type="month" class="form-control" required
+                                                [(ngModel)]="gst.gstr1_return_period" min="{{min2[i]}}"
+                                                max="{{maxDate | date:'yyyy-MM'}}" required>
+                                        </td>
+                                        <td>
+                                            <!-- {{gst.gstr1_filling_date| date: 'dd/MM/yyyy'}} -->
+                                            <input type="date" class="form-control" required (keypress)="preventTyping()"
+                                                [(ngModel)]="gst.gstr1_filing_date" min="{{min3[i]}}"
+                                                max="{{maxDate | date: 'yyyy-MM-dd'}}" required>
+
+                                        </td>
+                                        <td>
+                                            <select [(ngModel)]="gst.isActive" name="isActive" class="form-control"
+                                                id="isActive" (change)="systemVerifiedCheck(i, $event)">
+                                                <option *ngFor="let s of status" [value]="s.status">{{s.name}}</option>
+                                                <!-- <option [value]="N">Inactive</option> -->
+                                            </select>
+                                        </td>
+
+                                        <td *ngIf="gst.systemVerify==1; else other"
+                                            style="color: green; font-size:xx-large  ; text-align: center;">
+                                            &#10004;
+                                        </td>
+                                        <ng-template #other>
+                                            <td *ngIf="sv; else otherone"
+                                                style="color: green; font-size:xx-large  ; text-align: center;">
+                                                &#10004;
+                                            </td>
+                                        </ng-template>
+                                        <ng-template #otherone>
+                                            <td style="color: red; font-size: larger; text-align: center;">
+                                                &#10060;
+                                            </td>
+                                        </ng-template>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top:5%;">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>BANK DETAILS</h4>
+                            <table class="table table-striped table-bordered">
+                                <tr>
+                                    <th>Sno</th>
+                                    <th>Bank Name</th>
+                                    <th *ngIf="!ugroLender">Branch Name</th>
+                                    <th>Primary Applicant Name</th>
+                                    <th>IFSC Code</th>
+                                    <th>Account NUmber </th>
+                                    <th>Account Type</th>
+                                    <th>Check if you prefered the particular for E-Nach</th>
+                                </tr>
+                                <tr *ngFor="let bd of BankDetails;let i=index">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <select class="form-control" id="bankName" name="bankName" required
+                                            [(ngModel)]="bd.bankName">
+                                            <option *ngFor="let b of bankNameList" [value]="b.bankName">{{b.bankName}}
+                                            </option>
+                                        </select>
+
+                                    </td>
+                                    <td *ngIf="!ugroLender">
+                                        <input type="text" id="branchName" name="branchName" class="form-control"
+                                            required [(ngModel)]="bd.branchName">
+                                    </td>
+                                    <td>
+                                        <input type="text" id="primaryApplicant" name="primaryApplicant" required
+                                            class="form-control" [(ngModel)]="bd.primaryApplicant">
+                                    </td>
+                                    <td>
+                                        <input type="text" id="ifscCode" name="ifscCode" class="form-control" required
+                                            [(ngModel)]="bd.ifscCode">
+                                    </td>
+                                    <td>
+                                        <input type="text" id="accountNo" name="accountNo" class="form-control" required
+                                            [(ngModel)]="bd.accountNo">
+                                    </td>
+                                    <td>
+                                        <select class="form-control" id="accountType" name="accountType" required
+                                            [(ngModel)]="bd.accountType">
+                                            <option *ngFor="let a of accountTypeList" [value]="a.accId">{{a.accName}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <!-- <td *ngIf="!ugroaslender">
+                                        {{bd.modeOfPayment}}
+                                    </td> -->
+                                    <td>
+                                        <input type="checkbox" name="enach" id="enach" [(ngModel)]="bd.enach"
+                                            (change)="checkforenach(i)">
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 5%;">
+                    <div class="col-4">
+                        <h4>PERSONAL DETAILS - APPLICANT</h4>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                            <table class="table table-striped" *ngFor="let dynamic of applicantList;let i = index;">
+                                <tr>
+                                    <td colspan="3">
+                                        <h4>Co Applicant-{{i+1}}
+                                            <!-- {{dynamic.applicantSequence}} -->
+                                        </h4>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" [hidden]="draftApplication" *ngIf="i!=0"
+                                            (click)="delApplicant(i)">Delete</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font>
+                                        Have taken Business Loan from {{dynamic.lender}} Earlier-
+                                        <select style="width: 200px;" class="form-control" required
+                                            id="previousLoanTaken_{{i}}" name="previousLoanTaken_{{i}}"
+                                            [(ngModel)]="dynamic.previousLoanTaken" (click)="checkPreviousLoan(i)">
+                                            <option *ngFor="let g of statusList" [value]="g.name">{{g.name}}</option>
+                                        </select>
+                                    </td>
+                                    <!-- <ng-container *ngIf="dynamic.previousLoanTaken== 'Yes'">
+                                        <td>
+                                            <font style="color: red;">*</font><label> application Id</label>
+                                        </td>
+                                        <td><input type="text" style="width: 200px;" class="form-control"
+                                                [(ngModel)]="dynamic.lanNo" id="lanNo_{{i}}" required
+                                                name="lanNo_{{i}}"></td>
+                                    </ng-container>
+                                    <ng-container *ngIf="dynamic.previousLoanTaken != 'Yes'">
+                                        <td><input type="hidden" style="width: 200px;" class="form-control"
+                                                [(ngModel)]="dynamic.lanNo" id="lanNo_{{i}}" required
+                                                name="lanNo_{{i}}"></td>
+                                    </ng-container> -->
+
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <font style="color: red;">*</font><label>Applicant First Name:</label>
+                                    </td>
+                                    <td>
+                                        <div style="display: flex;">
+                                            <select style="display: inline !important;" [(ngModel)]="dynamic.salutation">
+                                                <option *ngFor="let s of salutation" [value]="s.id">{{s.name}}</option>
+                                            </select>
+                                            &nbsp;
+                                            <input type="text" style="width: 200px;display: inline !important;" class="form-control" matInput
+                                                specialIsAlphaNumeric [(ngModel)]="dynamic.applicantName"
+                                                id="applicantName_{{i}}" required name="applicantName_{{i}}">
+                                        </div>
+                                    </td>
+                                    <td><label>Middle Name:</label> </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.applicantMidName" id="applicantMidName_{{i}}"
+                                            name="applicantMidName_{{i}}"></td>
+                                    <td>
+                                        <font style="color: red;" *ngIf="!ugroLender">*</font><label>Last Name:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.applicantLastName" id="applicantLastName_{{i}}"
+                                            required name="applicantLastName_{{i}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;" *ngIf="!ugroLender">*</font><label>Father's First
+                                            Name:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.fatherName" id="fatherName_{{i}}" required
+                                            name="fatherName_{{i}}"></td>
+                                    <td><label>Middle Name:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.fatherMidName" id="fatherMidName_{{i}}"
+                                            name="fatherMidName_{{i}}"></td>
+                                    <td><label> Last Name:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.fatherLastName" id="fatherLastName_{{i}}"
+                                            name="fatherLastName_{{i}}"></td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;" *ngIf="!ugroLender">*</font><label>Mother's First
+                                            Name:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.motherName" id="motherName_{{i}}" required
+                                            name="motherName_{{i}}"></td>
+                                    <td><label>Middle Name:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.motherMidName" id="motherMidName_{{i}}"
+                                            name="motherMidName_{{i}}"></td>
+                                    <td><label>Last Name:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.motherLastName" id="motherLastName_{{i}}"
+                                            name="motherLastName_{{i}}"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Gender:</label>
+                                    </td>
+                                    <td><select class="form-control" name="gender_{{i}}" id="gender_{{i}}" required
+                                            [(ngModel)]="dynamic.gender" style="width: 200px;">
+                                            <option *ngFor="let g of GenderList" [value]="g.name">{{g.name}}
+                                            </option>
+                                        </select></td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>DOB:</label>
+                                    </td>
+                                    <td>
+                                        <input type="date" style="width: 200px;" class="form-control" required (keypress)="preventTyping()"
+                                            max="{{minAge}}" [(ngModel)]="dynamic.dob" id="dob_{{i}}" name="dob_{{i}}">
+                                    </td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Marital Status:</label>
+                                    </td>
+                                    <td><select class="form-control" name="maritalStatus_{{i}}" id="maritalStatus_{{i}}"
+                                            required [(ngModel)]="dynamic.maritalStatus" style="width: 200px;">
+                                            <option [value]="0">Select Marital Status</option>
+                                            <option *ngFor="let ms of MaritalList" [value]="ms.name">{{ms.name}}
+                                            </option>
+                                        </select></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Pan Card No:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control" required
+                                            [(ngModel)]="dynamic.panNo" [readonly]="dynamic.applicantSequence==1"
+                                            style="text-transform: uppercase;" name="panCard_{{i}}" maxlength="10"></td>
+                                            <td>
+                                                <font style="color: red;" *ngIf="!ugroLender">*</font><label>Aadhaar
+                                                    Card:</label>
+                                            </td>
+                                            <td class="input-group box-size"><input [type]="fieldTextType ? 'text' : 'password'" style="width: 200px;" class="form-control"
+                                                    [(ngModel)]="dynamic.aadharNo" id="aadhaarNo_{{i}}" required
+                                                    name="aadhaarNo_{{i}}" (keypress)="keyPress($event)" maxlength="16">
+                                                    <span class="input-group-text pos-abs pointer">
+                                                        <i class="fa pad-2" [ngClass]="{
+                                                      'fa-eye-slash': !fieldTextType,
+                                                      'fa-eye': fieldTextType
+                                                    }" (click)="toggleFieldTextType()"></i>
+                                                    </span>
+                                                </td>
+
+                                    <td>
+                                        <font style="color: red;">*</font><label>Mobile No:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.mobileNo" id="mobileNo_{{i}}" required
+                                            name="mobileNo_{{i}}" (keypress)="keyPress($event)" maxlength="10"></td>
+
+                                </tr>
+                                <tr>
+                                    <td><label>Voter ID:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.voterId" id="voterId_{{i}}" name="voterId_{{i}}">
+                                    </td>
+                                    <td><label>Driving License</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.drivingLicense" id="drivingLicense_{{i}}"
+                                            name="drivingLicense_{{i}}"></td>
+                                    <td><label>Driving License Expiry Date </label></td>
+                                    <td><input type="date" style="width: 200px;" class="form-control" (keypress)="preventTyping()"
+                                            max="{{todayDate}}" [(ngModel)]="dynamic.drivingLicenseExpirydate"
+                                            id="licenseExpiryDate_{{i}}" name="licenseExpiryDate_{{i}}"></td>
+                                </tr>
+                                <tr>
+                                    <td><label>Passport</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.passport" id="passportNo_{{i}}"
+                                            name="passportNo_{{i}}"></td>
+                                    <td><label>Passport Expiry Date</label></td>
+                                    <td><input type="date" style="width: 200px;" class="form-control" (keypress)="preventTyping()"
+                                            max="{{todayDate}}" [(ngModel)]="dynamic.passportExpiryDate"
+                                            id="passportExpiryDate_{{i}}" name="passportExpiryDate_{{i}}"></td>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font><label>Email
+                                            Id:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.mailId" required name="emailId_{{i}}"></td>
+                                </tr>
+                                <tr>
+                                    <td><font style="color: red;">*</font><label>Educational Qualification</label> </td>
+                                    <td>
+                                        <select style="width: 200px;" [(ngModel)]="dynamic.education" class="form-control">
+                                            <option *ngFor="let s of education" [value]="s.id">{{s.name}}</option>
+                                        </select>
+                                    </td>
+                                    <td><label>Occupation</label> </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.occupation" id="occupation_{{i}}"
+                                            name="occupation_{{i}}"></td>
+
+                                    <!-- <td><label>No of year</label></td>
+                                        <td><input type="text" style="width: 200px;" class="form-control"
+                                                [(ngModel)]="dynamic.noOfYear" id="noOfYear_{{i}}"
+                                                name="noOfYear_{{i}}"></td> -->
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font>
+                                        <label>Residential Status</label>
+                                    </td>
+                                    <td><select class="form-control" name="residentialStatus_{{i}}" required
+                                            id="residentialStatus_{{i}}" [(ngModel)]="dynamic.residentialStatus"
+                                            style="width: 200px;">
+                                            <option *ngFor="let ms of residentialList" [value]="ms.id">{{ms.name}}
+                                            </option>
+                                        </select></td>
+                                </tr>
+                                <!-- <tr>
+                                        
+
+                                        <td><label>Higher Education</label></td>
+                                        <td><select class="form-control" name="higherEducation_{{i}}"
+                                                id="higherEducation_{{i}}" [(ngModel)]="dynamic.higherEducation"
+                                                style="width: 200px;">
+                                                <option *ngFor="let ms of educationList" [value]="ms.name">{{ms.name}}
+                                                </option>
+                                            </select></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr> -->
+                                <tr>
+                                    <td colspan="2">
+                                        <label>Weaker Section</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <ng-container *ngIf="dynamic.womanBeneficiary==1">
+                                            <input type="checkbox" checked name="womanBeneficiary"
+                                                id="womanBeneficiary_{{i}}" (click)="checkWomanBeneficiary(i)">
+                                        </ng-container>
+                                        <ng-container *ngIf="dynamic.womanBeneficiary==0">
+                                            <input type="checkbox" name="womanBeneficiary" id="womanBeneficiary_{{i}}"
+                                                (click)="checkWomanBeneficiary(i)">
+                                        </ng-container>
+
+
+                                    </td>
+                                    <td colspan="2">
+                                        &nbsp;
+                                    </td>
+                                    <td>
+                                        &nbsp;
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                <!-- <tr>
+                                        <td>
+                                            <label>Weaker Section</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <input type="checkbox" name="womanBeneficiary" id="womanBeneficiary_{{i}}"
+                                                (click)="checkWomanBeneficiary(i)">
+                                        </td>
+
+                                    </tr> -->
+                                <!-- <tr>
+                                        <td><select class="form-control" name="loanTo_{{i}}" id="loanTo_{{i}}"
+                                                [(ngModel)]="dynamic.loanTo" style="width: 200px; display: none;">
+                                                <option *ngFor="let ms of loanToList" [value]="ms.id">{{ms.name}}
+                                                </option>
+                                            </select> </td>
+                                        <td><select class="form-control" name="religion_{{i}}" id="religion_{{i}}"
+                                                [(ngModel)]="dynamic.religion" style="width: 200px;  display: none;">
+                                                <option *ngFor="let ms of religionList" [value]="ms.id">{{ms.name}}
+                                                </option>
+                                            </select></td>
+                                        <td><select style="width: 200px;  display: none;" class="form-control"
+                                                id="minorityStatus_{{i}}" name="minorityStatus"
+                                                [(ngModel)]="dynamic.minorityCommunity">
+                                                <option *ngFor="let g of statusList" [value]="g.id">{{g.name}}</option>
+                                            </select></td>
+                                        <td><input type="hidden" style="width: 200px;  display: none;"
+                                                class="form-control" [(ngModel)]="dynamic.annualHouseHold"
+                                                id="houseHoldIncome_{{i}}" name="houseHoldIncome_{{i}}"></td>
+                                        <td><select class="form-control" name="PreferenceCategory_{{i}}"
+                                                id="PreferenceCategory_{{i}}" [(ngModel)]="dynamic.PreferenceCategory"
+                                                style="width: 200px;  display: none;">
+                                                <option *ngFor="let ms of PreferenceCategory" [value]="ms.id">
+                                                    {{ms.name}}
+                                                </option>
+                                            </select>
+
+                                        </td>
+                                    </tr> -->
+                                <tr *ngIf="!ugroLender">
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font>
+                                        <label>Category</label>
+                                    </td>
+                                    <td><select class="form-control" name="loanTo_{{i}}" id="loanTo_{{i}}" required
+                                            [(ngModel)]="dynamic.loanTo" style="width: 200px;">
+                                            <option *ngFor="let ms of loanToList" [value]="ms.id">{{ms.name}}
+                                            </option>
+                                        </select> </td>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font>
+                                        <label>Religion</label>
+                                    </td>
+                                    <td><select class="form-control" name="religion_{{i}}" id="religion_{{i}}" required
+                                            [(ngModel)]="dynamic.religion" style="width: 200px;">
+                                            <option *ngFor="let ms of religionList" [value]="ms.id">{{ms.name}}
+                                            </option>
+                                        </select></td>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication">*</font><label>Minority
+                                            Status:</label>
+                                    </td>
+                                    <td><select style="width: 200px;" class="form-control" id="minorityStatus_{{i}}"
+                                            required name="minorityStatus" [(ngModel)]="dynamic.minorityCommunity">
+                                            <option *ngFor="let g of statusList" [value]="g.id">{{g.name}}</option>
+                                        </select></td>
+                                </tr>
+                                <tr *ngIf="!ugroLender">
+
+                                    <td><label>Annual Household Income :</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.annualHouseHold" id="houseHoldIncome_{{i}}"
+                                            name="houseHoldIncome_{{i}}"></td>
+                                    <td><label>Preference category</label></td>
+                                    <td><select class="form-control" name="PreferenceCategory_{{i}}"
+                                            id="PreferenceCategory_{{i}}" [(ngModel)]="dynamic.PreferenceCategory"
+                                            style="width: 200px;">
+                                            <option *ngFor="let ms of PreferenceCategory" [value]="ms.id">
+                                                {{ms.name}}
+                                            </option>
+                                        </select>
+
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <h4>Current Address</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Pin Code:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            (keypress)="keyPress($event)" (change)="validatePinCode(i,1,3)"
+                                            [(ngModel)]="dynamic.curPincode" required name="Cur_pinCode_{{i}}"></td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>State:</label>
+                                    </td>
+                                    <td>
+                                        <!-- <input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.curState" required name="Cur_State_{{i}}"> -->
+                                            <select style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.curState" required id="Cur_State_{{i}}"
+                                            name="Cur_State_{{i}}">
+                                            <option *ngFor="let s of stateList" [value]="s.stateName">{{s.stateName}}
+                                            </option>
+                                        </select>
+                                        </td>
+
+                                    <td>
+                                        <font style="color: red;">*</font><label>District:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.curDistrict" required name="Cur_district_{{i}}">
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>
+                                        <font style="color: red;">*</font><label>City:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.curCity" required name="Cur_city_{{i}}"></td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Address:</label>
+                                    </td>
+                                    <td><textarea style="width: 250px;height: 50px;  resize: both; overflow: auto;"
+                                            [(ngModel)]="dynamic.curAddress" required class="form-control" required
+                                            name="Cur_address_{{i}}">
+                                        </textarea></td>
+                                    <td><label>LandMark:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.curLandmark" name="Cur_landMark_{{i}}">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication" *ngIf="!ugroLender">*
+                                        </font><label>Property
+                                            Type</label>
+                                    </td>
+                                    <td><select class="form-control" name="curAddressProperty_{{i}}"
+                                            id="curAddressProperty_{{i}}" [(ngModel)]="dynamic.curPropertyType"
+                                            style="width: 200px;">
+                                            <option *ngFor="let ms of addressPropertyList" [value]="ms.id">
+                                                {{ms.name}}</option>
+                                        </select></td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Residing Since</label>
+                                    </td>
+                                    <td> <input type="date" style="width: 200px;" class="form-control" required (keypress)="preventTyping()"
+                                            max="{{todayDate}}" [(ngModel)]="dynamic.applicantResideSince"
+                                            id="applicantResideSince_{{i}}" name="applicantResideSince_{{i}}"></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <!-- <tr>
+                                        <td>Citizenship</td>
+                                        <td><input type="text" style="width: 200px;" class="form-control" 
+                                            [(ngModel)]="dynamic.curCitizen"    required name="curCitizen"></td>
+                                        <td>County</td>
+                                        <td><input type="text" style="width: 200px;" class="form-control" 
+                                            [(ngModel)]="dynamic.curCountry"    required name="curCountry"></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr> -->
+                                <tr>
+                                    <td colspan="5"><label>Permanent Address is same as Current
+                                            Address</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input type="checkbox" name="active" (click)="checkAddress(i);" required>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="5">
+                                        <h4>Permanent Address</h4>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Pin Code:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            (keypress)="keyPress($event)" (change)="validatePinCode(i,2,3)"
+                                            [(ngModel)]="dynamic.perPincode" required name="Per_pinCode_{{i}}"></td>
+
+                                    <td>
+                                        <font style="color: red;">*</font><label>State:</label>
+                                    </td>
+                                    <td>
+                                        <!-- <input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.perState" required name="Per_State_{{i}}"></td> -->
+                                            <select style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.perState" required id="Per_State_{{i}}"
+                                            name="Per_State_{{i}}">
+                                            <option *ngFor="let s of stateList" [value]="s.stateName">{{s.stateName}}
+                                            </option>
+                                        </select>
+                                    <td>
+                                        <font style="color: red;">*</font><label>District:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.perDistrict" required name="Per_district_{{i}}">
+                                    </td>
+
+
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;">*</font><label>City:</label>
+                                    </td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.perCity" required name="Per_city_{{i}}"></td>
+                                    <td>
+                                        <font style="color: red;">*</font><label>Address:</label>
+                                    </td>
+                                    <td><textarea style="width: 250px;height: 50px;  resize: both; overflow: auto;"
+                                            [(ngModel)]="dynamic.perAddress" class="form-control" required
+                                            name="Per_address_{{i}}">
+                                                </textarea></td>
+                                    <td><label>LandMark:</label></td>
+                                    <td><input type="text" style="width: 200px;" class="form-control"
+                                            [(ngModel)]="dynamic.perLandmark" required name="Per_landMark_{{i}}">
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <font style="color: red;" [hidden]="!draftApplication" *ngIf="!ugroLender">*
+                                        </font><label>Property
+                                            Type</label>
+                                    </td>
+                                    <td><select class="form-control" name="perAddressProperty_{{i}}" required
+                                            id="perAddressProperty_{{i}}" [(ngModel)]="dynamic.perPropertyType"
+                                            style="width: 200px;">
+                                            <option *ngFor="let ms of addressPropertyList" [value]="ms.id">
+                                                {{ms.name}}</option>
+                                        </select></td>
+
+                                    <td>
+                                        <label for="shp">Share holding Percentage</label>
+                                    </td>
+                                    <td>
+                                        <input type="text" (keypress)="keyPress($event)" name="shp" class="form-control"
+                                            id="shp" [(ngModel)]="dynamic.shareholdingPercentage">
+                                    </td>
+                                </tr>
+                                <tr>
+
+
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row" [hidden]="draftApplication">
+                        <div class="col-2">
+                            <button class="btn btn-primary" (click)="addApplicant()"
+                                *ngIf="applicantList.length<5">Add</button>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" (click)="onSubmit()" class="btn btn-success">Complete upload</button>
+                <!-- </form> -->
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<div class="container-scroller">
+  <div class="container-fluid page-body-wrapper full-page-wrapper">
+    <div class="content-wrapper d-flex align-items-center auth px-0">
+      <div class="row w-100 mx-0">
+        <div class="col-lg-4 mx-auto">
+          <div class="auth-form-light text-left py-5 px-4 px-sm-5">
+            <div class="brand-logo text-center">
+              <img src="assets/images/login-logo.png" alt="logo">
+            </div>
+            <h4 class="text-center">Get Hassle-free finance in just 2 simple steps</h4>
+            <div class="text-center"><img src="assets/images/password.png" alt=""></div>
+           
+            <h4 class="text-center" style="color: red;">{{errormsg}}</h4>
+
+            <form class="pt-3">
+              <div class="form-group">
+                <label class="label-text-bold">Enter your Mobile Number </label>
+                <input type="text" class="form-control form-control-lg" (keypress)="keyPress($event)"
+                  [(ngModel)]="mobilenumber" placeholder="Enter the Mobile Number" [ngModelOptions]="{standalone: true}"
+                  maxlength="10">
+              </div>
+              <div class="mt-2">
+                <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                  (click)="generateOTP()">PROCEED</button>
+              </div>
+              <div class="float:left pointer" *ngIf="smedashboard">
+                <label class="btn btn-link" style="color:green"(click)="gotoSMEDashboard()">Back to SME DASHBOARD</label>
+              </div>
+           
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+
+<!-- Forgot Password Modal -->
+<div id="forgotModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4>Forgot Password</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h6 class="font-weight-light">Reset your password by using your business email address.</h6>
+        <form class="pt-3">
+          <div class="form-group">
+            <input type="email" class="form-control form-control-lg" id="companyEmail"
+              placeholder="Business E-mail Address">
+          </div>
+          <div class="mt-3">
+            <a class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" href="dashboard.html">Reset
+              Password</a>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>

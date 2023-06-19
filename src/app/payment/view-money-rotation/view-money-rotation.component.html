@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">View Credit-Rotation List</h3>
+        <button class="btn btn-primary" (click)="newRotation()">Add New Rotation</button>
+        <br>
+        &nbsp;
+        <div class="search-hero">
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchList" autocomplete="off" placeholder="&#61442;  Start searching ">
+        </div>
+        <div class="table-responsive mt-20">
+            <table class="table table-striped ">
+                <thead>
+                    <th>S No</th>
+                    <th>Org Name</th>
+                    <th>Los No</th>
+                    <th>Rotation Amount</th>
+                    <th>Rotation Date</th>
+                    <th>Rotation Status</th>
+                    <th>Action</th>
+                </thead>
+                <tbody >
+                    <tr *ngFor="let r of rotationList | filter:searchList | paginate: { itemsPerPage: 5, currentPage: p };let i=index">
+                        <td> {{i+1}}</td>
+                        <td>{{r.orgName}}</td>
+                        <td>{{r.LOSNo}}</td>
+                        <td>{{r.rotationAmount}}</td>
+                        <td>{{r.rotationDate}}</td>
+                        <td>
+                            <ng-container *ngIf="r.rotationStatus=='In-Progress'">
+                                <div class="btn btn-warning btn-sm">{{r.rotationStatus}}</div>
+                            </ng-container>
+                            <ng-container *ngIf="r.rotationStatus=='Completed'">
+                                <div class="btn btn-success btn-sm">{{r.rotationStatus}}</div>
+                            </ng-container>
+                        </td>
+                        <td><button class="btn btn-link" (click)="viewRotationDetails(viewRotation,r.id)">view</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls (pageChange)="p = $event"  ></pagination-controls>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #viewRotation>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><b>View Credit Rotation List</b></h4>
+        <button type="button" class="close" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">×</span>
+          </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>S No</th>
+                <th>Invoice No</th>
+                <th>Invoice Amount</th>
+                <th>Invoice Date</th>
+                <th>Disbursement Amount</th>
+                <th>rotation Status</th>
+            </tr>
+        </thead>
+            <tr *ngFor="let cr of viewcreditRotationList;let i=index">
+                <td>{{i+1}}</td>
+                <td>{{cr.invoiceNo}}</td>
+                <td>{{cr.invoiceAmount}}</td>
+                <td>{{cr.invoiceDate}}</td>
+                <td>{{cr.disbursementAmount}}</td>
+                <td>
+                    <ng-container *ngIf="cr.rotationStatus=='In-Progress'">
+                        <div class="btn btn-warning btn-sm">{{cr.rotationStatus}}</div>
+                    </ng-container>
+                    <ng-container *ngIf="cr.rotationStatus=='Completed'">
+                        <div class="btn btn-success btn-sm">{{cr.rotationStatus}}</div>
+                    </ng-container>
+                </td>
+            </tr>
+       
+        </table>
+    </div>
+</ng-template>

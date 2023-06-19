@@ -1,0 +1,140 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <h3>Create New User</h3>
+
+                <form (ngSubmit)="signUp()">
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font>Organisation Type
+                        </label>
+                        <div class="input-group box-size">
+                            <select name="orgTypeId" [(ngModel)]="orgTypeId" class="top-radius form-control">
+                                <option [value]="0">Choose Org Type</option>
+                                <option *ngFor="let o of orgType" [value]="o.id">{{o.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" *ngIf="orgTypeId==1 || orgTypeId==3">
+                        <label for="name">
+                            <font style="color: red;">*</font>Organisation
+                        </label>
+                        <div class="input-group box-size">
+                            <select name="orgId" [(ngModel)]="orgId" class="top-radius form-control">
+                                <option [value]="0">Choose Organisation</option>
+                                <option *ngFor="let o of organisationList" [value]="o.orgId">{{o.orgName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="orgTypeId==2">
+                        <label for="name">
+                            <font style="color: red;">*</font>Lender
+                        </label>
+                        <div class="input-group box-size">
+                            <select name="lenderId" [(ngModel)]="lenderId" class="top-radius form-control"
+                                (change)="setOrgId()">
+                                <option [value]="0">Choose Lender</option>
+                                <option *ngFor="let o of lenderList" [value]="o.lenderId">{{o.lenderName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" *ngIf="orgTypeId!=3">
+                        <label for="name">
+                            <font style="color: red;">*</font>Role
+                        </label>
+                        <div class="input-group box-size">
+                            <select name="roleId" [(ngModel)]="roleId" class="top-radius form-control">
+                                <option [value]="0">Choose Role</option>
+                                <option *ngFor="let r of roleList" [value]="r.roleId">{{r.roleName}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font>Mobile No
+                        </label>
+                        <div class="input-group box-size">
+                            <input type="text" name="mobileNo" maxlength="10" value="" [(ngModel)]="mobileNo"
+                                (keypress)="keyPress($event)" placeholder="Mobile No" class="top-radius form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font>Email id
+                        </label>
+                        <div class="input-group box-size">
+                            <input type="text" name="Emailid" value="" [(ngModel)]="emailId"
+                                placeholder="Email Id" class="top-radius form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font>First Name
+                        </label>
+                        <div class="input-group box-size">
+                            <input type="email" value="" name="firstName" [(ngModel)]="firstName"
+                                placeholder="First Name" class="bottom-radius form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font>User Name
+                        </label>
+                        <div class="input-group box-size">
+                            <input type="text" value="" name="userName" [(ngModel)]="userName" placeholder="userName"
+                                class="top-radius form-control">
+                        </div>
+                        <p style="font-size:smaller; color: black;">**Username must be atleast 4 characters</p>
+                    </div>      
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font> Password
+                        </label>
+                        <div class="input-group box-size">
+                            <input [type]="fieldTextType ? 'text' : 'password'" value="" name="password" minlength="12" maxlength="18" pattern="^(?=.{12,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$"
+                                [(ngModel)]="password" placeholder="password" class="top-radius form-control"/>
+                            <span class="input-group-text">
+                                <i class="fa" [ngClass]="{
+                              'fa-eye-slash': !fieldTextType,
+                              'fa-eye': fieldTextType
+                            }" (click)="toggleFieldTextType()"></i>
+                            </span>
+                        </div>
+                        <p style="font-size:smaller; color: black;">**Password must contain atleast one upper,lower,numeric,special character
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">
+                            <font style="color: red;">*</font>Confirm Password
+                        </label>
+                        <div class="input-group box-size">
+                            <input [type]="fieldTextTypes ? 'text' : 'password'" value="" name="confirmPassword"
+                                [(ngModel)]="confirmPassword" placeholder="Confirm Password" 
+                                class="bottom-radius form-control">
+
+                            <span class="input-group-text">
+                                <i class="fa" [ngClass]="{
+                          'fa-eye-slash': !fieldTextTypes,
+                          'fa-eye': fieldTextTypes
+                        }" (click)="toggleFieldTextTypesc()"></i>
+                            </span>
+                        </div>
+                    </div>
+
+
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>

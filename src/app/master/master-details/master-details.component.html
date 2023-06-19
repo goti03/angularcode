@@ -1,0 +1,65 @@
+
+  <div class="row">
+    <!-- column -->
+    <div class="col-lg-12">
+        <div class="card">
+          <div class="card-body">
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <h2>Master Program Details</h2>
+              </div>
+              <div class="panel-body">
+                <table class="table table-striped" style="width: 50%;">
+                  
+                    <tbody *ngIf="master">
+                      <tr>
+                        <td><b>Master Program Name : </b></td> 
+                        <td>{{master.masterName}}</td>
+                      </tr>
+                      <tr>
+                        <td><b>Start Date : </b></td> 
+                        <td>{{master.startDate | date:'dd-MM-yyyy'}}</td>
+                      </tr>
+                      <tr>
+                        <td><b>End Date : </b></td> 
+                        <td>{{master.endDate | date:'dd-MM-yyyy' }}</td>
+                      </tr>
+                      <tr>
+                        <td><b>Total Limit : </b></td> 
+                        <td>{{indianCurrency(master.totalLimit)}}</td>
+                      </tr>
+                    </tbody>
+                </table>
+              </div>
+            </div>
+                    
+
+<!-- <h2>Master Program Details</h2>  -->
+
+<!-- <hr/> -->
+<!-- <div *ngIf="master">
+  <div>
+    <label><b>Master Program Name : </b></label> {{master.masterName}}
+  </div>
+  <div>
+    <label><b>Start Date : </b></label> {{master.startDate}}
+  </div>
+  <div>
+    <label><b>End Date : </b></label> {{master.endDate}}
+  </div>
+  <div>
+    <label><b>Total Limit : </b></label> {{master.totalLimit}}
+  </div>
+</div> -->
+
+<br>
+<br>
+<button (click)="list()" class="btn btn-primary">Back to List</button><br>
+
+
+     
+</div>
+</div>
+</div>
+</div>

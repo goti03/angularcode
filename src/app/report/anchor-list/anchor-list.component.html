@@ -1,0 +1,650 @@
+<ng-template #panCheck let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Information</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true" style="color: red;">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row text-center">
+            <div class="col-12" style="color: cadetblue;">
+                <i class="fa fa-info-circle" style="color: green;"></i>&nbsp;You cannot uncheck PAN, which is already
+                present in ANCHOR FUNDING LIMIT section. If you wish to remove that PAN, you can inactivate its status
+                in the last column of table in ANCHOR FUNDING LIMIT section
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+
+<div class="fin-row">
+    <div class="fin-card">
+        <div class="table-responsive">
+            <table class="table fin-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- {{tabref.selectedindex}} -->
+<div class="fin-row">
+    <div class="fin-card">
+        <mat-tab-group (selectedTabChange)="onNewtabClick($event)">
+            <!--  account-recieved -->
+            <mat-tab label="Account Receivable (AR)">
+
+                <div class="fin-row">
+                    <div class="fin-card">
+                        <div class="clearfix fin-heading">Anchor Funding Limit <a class="fin-right fin-dash-icon "
+                                (click)="excel()"><i class="far fa-file-excel green" style="font-size: 30px;"></i></a>
+                            <a (click)="pdf()" class="fin-right fin-dash-icon "><i class="far fa-file-pdf red"
+                                    style="font-size: 30px;"></i></a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table fin-table green-top">
+                                <thead>
+                                    <tr>
+                                        <th>Sl.No</th>
+                                        <th>Pan No</th>
+                                        <th>Anchor Name</th>
+                                        <th>BeneId</th>
+                                        <th>Company Type</th>
+                                        <th>Company Rating</th>
+                                        <th>Funding %age</th>
+                                        <th>Escrow A/c No</th>
+                                        <th>Limit Usage</th>
+                                        <th>Amount</th>
+                                        <th>Tenure</th>
+                                        <th>ROI</th>
+                                        <th>Since</th>
+                                        <th>No of Invoices</th>
+                                        <th>Invoice Amount</th>
+                                        <th>Gst Register Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let f of anchorData1 | filter:searchAnchorPanNo | paginate: { id:'Anchorlist', itemsPerPage: 5, currentPage: q1 };let i=index">
+                                        <td>{{((q1-1)*5)+i+1}}</td>
+                                        <td>{{f.panNo}}</td>
+                                        <td>{{f.buyerName}}</td>
+                                        <td>
+                                            <select class="form-select" name="beneId_{{i}}" required id="beneId_{{i}}"
+                                                [(ngModel)]="f.bankBeneId" (change)="beneId(f.bankBeneId)">
+
+                                                <option [value]="0">Choose Bene Id</option>
+                                                <option *ngFor="let ms of getBeneIdList1" [value]="ms.bankBeneId">
+                                                    {{ms.beneId}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="ratingCompanyTypeId_{{i}}" required
+                                                id="ratingCompanyTypeId_{{i}}" [(ngModel)]="f.ratingCompanyTypeId"
+                                                (change)="checkChanges1(f)">
+                                                <option [value]="0">Choose Company Type</option>
+                                                <option *ngFor="let ms of companyTypeList1" [value]="ms.id">
+                                                    {{ms.name}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="ratingId_{{i}}" required
+                                                id="ratingId_{{i}}" [(ngModel)]="f.ratingId"
+                                                (change)="setFundingPercentage1(i,f)">
+                                                <option [value]="0">Choose Company Rate</option>
+                                                <option *ngFor="let ms of companyRatingList1" [value]="ms.raingId">
+                                                    {{ms.ratingName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            {{f.fundingPercentage}}
+                                        </td>
+                                        <td>{{f.vaNumber}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <input type="date" class="form-control" required [(ngModel)]="f.startDate"
+                                                id="startDate_{{i}}" name="startDate_{{i}}" (change)="checkChanges1(f)"
+                                                (keypress)="preventTyping()">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" required
+                                                [(ngModel)]="f.totalInvoices" id="totalInvoices_{{i}}"
+                                                name="totalInvoices_{{i}}" (change)="checkChanges1(f)">
+                                        </td>
+                                        <td>
+                                            <input type="number" style="width: 120px;" class="form-control" required
+                                                [(ngModel)]="f.invoiceValue" id="invoiceValue_{{i}}"
+                                                name="invoiceValue_{{i}}" (change)="checkChanges1(f)">
+                                        </td>
+                                        <td>{{f.gstRegisterDate}}</td>
+                                        <td>
+                                            <select [(ngModel)]="f.isAnchorActive" style="width: 100px;"
+                                                name="isAnchorActive_{{i}}" class="form-select"
+                                                id="isAnchorActive_{{i}}" (change)="checkChanges1(f)">
+                                                <option *ngFor="let s of status" [value]="s.status">
+                                                    {{s.name}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <pagination-controls id="Anchorlist" (pageChange)="q1 = $event">
+                        </pagination-controls>
+                        <!-- <pagination-controls (pageChange)="q1 = $event"></pagination-controls> -->
+                        <div class="fin-bottom-btn"><button type="button" class="btn btn-warning btn-sm fin-btn"
+                                (click)="updateFundingLimit()"><i class="fas fa-pencil-alt"></i> Update</button></div>
+                    </div>
+                </div>
+
+                <div class="fin-row mt-20 clearfix">
+                    <div class="fin-col-left">
+                        <div class="fin-card">
+                            <div class="clearfix fin-heading">Anchor Update </div>
+                            <div class="table-responsive mt-10">
+                                <table class="table fin-table-green nowrap">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a (click)="DownloadR1Data()" class="btn btn-link" name="Details"><i
+                                                        class="fa fa-file-excel-o green" style="font-size: 30px;"
+                                                        aria-hidden="true"></i></a>
+                                                Download R1 Details
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <a (click)="DownloadR1Summary()" class="btn btn-link"><i
+                                                        class="fa fa-file-excel-o green" style="font-size: 30px;"
+                                                        aria-hidden="true"></i></a>
+                                                Download R1 Summary
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enter PAN No.</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder=""
+                                                        [(ngModel)]="newPan" required maxlength="10">
+                                                </div>
+                                            </td>
+                                            <td><button type="button" class="btn btn-dark fin-btn"
+                                                    (click)="addPan1()"><i class="fas fa-user-alt"></i> New
+                                                    Anchor</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Selected PAN No.</td>
+                                            <td colspan="2">{{resultVallue1}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="fin-bottom-btn"><button type="button" class="btn btn-warning fin-btn"
+                                    (click)="generateAnchorProfile()"><i class="fas fa-user-alt"></i> Generate Anchor
+                                    Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fin-col-right">
+                        <div class="fin-card">
+                            <div class="clearfix fin-heading">Filter Anchor List</div>
+                            <input class="form-control-sm" type="text" name="search" [(ngModel)]="searchPanNo" autocomplete="off" placeholder="search Pan  ">
+                            <div class="mt-10 text-center"><button type="button"
+                                    class="btn btn-info btn-sm fin-btn fin-btn-width" (click)="top1(5)"><i
+                                        class="fas fa-sort"></i> Top 5</button> <button type="button"
+                                    class="btn btn-success btn-sm fin-btn fin-btn-width" (click)="top1(10)"><i
+                                        class="fas fa-sort"></i>
+                                    Top 10</button>
+                                <button type="button" class="btn btn-warning btn-sm fin-btn fin-btn-width"
+                                    (click)="top1(0)"><i class="fas fa-sort"></i>
+                                    All</button>
+                            </div>
+                            <div class="table-responsive mt-10">
+                                <table class="table fin-table-blue">
+                                    <thead>
+                                        <tr>
+                                            <th>Sno</th>
+                                            <th>Pan Card No</th>
+                                            <th>No Of Invoices</th>
+                                            <th>Invoice Value</th>
+                                            <th>Since</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            *ngFor="let b of buyerList1 | filter:searchPanNo | paginate: { itemsPerPage: 10, currentPage: p } ;let i=index">
+                                            <td>{{((p-1)*10)+i+1}}</td>
+                                            <td>{{b.buyerPan}}</td>
+                                            <td class="fin-mulitple">{{b.noOfInvoice}}</td>
+                                            <td>{{indianCurrency(b.invoiceValue)}}</td>
+                                            <td>{{b.date}}</td>
+                                            <td><input type="checkbox" id="check_{{i}}" name="check"
+                                                    [(ngModel)]="b.Checkflag" (click)="getCheckedPanNo1(b,panCheck)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                            <div class="fin-bottom-btn"><button type="button" class="btn btn-info fin-btn"
+                                    *ngIf="showAnger" (click)="saveBuyer1()"><i class="far fa-save"></i>
+                                    Save</button></div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-tab>
+
+            <!-- Account-payable -->
+            <mat-tab label="Account Payable (AP)">
+                <div class="fin-row">
+                    <div class="fin-card">
+                        <div class="clearfix fin-heading">Supplier Funding Limit <a class="fin-right fin-dash-icon "
+                                (click)="excel1()"><i class="far fa-file-excel green" style="font-size: 30px;"></i></a>
+                                <a (click)="pdf1()" class="fin-right fin-dash-icon "><i class="far fa-file-pdf red"
+                                    style="font-size: 30px;"></i></a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table fin-table green-top">
+                                <thead>
+                                    <tr>
+                                        <th>Sl.No</th>
+                                        <th>Pan No</th>
+                                        <th>Anchor Name</th>
+                                        <th>BeneID</th>
+                                        <th>Company Type</th>
+                                        <th>Company Rating</th>
+                                        <th>Funding %age</th>
+                                        <th>Escrow A/c No</th>
+                                        <th>Limit Usage</th>
+                                        <th>Amount</th>
+                                        <th>Tenure</th>
+                                        <th>ROI</th>
+                                        <th>Since</th>
+                                        <th>No of Invoices</th>
+                                        <th>Invoice Amount</th>
+                                        <th>Gst Register Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let f of anchorData2 | filter:searchAnchorPanNo | paginate: { id:'Anchorlist1', itemsPerPage: 5, currentPage: q1 };let i=index">
+                                        <td>{{((q1-1)*5)+i+1}}</td>
+                                        <td>{{f.panNo}}</td>
+                                        <td>{{f.buyerName}}</td>
+                                        <td>
+                                            <select class="form-select" name="beneId_{{i}}" required id="beneId_{{i}}"
+                                                [(ngModel)]="f.bankBeneId" (change)="beneId2(f.bankBeneId)">
+
+                                                <option [value]="0">Choose Bene Id</option>
+                                                <option *ngFor="let ms of f.getBeneIdList2" [value]="ms.bankBeneId">
+                                                    {{ms.beneId}}</option>
+                                            </select>
+                                            <button type="button" class="btn btn-info btn-sm fin-btn"
+                                                (click)="openPopup(addBankDetailspop,f)"
+                                                style="background-color: #000080 !important;"><i
+                                                    class="fas fa-plus-circle"></i> Add Beneficary</button>
+                                        </td>
+
+                                        <td>
+                                            <select class="form-select" name="ratingCompanyTypeId_{{i}}" required
+                                                id="ratingCompanyTypeId_{{i}}" [(ngModel)]="f.ratingCompanyTypeId"
+                                                (change)="checkChanges2(f)">
+                                                <option [value]="0">Choose Company Type</option>
+                                                <option *ngFor="let ms of companyTypeList2" [value]="ms.id">
+                                                    {{ms.name}}</option>
+                                            </select>
+
+                                        </td>
+                                        <td>
+                                            <select class="form-select" name="ratingId_{{i}}" required
+                                                id="ratingId_{{i}}" [(ngModel)]="f.ratingId"
+                                                (change)="setFundingPercentage2(i,f)">
+                                                <option [value]="0">Choose Company Rate</option>
+                                                <option *ngFor="let ms of companyRatingList2" [value]="ms.raingId">
+                                                    {{ms.ratingName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            {{f.fundingPercentage}}
+                                        </td>
+                                        <td>{{f.vaNumber}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <input type="date" class="form-control" required [(ngModel)]="f.startDate"
+                                                id="startDate_{{i}}" name="startDate_{{i}}" (change)="checkChanges2(f)"
+                                                (keypress)="preventTyping()">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" required
+                                                [(ngModel)]="f.totalInvoices" id="totalInvoices_{{i}}"
+                                                name="totalInvoices_{{i}}" (change)="checkChanges2(f)">
+                                        </td>
+                                        <td>
+                                            <input type="number" style="width: 120px;" class="form-control" required
+                                                [(ngModel)]="f.invoiceValue" id="invoiceValue_{{i}}"
+                                                name="invoiceValue_{{i}}" (change)="checkChanges2(f)">
+                                        </td>
+                                        <td>{{f.gstRegisterDate}}</td>
+                                        <td>
+                                            <select [(ngModel)]="f.isAnchorActive" style="width: 100px;"
+                                                name="isAnchorActive_{{i}}" class="form-select"
+                                                id="isAnchorActive_{{i}}" (change)="checkChanges2(f)">
+                                                <option *ngFor="let s of status" [value]="s.status">
+                                                    {{s.name}}</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <pagination-controls id="Anchorlist1" (pageChange)="q1 = $event">
+                        </pagination-controls>
+                        <!-- <pagination-controls (pageChange)="q1 = $event"></pagination-controls> -->
+                        <div class="fin-bottom-btn"><button type="button" class="btn btn-warning btn-sm fin-btn"
+                                (click)="updateFundingLimit1()"><i class="fas fa-pencil-alt"></i> Update</button></div>
+                    </div>
+                </div>
+
+                <div class="fin-row mt-20 clearfix">
+                    <div class="fin-col-left">
+                        <div class="fin-card">
+                            <div class="clearfix fin-heading">Supplier Update </div>
+                            <div class="table-responsive mt-10">
+                                <table class="table fin-table-green nowrap">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <a (click)="DownloadR2Data()" class="btn btn-link" name="Details"><i
+                                                        class="fa fa-file-excel-o green" style="font-size: 30px;"
+                                                        aria-hidden="true"></i></a>
+                                                Download R2A Details
+                                            </td>
+                                            <td></td>
+                                            <td>
+                                                <a (click)="DownloadR2Summary()" class="btn btn-link"><i
+                                                        class="fa fa-file-excel-o green" style="font-size: 30px;"
+                                                        aria-hidden="true"></i></a>
+                                                Download R2A Summary
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Enter Supplier PAN No.</td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder=""
+                                                        [(ngModel)]="newPan2" required maxlength="10">
+                                                </div>
+                                            </td>
+                                            <td><button type="button" class="btn btn-dark fin-btn"
+                                                    (click)="addPan2()"><i class="fas fa-user-alt"></i> New
+                                                    Supplier</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Selected Supplier PAN No.</td>
+                                            <td colspan="2">{{resultVallue2}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="fin-bottom-btn"><button type="button" class="btn btn-warning fin-btn"
+                                    (click)="generateAnchorProfile1()"><i class="fas fa-user-alt"></i> Generate Supplier
+                                    Profile</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="fin-col-right">
+                        <div class="fin-card">
+                            <div class="clearfix fin-heading">Filter Supplier List</div>
+                        
+                                <input class="form-control-sm" type="text" name="search" [(ngModel)]="searchPanNo" autocomplete="off" placeholder="search Pan  ">
+                      
+                            <div class="mt-10 text-center"><button type="button"
+                                    class="btn btn-info btn-sm fin-btn fin-btn-width" (click)="top2(5)"><i
+                                        class="fas fa-sort"></i> Top 5</button> <button type="button"
+                                    class="btn btn-success btn-sm fin-btn fin-btn-width" (click)="top2(10)"><i
+                                        class="fas fa-sort"></i>
+                                    Top 10</button>
+                                <button type="button" class="btn btn-warning btn-sm fin-btn fin-btn-width"
+                                    (click)="top2(0)"><i class="fas fa-sort"></i>
+                                    All</button>
+                            </div>
+                            <div class="table-responsive mt-10">
+                                <table class="table fin-table-blue">
+                                    <thead>
+                                        <tr>
+                                            <th>Sno</th>
+                                            <th>Pan Card No</th>
+                                            <th>No Of Invoices</th>
+                                            <th>Invoice Value</th>
+                                            <th>Since</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr
+                                            *ngFor="let b of buyerList2 | filter:searchPanNo | paginate: { id:'q2', itemsPerPage: 10, currentPage: p } ;let i=index">
+                                            <td>{{((p-1)*10)+i+1}}</td>
+                                            <td>{{b.buyerPan}}</td>
+                                            <td class="fin-mulitple">{{b.noOfInvoice}}</td>
+                                            <td>{{indianCurrency(b.invoiceValue)}}</td>
+                                            <td>{{b.date}}</td>
+                                            <td><input type="checkbox" id="check_{{i}}" name="check"
+                                                    [(ngModel)]="b.Checkflag" (click)="getCheckedPanNo2(b,panCheck)">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <span class="page-link">Previous</span>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active">
+                        <span class="page-link">
+                            2
+                            <span class="sr-only">(current)</span>
+                        </span>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav> -->
+                            </div>
+                            <pagination-controls id="q2" (pageChange)="p = $event"></pagination-controls>
+                            <div class="fin-bottom-btn"><button type="button" class="btn btn-info fin-btn"
+                                    *ngIf="showAnger" (click)="saveBuyer2()"><i class="far fa-save"></i>
+                                    Save</button></div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+<ng-template #addBankDetailspop let-modal>
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{title}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="message" style="color: red; text-align: center;">{{message}}</div>
+
+
+
+
+        <div *ngIf="stage == 1" class="detail-add-style">
+
+            <div class="form-group">
+                <label for="orgName">
+                    <font style="color: red;">*</font>Organization
+                </label>
+
+                <input type="text" class="form-control " imporant readonly [(ngModel)]="buyerName" />
+
+
+
+            </div>
+
+        </div>
+
+        <div *ngIf="stage == 2">
+
+            <div class="form-group">
+                <label for="bankId">
+                    <font style="color: red;">*</font>Bank Name
+                </label>
+                <div class="input-group box-size">
+                    <select id="bankId" name="bankId" class="form-control" [(ngModel)]="bankId">
+                        <option></option>
+                        <option *ngFor="let b of bankName" [value]="b.bankId">{{b.bankName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="accountNo">
+                    <font style="color: red;">*</font>Bank Account No
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="accountNo" name="accountNo" class="form-control"
+                        style="text-transform: uppercase;" [(ngModel)]="accountNo">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="accountType">
+                    <font style="color: red;">*</font>Bank Account Type
+                </label>
+                <div class="input-group box-size">
+                    <select id="accountType" name="accountType" class="form-control" [(ngModel)]="accountTypeId">
+                        <option *ngFor="let a of accountType" [value]="a.accId">{{a.accName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="accountHolderName">
+                    <font style="color: red;">*</font>Account Holder Name
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="accountHolderName" name="accountHolderName" class="form-control"
+                        [(ngModel)]="accountHolderName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="ifscCode">
+                    <font style="color: red;">*</font>IFSC Code
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="ifscCode" name="ifscCode" class="form-control"
+                        style="text-transform: uppercase;" [(ngModel)]="IFSCCode" maxlength="11">
+                </div>
+            </div>
+
+        </div>
+
+        <div *ngIf="stage == 3">
+
+            <div class="form-group">
+                <label for="beneId">
+                    <font style="color: red;">*</font>Beneficiary Id
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="beneId" name="beneId" class="form-control" [(ngModel)]="beneId1"
+                        maxlength="11">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="beneId">
+                    <font style="color: red;">*</font>Beneficiary Name
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="beneName" name="beneName" class="form-control" [(ngModel)]="beneName">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="beneId">
+                    <font style="color: red;">*</font>Beneficiary Mobile
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="beneMobile" name="beneMobile" class="form-control" [(ngModel)]="beneMobile"
+                        (keypress)="keyPress($event)" maxlength="10">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="beneId">
+                    <font style="color: red;">*</font>Beneficiary Mail
+                </label>
+                <div class="input-group box-size">
+                    <input type="text" id="beneMail" name="beneMail" class="form-control" [(ngModel)]="beneMail">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="beneDoc">
+                    Upload Document
+                </label>
+                <div class="input-group box-size">
+                    <input type="file" id="beneDoc" name="beneDoc" class="form-control"
+                        (change)="uploadfilearray($event.target.files)" accept="application/pdf, image/jpeg">
+                    <div *ngIf="Doc && !addNew">
+                        <button class="btn btn-link" (click)="document(1)">View</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="add()">{{stage != 3 ? 'Next' : 'Save'}}</button>
+    </div>
+</ng-template>
+
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()"></app-action-tab>

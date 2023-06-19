@@ -1,0 +1,88 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+
+                <div class="row">
+                    <div class="col">
+                        Auto Disbursement List
+                    </div>
+                </div>
+                <hr />
+
+                <div class="search-hero row mt-3">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="searchList" autocomplete="off"
+                      placeholder="&#61442;  Start searching " (ngModelChange)="p=1">
+                  </div>
+                
+                <table class="table table-striped table-responsive mt-3">
+                    <thead>
+                        <th>Action</th>
+                        <th>Organization Name</th>
+                        <th>Invoice No</th>
+                        <th>Invoice Date</th>
+                        <th>Invoice Amount</th>
+                        <th>Funding Amount</th>
+                        <th>Status</th>
+                        <th>Cancelled by/ Cancelled Date</th>
+                        <th>Remark</th>
+                        <th>Invoice Received Date</th>
+                        <th>Auto Disbursement Date</th>
+                        <th>Brand Name / Distributor Name</th>
+                        <th>Lender Name</th>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let a of list | filter:searchList | paginate: { itemsPerPage: 10, currentPage: p }; let i =index">
+                            <td>
+                                <button class="btn btn-success" (click)="initiateAutoDisbursal(a.id)" *ngIf="a.status == 'Pending'">Initiate</button>
+                                <button class="btn btn-danger mt-2" (click)="remarks(a.id,remarkModal)" *ngIf="a.status == 'Pending'">Stop</button>
+                                <button class="btn btn-info mt-2" (click)="initiateAutoDisbursal(a.id)" *ngIf="a.retryFlag == '1'">Retry</button>
+                                <button class="btn" *ngIf="a.status != 'Pending'" title="No action"><i class="fa fa-ban fa-2x"></i></button>
+                            </td>
+                            <td>{{a.orgName}}</td>
+                            <td>{{a.invoiceNo}}</td>
+                            <td>{{a.invoiceDate}}</td>
+                            <td>{{a.invoiceAmount}}</td>
+                            <td>{{a.fundingAmount}}</td>
+                            <td>
+                                <div [ngClass]="{'pending' : a.status == 'Pending'}"*ngIf="a.status == 'Pending'" >{{a.status}}</div>
+                                <div [ngClass]="{'inprogress' : a.status == 'In Progress'}" *ngIf="a.status == 'In Progress'">{{a.status}}</div>
+                                <div [ngClass]="{'Success' : a.status == 'Success'}" *ngIf="a.status == 'Success'">{{a.status}}</div>
+                                <div [ngClass]="{'Cancelled' : a.status == 'Cancelled'}" *ngIf="a.status == 'Cancelled'">{{a.status}}</div>
+                            </td>
+                            <td>{{a.cancelledBy}}/ {{a.cancelledDate}}</td>
+                            <td>{{a.remarks}}</td>
+                            <td>{{a.invoiceReceivedDate}}</td>
+                            <td>{{a.autoDisbursementDate}}</td>
+                            <td>{{a.brandName}} / {{a.distributorName}}</td>
+                            <td>{{a.lenderName}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #remarkModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Remark</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+                <textarea name="remark" id="remark" class="form-control" [(ngModel)]="remark"></textarea>
+            </div>
+        </div>
+        <div class="row mt-2 ">
+            <div class="col offset-9">
+                <button class="btn btn-success" (click)="stop()">Submit</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

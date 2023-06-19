@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row text-center">
+                    <div class="col">
+                        <h3>Master Charge & WaiveOff / Discount List</h3>
+                    </div>
+                </div>
+
+                <hr />
+
+                <mat-tab-group mat-stretch-tabs>
+
+                    <mat-tab label="Charge">
+
+                        <div class="row mt-5">
+                            <div class="search-hero">
+                                <input class="form-control" type="text" name="search" [(ngModel)]="chargeListsearch" autocomplete="off" placeholder="&#61442;  Start searching " (ngModelChange)="p1=1;">
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center text-center">
+                            <div class="col-10">
+                                <table class="table table-striped" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Name of Charge</th>
+                                            <th>Minimum Charge</th>
+                                            <th>GST</th>
+                                            <th>Calculation Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let a of chargeList| filter:chargeListsearch | paginate: { itemsPerPage: 10, currentPage: p1, id : 'charge' }; let i = index">
+                                            <td>{{(i+1)+(10*(p1-1))}}</td>
+                                            <td>{{a.chargeName}}</td>
+                                            <td>{{a.chargeType == 1 ? 'Rs.' : ''}} {{a.minCharge}} {{a.chargeType != 1 ? '%' : ''}} </td>
+                                            <td>{{a.gst}}</td>
+                                            <td>{{a.calculationProcess == 0 ? 'Manual' : 'Automatic'}}</td>
+                                        </tr>
+                                        <tr *ngIf="chargeList.length == 0" style="text-align: center;">
+                                            <td style="color: red;"  colspan="6">No Data Available</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <pagination-controls (pageChange)="p1 = $event" id="charge" ></pagination-controls>
+                            </div>
+                        </div>
+
+                    </mat-tab>
+
+                    <mat-tab label="WaiveOff / Discount">
+
+                        <div class="row mt-5">
+                            <div class="search-hero">
+                                <input class="form-control" type="text" name="search" [(ngModel)]="discountListsearch" autocomplete="off" placeholder="&#61442;  Start searching " (ngModelChange)="p2=1;">
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center text-center">
+                            <div class="col-10">
+                                <table class="table table-striped" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>WaiveOff Name</th>
+                                            <th>Maximum WaiveOff</th>
+                                            <!-- <th>Type of WaiveOff</th> -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let a of discountList| filter:discountListsearch | paginate: { itemsPerPage: 10, currentPage: p2, id : 'waiveroff' }; let i = index">
+                                            <td>{{(i+1)+(10*(p2-1))}}</td>
+                                            <td>{{a.discountName}}</td>
+                                            <td>{{a.discountType == 1 ? 'Rs.' : ''}} {{a.maxDiscount}} {{a.discountType != 1 ? '%' : ''}}</td>
+                                            <!-- <td>{{a.discountId == 1 ? 'Flat': 'Percentage'}}</td> -->
+                                        </tr>
+                                        <tr *ngIf="discountList.length == 0" style="text-align: center;">
+                                            <td style="color: red;" colspan="4">No Data Available</td>
+                                        </tr>
+                                    </tbody>
+                                    
+                                </table>
+                                <pagination-controls (pageChange)="p2 = $event" id="waiveroff"></pagination-controls>
+                            </div>
+                        </div>
+
+                    </mat-tab>
+
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>

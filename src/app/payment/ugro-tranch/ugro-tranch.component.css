@@ -1,0 +1,12 @@
+.myCustomModalClass .modal-dialog {
+    min-width: 55px;
+    min-height: 55px;
+  }
+  .wordBreak {
+    /* word-break:break-all */
+    white-space: nowrap;
+}
+.fa-file-excel-o{
+  font-size: 50px;
+  color: green;
+}

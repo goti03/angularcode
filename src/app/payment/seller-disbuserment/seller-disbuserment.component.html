@@ -1,0 +1,205 @@
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">Seller Disbursement</h3>
+        <br>
+        <div class="row">
+            <div class="col-1">
+                <h5><b>Choose LOS ID</b></h5>
+            </div>
+            <div class="col-2">
+                <input class="form-control" [(ngModel)]="searchLoanId" name="searchLoanId" id="searchLoanId" (keyup)="enterKey($event)">
+            </div>
+            <div class="col-2">
+                <button class="btn btn-info" (click)="showList(searchLoanId)" >Search</button>
+            </div>
+        </div>
+        <div class="row" *ngIf="showHeaderDetails">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <!-- <th>Application ID</th> -->
+                        <!-- <th>Application Date</th> -->
+                        <th>Approved Amount</th>
+                        <th>Available Amount</th>
+                        <th>Tranch Limit</th>
+                        <th>Status</th>
+                        <th><font style="color: red;">*</font>SME Type</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td>{{h.companyName}}</td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <!-- <td>{{h.applicationNo}}</td> -->
+                        <!-- <td>{{h.applicationDate}}</td> -->
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{indianCurrency(h.availableLimit)}}</td>
+                        <td>{{indianCurrency(h.tranchLimit)}}</td>
+                        <td>{{h.status}}</td>
+                        <td><select class="form-control" (change)="chooseBuyer(h.smeType)" id="smeType" required [(ngModel)]="h.smeType" name="smeType" [disabled]="smeType==1 || smeType==2">
+                            <option [value]="1" >SID - exclusive</option>
+                            <option [value]="2" >PID - exclusive</option>
+                         </select></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        &nbsp;
+        <div class="table-responsive mt-10" *ngIf="showOne==true">
+            <table class="table table-striped ">
+                <thead>
+                    <th>Los Ref No</th>
+                    <th>Org Name</th>
+                    <th>Credit Limit</th>
+                    <th>Avail Limit</th>
+                    <th>Allowed Trancch Limit</th>
+                    <th>Outstanding-Principle</th>
+                    <th>Outstanding-Interest</th>
+                    <th>Outstanding-charge</th>
+                    <th> Excess money</th>
+                    <th>Total Outstanding</th>
+                    <th>Credit-Rotation</th>
+                </thead>
+                <tbody *ngIf="showOne==true">
+                    <tr>
+                        <!-- <td> {{i+1}}</td> -->
+                        <td>{{losNo}}</td>
+                        <td>{{orgName}}</td>
+                        <td>{{creditLimit}}</td>
+                        <td>{{availLimit}}</td>
+                        <td>{{allowedTranchLimit}}</td>
+                        <td>{{outstandingPrincipal}}</td>
+                        <td>{{outstadingInterest}}</td>
+                        <td>{{outstandingCharges}}</td>
+                        <td>{{excessAmount}}</td>
+                        <td>{{totalOutstanding}}</td>
+                        <td><input type="text" class="form-control" (change)="amountCheck()"
+                                (keypress)="keyPress($event)" [(ngModel)]="rotationAmount"
+                                placeholder="please enter " /></td>
+                    </tr>
+
+                    <tr style="margin-top:100px;">
+                        <td colspan="2">
+                            <button style="margin-left: 0px" type="button" class="btn btn-primary mb-2"
+                                (click)="addAnchorlist()">Add
+                                Anchor List</button>
+                        </td>
+                        <!-- <td ></td> -->
+                        <td colspan="5" style="text-align: center;">
+                            <h4>Total Funding Amount</h4>
+                        </td>
+
+                        <td><strong>{{totalFunding}}</strong></td>
+                        <!-- <td><strong>{{total}}</strong></td> -->
+                    </tr>
+                    <tr *ngIf="errorMsg">
+                        <td colspan="8" align="center">
+                            <span  style="color:orange">{{errorMsg}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="fin-row mt-20"  *ngIf="showHeaderDetails">
+            <div class="fin-card">
+
+                <button style="margin-left: 0px" type="button" class="btn btn-primary mb-2"
+                (click)="addAnchorlist()">Add
+                Anchor List</button>
+                <div class="table-responsive mt-10">
+                    <table class="table table-striped ">
+                        <thead>
+                            <!-- <th>Account Type</th> -->
+                            <th>Anchor Name</th>
+                            <th>Funding Percentage</th>
+                            <th>Invoice No</th>
+                            <th>Invoice Amount</th>
+                            <th>Invoice Date</th>
+                            <th>Funding Amount</th>
+                            <th>Invoice File Upload</th>
+                            <th></th>
+                        </thead>
+                        <tbody *ngFor="let a of anchorlist;let i = index">
+                            <tr>
+                                <!-- <td><select (change)="chooseBuyer(a.type)" class="form-control" [(ngModel)]="a.type">
+                                        <option [value]="1">sales</option>
+                                        <option [value]="2">purchase</option>
+                                    </select>
+                                </td> -->
+                                <td>
+                                    <select class=" form-control" (change)="getFundingPer(a.buyerId,i)"
+                                        [(ngModel)]="a.buyerId">
+                                        <option [value]="0">Choose Buyer List</option>
+                                        <option *ngFor="let p1 of buyerList" [value]="p1.orgId">{{p1.orgName}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td><input type="text" class="form-control" name="FundingPercentage"
+                                        [(ngModel)]="a.fundingPercentage" readonly>
+                                </td>
+                                <td><input type="text" class="form-control"  (change)="invoiceNoCheck(i)"
+                                        name="invoiceNo" [(ngModel)]="a.invoiceNo">
+                                </td>
+                                <td><input type="text" class="form-control" (keypress)="keyPress($event)"
+                                        (blur)="calFundingLimit(i)" name="invoiceAmount" [(ngModel)]="a.invoiceAmount">
+                                </td>
+                                <td><input type="date" class="form-control" name="invoiceDate" (change)="changeDateFormat($event.target.value,i)"
+                                        [(ngModel)]="a.date">
+                                </td>
+                                <td>{{a.fundingAmount}}</td>
+                                <td>
+                                    <button class="btn btn-success" class="btn" style="margin-left: 10px">
+                                        <input type="file" class="file-upload" name="myFile" id="myFile_{{i}}"
+                                            (change)="onFileChange($event,i)" [(ngModel)]="a.fileContent" id="file"
+                                            accept="application/pdf,application/vnd.ms-excel, image/jpeg">
+                                    </button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" (click)="remove(i)" *ngIf="i != 0">Remove</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" *ngIf="showSubmit==true">
+                    <div class="col-6" style="margin-left: 48%;">
+
+                        <button class="btn btn-success" (click)="onSubmit()">Submit</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template let-modal #otpPopup>
+    <div class="modal-header">
+        <h2>OTP</h2>
+        <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h4 style="color: red;">{{message}}</h4>
+        <div class="text-center">
+              <div class="row">
+              <input type="password" (keypress)="keyPress($event)" [(ngModel)]="otp" class="form-control" inputmode="numeric" 
+            placeholder="Enter OTP" maxlength="4">
+          </div>
+      </div>
+      <br>
+      <div class="text-center mt-3" >
+              <!-- <div class="row"> -->
+              <button class="btn btn-success" (click)="verifyOtp()"  >Submit</button>
+              <button class="btn btn-primary" (click)="getOtp()" *ngIf="regenerateOtp" >resend OTP</button>
+          <!-- </div> -->
+      </div>
+    </div>
+ 
+</ng-template>

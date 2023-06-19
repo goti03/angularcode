@@ -1,0 +1,242 @@
+
+
+
+   <div class="card">
+    <div class="card-body">
+    <h2>Udyam Registeration Details </h2>
+</div>
+</div>
+
+<div class="">
+    <div class="card">
+      <div class="card-body">
+        <!-- <div class="reg">Udyam Registeration Number</div> -->
+        <table class="table" style="margin-top:20px !important;">
+          <tbody>
+            <tr >
+              <th>Type of Enterprise</th>
+              <td>{{enterpriseType}}</td>
+              <th>Major Activity</th>
+              <td>{{majorActivity}}</td>
+            </tr>
+            <tr>
+              <th>Type of Organization</th>
+              <td>{{OrganisationType}}</td>
+              <th>Name of Enterprise</th>
+              <td>{{name}}</td>
+            </tr>
+            <tr>
+              <th>Owner Name</th>
+              <td>{{name}}</td>
+              <th>Pan</th>
+              <td>{{pan}}</td>
+            </tr>
+            <tr>
+              <th>Do you have GSTIN</th>
+              <td>{{gstnStatus}}</td>
+            <th>Mobile No.</th>
+            <td>{{mobile}}</td>
+            </tr>
+            <tr>
+              <th>Email Id</th>
+              <td>{{email}}</td>
+              <th>Social Category</th>
+              <td>{{socialCategory}}</td>
+              </tr>
+              <tr>
+              <th>Gender</th>
+              <td>{{gender}}</td>
+              <th>Specially Abled (DIVIYANG)</th>
+              <td>{{speciallyAbled}}</td>
+              </tr>
+              <tr>
+                <th>Date of Incorporation</th>
+                <td>{{dateOfIncorporation}}</td>
+              <th>Date of Commencement of Production/Business
+              </th>
+              <td>{{dateOfCommencement}}</td>
+              </tr>
+              <tr>
+                <th>PDF File</th>
+                <td class="btn btn-link" (click)="viewPDF()">{{pdfUrl}}</td>
+              </tr>
+          </tbody>
+        </table>
+        <!-- <div *ngIf="errorSet" style="color: red; text-align: center;">{{msg}}</div> -->
+
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <div class="card-body">
+        <h5 >Bank Details</h5>
+  <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+    <tr style="border: solid 1px black;">
+      <th> Bank Name</th>
+      <th> IFSC Code</th>
+      <th> Bank Account Number</th>
+    </tr>
+    <tr >
+      <td >{{bank}}</td>
+      <td>{{ifsc}}</td>
+      <td>{{acNo}}</td>
+    </tr>
+  </table>
+
+
+<h5>Employment Details</h5>
+  <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+    <tr>
+      <th> Male</th>
+      <th> Female</th>
+      <th> Other</th>
+      <th>Total</th>
+    </tr>
+    <tr>
+      <td>{{male}}</td>
+      <td>{{female}}</td>
+      <td>{{others}}</td>
+      <td>{{total}}</td>
+    </tr>
+  </table>
+  <h5 style="margin-top:20px;">
+    Investment In Plant and Machinery OR Equipment (in Rs.{{netInvestmentInPme}})
+  </h5>
+</div>
+</div>
+<ng-template #udyam let-modal>
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Udyam Process </h4>
+
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">×</span>
+      </button>
+  </div> 
+  <div class="row mt-3 sticky text-center" *ngIf="err" style="color: red;">
+    <div class="col">
+        {{message}}
+    </div>
+</div>
+  <div class="modal-body">
+      <div class="d-flex justify-content-around">
+        <label for="">Mobile No.</label>
+        <input type="text" class="form-control" style="width: 50% !important;" placeholder="Enter Mobile No."  [(ngModel)]="udyamMobile" (keypress)="keyPress($event)" minlength="10" maxlength="10">
+      </div>
+      <div class="d-flex justify-content-around mt-4">
+        <label for="">Udyam No.</label>
+        <input type="text" class="form-control" style="width: 50% !important;" placeholder="Enter Udyam Urn No." [(ngModel)]="udyamRegNo" id="urn" minlength="19" maxlength="19" required />
+</div>
+<div class="text-center mt-4">
+      <button class="btn btn-success" style="color: white;" (click)="generateUdyamOtp(otpPopup1)">Generate OTP</button>
+</div>  
+     
+  </div>
+</ng-template>
+
+
+<ng-template let-modal #otpPopup1>
+  <div class="otp-con p-3" >
+    <div class="modal-header">
+    <h3 class="text-center">Enter OTP</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+  </button>
+  </div>
+    <div class="row mt-3 sticky text-center" *ngIf="err" style="color: red;">
+      <div class="col">
+          {{message}}
+      </div>
+  </div>
+      <div style="width: 80% !important;margin: 1rem auto !important;">
+          <div class="row pt-20">
+              <div >
+                  <div class="otp-input" style="width: 50px;margin: 0 1rem;">
+                      <input type="text" class="form-control border" id="otp_1" maxlength="1" [(ngModel)]="otp1" (ngModelChange)="move(2)" (keypress)="keyPress($event)" (keydown)="keyDown($event, 1)"  autocomplete="off"> 
+                  </div>
+              </div>
+              <div >
+                  <div class="otp-input" style="width: 50px;margin: 0 1rem;">
+                      <input type="text" class="form-control border" id="otp_2" maxlength="1" [(ngModel)]="otp2" (ngModelChange)="move(3)" (keypress)="keyPress($event)" (keydown)="keyDown($event, 2)" autocomplete="off">
+                  </div>
+              </div>
+              <div >
+                  <div class="otp-input" style="width: 50px;margin: 0 1rem;">
+                      <input type="text" class="form-control border" id="otp_3" maxlength="1" [(ngModel)]="otp3" (ngModelChange)="move(4)" (keypress)="keyPress($event)" (keydown)="keyDown($event, 3)"  autocomplete="off">
+                  </div>
+              </div>
+              <div >
+                  <div class="otp-input" style="width: 50px;margin: 0 1rem;">
+                      <input type="text" class="form-control border" id="otp_4" maxlength="1" [(ngModel)]="otp4" (ngModelChange)="move(5)" (keypress)="keyPress($event)"  (keydown)="keyDown($event, 4)"  autocomplete="off">
+                  </div>
+              </div>
+              <div >
+                <div class="otp-input" style="width: 50px;margin: 0 1rem;">
+                    <input type="text" class="form-control border" id="otp_5" maxlength="1" [(ngModel)]="otp5" (ngModelChange)="move(6)" (keypress)="keyPress($event)"  (keydown)="keyDown($event, 5)"  autocomplete="off">
+                </div>
+            </div>
+            <div >
+              <div class="otp-input" style="width: 50px;margin: 0 1rem;">
+                  <input type="text" class="form-control border" id="otp_6" maxlength="1" [(ngModel)]="otp6" (ngModelChange)="move(6)" (keypress)="keyPress($event)"  (keydown)="keyDown($event, 6)"  autocomplete="off">
+              </div>
+          </div>
+          </div>
+      </div>
+
+      <div class="d-flex justify-content-around py-3">
+        <div class="timer" style="color: black;" *ngIf="resent">
+          Resend OTP in ({{timer}} minutes)
+      </div>
+        <p class="m-0 pointer" *ngIf="!resent" (click)="resentOtp()">Resend OTP</p>
+        <p class="m-0" style="color: red"(click)="reset()">Reset</p>
+      </div>
+
+   <div class="text-center">
+    <button class="btn btn-success" (click)="otpverify(otpsuccess,otpfailure)">PROCEED</button>
+   </div>
+  </div>
+</ng-template>
+
+<ng-template let-modal #otpfailure>
+  <div class="otp-con p-3">
+    <div class="modal-header">
+    <h3 class="text-center">OTP Failure Message</h3>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+  </button>
+  </div>
+    <div class="text-center py-3">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M20 37.5C15.3587 37.5 10.9075 35.6563 7.62563 32.3744C4.34374 29.0925 2.5 24.6413 2.5 20C2.5 15.3587 4.34374 10.9075 7.62563 7.62563C10.9075 4.34374 15.3587 2.5 20 2.5C24.6413 2.5 29.0925 4.34374 32.3744 7.62563C35.6563 10.9075 37.5 15.3587 37.5 20C37.5 24.6413 35.6563 29.0925 32.3744 32.3744C29.0925 35.6563 24.6413 37.5 20 37.5ZM20 40C25.3043 40 30.3914 37.8929 34.1421 34.1421C37.8929 30.3914 40 25.3043 40 20C40 14.6957 37.8929 9.60859 34.1421 5.85786C30.3914 2.10714 25.3043 0 20 0C14.6957 0 9.60859 2.10714 5.85786 5.85786C2.10714 9.60859 0 14.6957 0 20C0 25.3043 2.10714 30.3914 5.85786 34.1421C9.60859 37.8929 14.6957 40 20 40Z"
+          fill="#FF0000" />
+        <path
+          d="M16.8199 29.0233C16.8199 28.633 16.9023 28.2466 17.0624 27.886C17.2225 27.5254 17.4572 27.1978 17.7531 26.9218C18.049 26.6459 18.4002 26.427 18.7868 26.2776C19.1734 26.1283 19.5877 26.0514 20.0061 26.0514C20.4246 26.0514 20.8389 26.1283 21.2255 26.2776C21.612 26.427 21.9633 26.6459 22.2592 26.9218C22.555 27.1978 22.7897 27.5254 22.9499 27.886C23.11 28.2466 23.1924 28.633 23.1924 29.0233C23.1924 29.8115 22.8567 30.5674 22.2592 31.1247C21.6616 31.6821 20.8512 31.9952 20.0061 31.9952C19.1611 31.9952 18.3506 31.6821 17.7531 31.1247C17.1556 30.5674 16.8199 29.8115 16.8199 29.0233ZM17.1321 11.177C17.0897 10.8021 17.1322 10.423 17.257 10.0644C17.3818 9.70578 17.586 9.37566 17.8564 9.09542C18.1268 8.81519 18.4574 8.59111 18.8266 8.43773C19.1959 8.28434 19.5955 8.20508 19.9998 8.20508C20.404 8.20508 20.8037 8.28434 21.1729 8.43773C21.5422 8.59111 21.8727 8.81519 22.1431 9.09542C22.4135 9.37566 22.6177 9.70578 22.7425 10.0644C22.8673 10.423 22.9098 10.8021 22.8674 11.177L21.7522 21.5995C21.7147 22.0089 21.5139 22.3903 21.1894 22.6683C20.8649 22.9462 20.4403 23.1004 19.9998 23.1004C19.5592 23.1004 19.1347 22.9462 18.8101 22.6683C18.4856 22.3903 18.2848 22.0089 18.2473 21.5995L17.1321 11.177Z"
+          fill="#FF0000" />
+      </svg>
+
+    </div>
+
+    <p class="text-center text-capitalize"> OTP Verification Failed
+      Please Retry After <span style="color: #B93939;">30 minutes</span></p>
+    <p class="m-0 text-center" style="font-weight: 600;"> We are sorry for the inconvenience.</p>
+  </div>
+</ng-template> 
+
+<ng-template let-modal #otpsuccess>
+  <div class="otp-con p-3">
+    <div>
+      <div class="text-center py-3">
+        <img width="20%" src="assets/images/verified-otp.gif" alt="" srcset="">
+      </div>
+
+      <p class="text-center text-capitalize" style="font-weight: 600;">OTP VERIFIED
+        UDYAM VALIDATED SUCCESSFULLY</p>
+        <div>
+          <button class="btn generate-otp w-100" (click)="nxtscr()">OK</button>
+        </div>
+    </div>
+  </div>
+
+</ng-template> 

@@ -1,0 +1,177 @@
+
+<div class="fin-card mt-20 clearfix">
+    <div class="clearfix fin-heading">Customer View</div>
+    <div class="table-responsive mt-10">
+        <table class="table fin-table-green nowrap">
+            <tbody>
+                <tr>
+                    <td style="border-bottom:0px none;">
+                        <label>Application Start Date</label>
+                    </td>
+                    <td style="border-bottom:0px none;">
+                        <input type="date" class="form-control" [(ngModel)]="appStartDate"  max="{{appEndDate}}"   (keypress)="keyPress($event)" (keypress)="preventTyping()"/>
+                    </td>
+                    <td style="border-bottom:0px none;">
+
+                        <label>Application End Date</label>
+                    </td>
+                    <td style="border-bottom:0px none;">
+                        <input type="date" class="form-control" [(ngModel)]="appEndDate" min="{{appStartDate}}"   (keypress)="keyPress($event)" (keypress)="preventTyping()"/>
+                    </td>
+             
+                    <td style="border-bottom:0px none;"><label style="margin-right: 3px;">Status</label>
+                        <select class="form-select" [(ngModel)]="filterStatus" (change)="filter()" aria-placeholder="status">
+                            <option selected value="All">ALL</option>
+                            <option selected value="Active">Active</option>
+                            <option selected value="inactive">Inactive</option>
+                        </select>
+                    </td> 
+               
+                </tr>
+                <tr>
+                    <td style="border-bottom:0px none;">
+                        <input type="text" class="form-control" placeholder="Firm Name" [(ngModel)]="firmName"   (keypress)="keyPress($event)"/>
+                    </td>
+                    <td style="border-bottom:0px none;">
+                        <input type="text" class="form-control" placeholder="CRN" [(ngModel)]="crnNo"   (keypress)="keyPress($event)"/>
+                    </td>
+                    <td style="border-bottom:0px none;">
+                        <input type="text" class="form-control" placeholder="Applicant Name" [(ngModel)]="applicantName"   (keypress)="keyPress($event)"/>
+                    </td>
+                    <td style="border-bottom:0px none;">
+                        <input type="text" class="form-control" placeholder="PAN" [(ngModel)]="panNumber"   (keypress)="keyPress($event)"/>
+                    </td>
+                    <td style="border-bottom:0px none;">
+                        <input type="text" class="form-control" placeholder="Mobile No." maxlength="10" [(ngModel)]="mobileNo"   (keypress)="keyPress($event)"/>
+                    </td>
+                    <td style="border-bottom:0px none;"><button type="button" class="btn btn-info fin-btn"
+                        (click)="searchbox()"><i class="fas fa-search"></i>Search</button>
+                        &nbsp;<button type="button" class="btn btn-danger fin-btn"
+                        (click)="ngOnInit()"><i class="fas fa-search"></i>Reset</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="fin-row mt-20">
+    <div class="fin-card">
+        <div class="clearfix fin-heading">Customer List
+        </div>
+
+        <div style="float: right; margin-right: 10px;" >
+            <i class="fa fa-file-excel-o pointer"  (click)="exportExcel()"></i>
+          
+    </div>
+        <div class="table-responsive mt-10">
+            <table class="table fin-table-blue text-center">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Sl No</th>
+                        <th rowspan="2">CRN</th>
+                        <th rowspan="2">PAN</th>
+                        <th rowspan="2">Business Name</th>
+                        <th rowspan="2">Anchor Name</th>
+                    
+                        <th rowspan="1" colspan="2">Loan Count</th>
+                        <th rowspan="1" colspan="3">Contact</th>
+                        <th rowspan="1" colspan="2">Utilization</th>
+                        <th rowspan="2">Overdue Amount</th>
+                        <th rowspan="2">FinAGG Vintage</th>
+                       
+                        <th rowspan="2">Available Limit</th>
+                        <th rowspan="2">Total Limit</th>
+                        <th rowspan="2">Status</th>
+                    </tr>
+                    <tr>
+                        <th>Total</th>
+                        <th>Live</th>
+                        <th>Name</th>
+                        <th>e-Mail</th>
+                        <th>Phone</th>
+                        <th>Percent</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" style="color: red" *ngIf="dataNotAvailable">
+                        <td colspan="14">No Data Available</td>
+                    </tr>
+                    <tr *ngFor="let c of customerList1; let i = index">
+                        <td>{{((p-1)*10)+i+1}}</td>
+                        <td>{{c.crn}}</td>
+                        <td><button class="btn btn-link" (click)="gotoLoanRequestList(c.panNumber)">{{c.panNumber}}</button> </td>
+                        <td>{{c.businessName}}</td>
+                     <td>{{c.anchorName}}</td>
+                        <td>{{c.totalLoanCount}}</td>
+                        <td>{{c.liveLoanCount}}</td>
+                        <td>{{c.contactName}}</td>
+                        <td>{{c.contactEmail}}</td>
+                        <td>{{c.contactPhone}}</td>
+                        <td>{{c.utilizedPercent}} %</td>
+                        <td>{{indianCurrency(c.utilizedLimit)}}</td>
+                        <td>{{indianCurrency(c.overdueAmount)}}</td>
+                        <td>{{c.finaggVintage}}</td>
+                     
+                        <td>{{indianCurrency(c.availableLimit)}}</td>
+                        <td>{{indianCurrency(c.totalLimit)}}</td>
+                        <!-- <td>{{c.activeStatus}}</td> -->
+                        <td>
+                        <div *ngIf="c.activeStatus=='active'; then thenBlock else elseBlock"></div>
+                        <ng-template #thenBlock> <span class="label label-success">Active</span></ng-template>
+                        <ng-template #elseBlock> <span class="label label-warning">Inactive</span></ng-template>
+                        
+</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pagination">
+            <button style="border: 1;" (click)="previousButton()" class="btn ml-2" style="border: 1px solid #9a9da0" [disabled]="p==1">Previous</button>
+            <span style="border: 1;" class="btn ml-2" style="border: 1px solid #9a9da0 ">{{p}}</span>
+            <button style="border: 1;" class="btn ml-2" (click)="nextButton()" style="border: 1px solid #9a9da0" [disabled]="nextAvailable">next</button>
+        </div>
+
+    </div>
+</div>
+
+<ng-template let-modal #lanaction>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Action</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="table-responsive mt-10">
+            <table class="table fin-table-blue text-center">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Limit</th>
+                        <th rowspan="2">LOS</th>
+                        <th rowspan="1" colspan="2">Document</th>
+                        <th rowspan="2">Anchor</th>
+                        <th rowspan="2">NACH</th>
+                        <th rowspan="1" colspan="3">GST</th>
+                        <th rowspan="1" colspan="2">Application</th>
+                        <th rowspan="1" colspan="2">Limit</th>
+                        <th rowspan="2">SOA</th>
+                    </tr>
+                    <tr>
+                        <th>View</th>
+                        <th>Upload</th>
+                        <th>R1</th>
+                        <th>R2</th>
+                        <th>3B</th>
+                        <th>View</th>
+                        <th>Edit</th>
+                        <th>Extend</th>
+                        <th>Adhoc</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</ng-template>

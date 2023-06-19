@@ -1,0 +1,64 @@
+/* .container {
+    padding-top: 50px;
+    padding-bottom: 10px;
+    color: #405065;
+  } */
+  
+  
+  #brandcolor th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #438494;
+    color: white;
+  }
+  td 
+{
+    height: 50px; 
+    width: 50px;
+}
+
+#cssTable td 
+{
+    text-align: center; 
+    vertical-align: middle;
+}
+  .search-hero {
+    max-width: 700px;
+    padding-bottom: 50px;
+    margin:auto;
+  }
+  
+  .form-control {
+    box-shadow: 0 10px 40px 0 #B0C1D9;
+  }
+  .form-control::placeholder  {
+    font-family: FontAwesome;
+  }
+
+  .invalid {
+    color: red;
+    text-align: justify;
+  }  
+  .mat-tooltip {
+    color: yellow !important;
+  }
+  .tool-tip {
+    color: white;
+    background-color: red;
+
+  }
+  .red-tooltip{
+    background-color:red;
+}
+.searchbar{
+    align-items: center;
+}
+.fa-file-pdf-o{
+    font-size: 50px;
+    color: red;
+}
+.fa-file-excel-o{
+    font-size: 50px;
+    color: green;
+}

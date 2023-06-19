@@ -1,0 +1,132 @@
+<div class="row bg"*ngIf="!expired && !otpVerified" >
+    
+    <div class="col">
+
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Approval for Disbursement</h3>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- <div class="row text-center">
+                    <div class="col warn small">
+                        The link will expire in 5 minutes from time of loading.
+                    </div>
+                </div> -->
+                <div class="row text-center mt-3">
+                    <h3 class="col-12">Invoice Details</h3>
+                </div>
+
+                <div class="row justify-content-center mt-3">
+                    <div class="col-auto">
+                    <table class="table table-striped table-responsive  ">
+                        <tr>
+                            <th>Invoice Number</th>
+                            <th>Invoice Amount</th>
+                            <th>Invoice Date</th>
+                        </tr>
+                           <tr *ngFor="let inv of invoiceList;let i=index">
+                            <td>{{inv.invoiceNo}}</td>
+                            <td>{{inv.invoiceAmount}}</td>
+                            <td>{{inv.invoiceDate}}</td>
+                          </tr>
+                          
+                        <tr> 
+                            <td>Total Disbursement Amount</td>
+                            <td colspan="2" class="float-right">{{totalDisbursalAmount}}</td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+
+                <div class="row text-center mt-3">
+                    <div class="col">
+                        <button class="btn btn-success" (click)="getOtp()">Get OTP</button>
+                    </div>
+                </div>
+                
+
+                <div class="row text-center mt-3">
+                    <label class="col">
+                        Enter OTP   
+                    </label>
+                </div>
+
+                <div class="row justify-content-center mt-3">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o1" id="otp_1" (ngModelChange)="move(2)">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o2" id="otp_2" (ngModelChange)="move(3)">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o3" id="otp_3" (ngModelChange)="move(4)">
+                        <input class="otp-box m-2 col" maxlength="1" (keypress)="keyPress($event)"  type="text" [(ngModel)]="o4" id="otp_4" (ngModelChange)="blur(4)">
+                        
+                </div>
+
+                <div class="row mt-3 text-center" *ngIf="emptyOtp">
+                    <div class="col-12" style="color: red;">
+                        Enter otp
+                    </div>
+                </div>
+
+                <div class="row mt-3 text-center">
+                    <div class="col-12">
+                            <button class="btn btn-success" (click)="verifyOtp()" >Submit</button>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row bg" *ngIf="expired">
+    <div class="col">
+        
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row text-center">
+                    <div class="col warn big " style="text-transform: uppercase;">
+                        {{message}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="row bg" *ngIf="!expired && otpVerified" >
+    <div class="col">
+
+        <div class="card">
+            <div class="card-body" style="background-image: url('assets/images/background/success.png'); height: 650px;">
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Successfully Disbursement</h3>
+                    </div>
+                </div>
+
+                <hr/>
+
+                <div class="row justify-content-center mt-5">
+                        <img src="assets/images/gallery/wallet.png" class="col" height="250" width="80"/>
+                </div>
+
+                <div class="row text-center mt-5">
+                    <div class="col" style="color: #00ee00;">
+                        <i class="fa fa-check-circle" style="color: green;"></i>
+                        Invoices of total {{indianCurrency(totalDisbursalAmount)}}, is disbursed Successfully.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

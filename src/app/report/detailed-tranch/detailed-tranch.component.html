@@ -1,0 +1,68 @@
+<div class="card">
+
+    <div class="card-body">
+
+        <div class="row">
+            <h2>Payment Adjustment Details</h2>
+        </div>
+
+        <hr />
+
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered mt-4">
+                <thead>
+                    <tr>
+                        <th>Sno</th>
+                        <th>LAN Number</th>
+                        <th>Adjust Principle</th>
+                        <th>Adjust Interest</th>
+                        <th>Outstanding Principle</th>
+                        <th>Outstanding Interest</th>
+                        <th>Lender Outstanding Principle Amount</th>
+                        <th>Lender Outstanding Interest</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let tranch of detailedTranch; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{tranch.lannumber}}</td>
+                        <td>{{tranch.adjustAmountprinciple}}</td>
+                        <td>{{tranch.adjustAmountInterest}}</td>
+                        <td>{{indianCurrency(tranch.outstandingprinciple)}}</td>
+                        <td>{{tranch.outstanding_interest}}</td>
+                        <td>{{tranch.lenderoutstandingprinciple}}</td>
+                        <td>{{tranch.lenderoutstandinginterest}}</td>
+                        <td>{{tranch.status}}</td>
+                        <td><button      (click)="processpayment(processpop,tranch.id)"                     
+                            [ngClass]="{'btn btn-primary':'0'===tranch.processstatus,'btn btn-warning':'1'===tranch.processstatus}">{{tranch.processstatuslabel}}</button></td>
+                    </tr>
+                </tbody>
+                
+            </table>
+            <div *ngIf="nodata" style="color: red; text-align: center;">No data Available</div>
+            </div>
+            
+    </div>
+</div>
+
+
+<ng-template #processpop let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Status</h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-danger"> {{status}}</p>
+  </div>
+  <div class="modal-footer" style="text-align: center;">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cross click')">Ok</button>
+
+  </div>
+
+</ng-template>
+
+

@@ -1,0 +1,7 @@
+
+.otp-box {
+    height: 45px !important;
+    width: 45px !important;
+    flex-grow: 0 !important;
+    outline: black 1px;
+}

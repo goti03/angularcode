@@ -1,0 +1,35 @@
+<!--
+    *********************************************************
+    Author  :   Nandha Kumar s
+    *********************************************************
+-->
+<div class="fin-card mt-20 clearfix">
+    <div class="clearfix fin-heading">Pending Repayments
+    </div>
+    <div class="table-responsive mt-10">
+        <table class="table table-striped table-bordered fin-table-blue">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>LenderName</th>
+                    <th>Credit Limit</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor=" let s of consiladatedate | paginate: {id:'id1', itemsPerPage: 10, currentPage: q }; let i = index">
+                    <td>{{((q-1)*10)+i+1}}</td>
+                    <td>{{s.lenderName}}</td>
+                    <td>{{indianCurrency(s.credit)}}</td>
+                    <td>{{s.dateOfTransaction}}</td>
+                    <td>
+                        <button class="btn btn-success" (click)="view(s.lpid)">View</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination-controls id="id1" (pageChange)="q=$event"></pagination-controls>
+</div>

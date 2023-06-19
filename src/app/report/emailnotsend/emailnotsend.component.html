@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col">
+    <div class="card">  
+      <div class="card-body">  
+
+        <div class="row m-3">
+          <div class="col">
+            <h3>Email not sent Messages</h3>
+          </div>
+        </div>
+
+        <hr>
+        <div class="row m-3">
+          <div class="col-2">
+            <a routerLink="loandisbursal" routerLinkActive="active" (click)="exportAsXLSX()">
+              <i class="fa fa-file-excel-o" aria-hidden="true" ></i>
+          </a>
+          </div>
+          <!-- <button class="btn btn-primary mb-3 col-2" (click)="exportAsXLSX()" >Export as Excel</button> -->
+          <!-- <button class="btn btn-primary mb-3 col-2 offset-1" (click)="pdf()" >Export as Pdf</button> -->
+            <input class="form-control col-3 offset-1" type="text" name="search" [(ngModel)]="searchList" autocomplete="off"
+            placeholder="&#61442;  Start searching " (ngModelChange)="p=1;">
+        </div>
+
+        <div class="row m-3">
+          <table class="table table-striped table-responsive">
+            <thead>    
+              <tr>       
+                <th>Contact name</th>
+                <th>PAN No</th>
+                <th>OrgName</th>
+                <th>Created On</th>
+                <th>E-mailId 1</th>
+                <th>E-mailId 2</th>
+                <th>E-mailId 3</th>
+                <th>E-mailId 4</th>
+                <th>E-mailId 5</th>
+                <th>E-mailId 6</th>
+                <th>Mail sent count</th>
+                <th>Mail sent to</th>
+                <th>Contact No</th>
+              </tr> 
+            </thead>
+            <tbody>      
+             <tr *ngFor="let d of data | filter:searchList | paginate: { itemsPerPage: 10, currentPage: p };let i=index ">
+                  <td >{{d.contactName}}</td>
+                  <td >{{d.panNo}}</td>
+                  <td >{{d.orgName}}</td>
+                  <td>{{d.createdOn}}</td>
+                  <td>{{d.emailId1}}</td>
+                  <td>{{d.emailId2}}</td>
+                  <td>{{d.emailId3}}</td>
+                  <td>{{d.emailId4}}</td>
+                  <td>{{d.emailId5}}</td>
+                  <td>{{d.emailId6}}</td>
+                  <td>{{d.mailsendcount}}</td>
+                  <td>{{d.mailsendto}}</td>
+                  <td>{{d.contactNo}}</td>               
+             </tr> 
+            </tbody>     
+            </table>
+        
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+          
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>

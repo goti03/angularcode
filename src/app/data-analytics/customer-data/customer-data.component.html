@@ -1,0 +1,25 @@
+<div class="card">
+    <div class="card-body">
+
+        <div class="form-group">
+            <div class="col-sm-offset-2">
+                <h3 class=" mt-2">Customer Data</h3>
+            </div>
+        </div>
+<div class="justify-content-center">
+    
+<span style="color: red;">{{message}}</span>
+</div>
+        <hr>
+        <div class="row mt-2  justify-content-center" >
+            <div class="ml-4 mt-1">start date</div> <input type="date" class="form-control col-2 ml-4"  max="{{searchendDate}}" [(ngModel)]="searchstartDate" (keypress)="preventTyping()">
+           <div class="ml-4 mt-1">end date</div>  <input type="date" class="form-control col-2 ml-4"   min="{{searchstartDate}}"  [(ngModel)]="searchendDate" (keypress)="preventTyping()">
+             <div class="ml-4">
+                <a routerLink="loandisbursal" routerLinkActive="active" (click)="exportExcel()">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                </a>
+             </div>
+         </div>
+    </div>
+   
+</div>

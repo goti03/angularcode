@@ -1,0 +1,265 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '~perfect-scrollbar/css/perfect-scrollbar.css';
+
+.ps .ps__scrollbar-y-rail {
+  left: 3px;
+  right: auto;
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.otp-section {
+  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  max-width:320px;
+}
+
+.otp-input input {
+  text-align:center;
+}
+.finagg-logo {
+  /* background-color:#1fad3c;  */
+   background-color:#ffffff;
+  align-self:center;
+  padding-top:30px;
+  padding-bottom:30px;
+ width: 100%;
+}
+ 
+.copy-text {
+  text-align:center;
+  margin-top:20px;
+  font-size:13px;
+}
+
+
+.otp-field .row.pt-20 .col-xs-3{
+  width:25%;
+}
+.page-heading {
+  font-weight:600;
+  text-align:center;
+  margin-top:10px;
+}
+
+
+.container-fluid {
+  width: 100%;
+  padding-right: 10px;
+  padding-left: 10px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 0px 5px 0px 5px !important;
+}
+.container-scroller {
+  overflow: hidden;
+}
+.page-body-wrapper {
+  min-height: calc(100vh - 60px);
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+  flex-direction: row;
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 60px;
+}
+
+.page-body-wrapper.full-page-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 0;
+}
+.d-flex, .navbar .navbar-menu-wrapper .navbar-nav, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.nav-profile, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item, .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item .item-thumbnail .item-icon, .navbar .navbar-menu-wrapper .navbar-nav.navbar-nav-right .nav-item {
+  display: flex !important;
+}
+
+.d-inline-flex {
+  display: inline-flex !important;
+}
+
+@media (min-width: 576px) {
+  .d-sm-none {
+    display: none !important;
+  }
+  .d-sm-inline {
+    display: inline !important;
+  }
+  .d-sm-inline-block {
+    display: inline-block !important;
+  }
+  .d-sm-block {
+    display: block !important;
+  }
+  .d-sm-table {
+    display: table !important;
+  }
+  .d-sm-table-row {
+    display: table-row !important;
+  }
+  .d-sm-table-cell {
+    display: table-cell !important;
+  }
+  .d-sm-flex {
+    display: flex !important;
+  }
+  .d-sm-inline-flex {
+    display: inline-flex !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .d-md-none {
+    display: none !important;
+  }
+  .d-md-inline {
+    display: inline !important;
+  }
+  .d-md-inline-block {
+    display: inline-block !important;
+  }
+  .d-md-block {
+    display: block !important;
+  }
+  .d-md-table {
+    display: table !important;
+  }
+  .d-md-table-row {
+    display: table-row !important;
+  }
+  .d-md-table-cell {
+    display: table-cell !important;
+  }
+  .d-md-flex {
+    display: flex !important;
+  }
+  .d-md-inline-flex {
+    display: inline-flex !important;
+  }
+}
+
+.mat-tab-body-content {
+  overflow: hidden !important;
+}
+
+.cdk-overlay-container, .cdk-overlay-pane {
+  z-index: 9999 !important;
+}
+
+.ngx-pagination li {
+  border-color: #dee2e6 !important;
+	border: 1px solid #dee2e6  !important;
+}
+.align-ti{
+  position: fixed;
+  top : -10px;
+}
+.align-log{
+  position: fixed;
+  top: 7px;
+  right: 10px;
+}
+
+
+.row-form {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.form__group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.form__field {
+  /* font-family: inherit; */
+  font-family: 'Roboto', sans-serif;
+  width: 95%;
+  border: 0;
+  border-bottom: 1px solid #868686;
+  outline: 0;
+  font-size: 15px;
+  color: #000;
+  padding-top: 5px;
+  padding-left: 25px;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+
+.form__field::placeholder {
+  color: transparent;
+}
+
+.form__field:placeholder-shown~.form__label {
+  font-size: 15px;
+  cursor: text;
+  top: 20px;
+}
+
+.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 12px;
+  color: #9b9b9b;
+  padding-left: 25px;
+}
+
+.form__field:focus {
+  padding-bottom: 6px;
+  border-width: 1px;
+  border-image: linear-gradient(to right, #2392ff, #2392ff);
+  border-image-slice: 1;
+}
+
+.form__field:focus~.form__label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 13px;
+  color: #868686;
+}
+
+
+/* reset input */
+
+.form__field:required,
+.form__field:invalid {
+  box-shadow: none;
+}
+
+.form_icon {
+  position: absolute;
+  top: 20px;
+  left: 0;
+}
+
+.form_icon i {
+  font-size: 16px;
+  color: #868686;
+}
+
+.form__field:focus~.form_icon i {
+  color: #2392ff;
+}
+
+.notification-bar-green {
+  border: 1px solid #2392ff;
+  background-color: #d1ffda;
+  padding-top: 5px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 3px;
+  color: #1fad3c;
+}
+
+.pointer {
+  cursor: pointer;
+}

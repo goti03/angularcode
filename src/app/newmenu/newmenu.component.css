@@ -1,0 +1,30 @@
+.mt-15{
+	margin-top:15px;
+}
+table.table-striped.table-bordered.fin-table-blue.fin-custom-table.fbig thead tr th {
+	font-size:15px;
+	white-space: nowrap;
+}
+.search-hero {
+    max-width: 500px;
+    padding-bottom: 50px;
+    margin:auto;
+  }
+
+  .form-control {
+    box-shadow: 0 10px 40px 0 #b2caec;
+  }
+  /* .form-control::placeholder  {
+    font-family:  fangsong;
+  } */
+  .form-control {
+	font-size:15px !important;
+	padding:10px !important;
+	box-shadow:#c4d2e6;
+}
+.form-control {
+  box-shadow: 0 10px 40px 0 #B0C1D9;
+}
+.form-control::placeholder  {
+  font-family: FontAwesome;
+}

@@ -1,0 +1,182 @@
+<p style="text-align: center;"> 
+    <b style="color: green;"> PRE COVID</b>-TILL Feb 2020 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b style="color: red;">DURING COVID</b> from March 2020 till May 2020 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <b style="color:orangered; ">POST COVID </b>from May 2020 onwards
+</p>
+<br>
+<mat-tab-group>
+    <mat-tab label="Turnover Analysis">
+        <div class="contentpanel">
+            <div class="container"> <br>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <highcharts-chart [Highcharts]="highcharts" [options]="chartOptions"
+                            style="width: 100%; height: 300px; display: block;">
+                        </highcharts-chart>
+                    </div>
+                </div>
+                <br><br>
+
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <table class="table table-striped table-bordered" style="width: 450px;">
+                            <tr>
+                                <th>Duration</th>
+                                <th>Turnover</th>
+                            </tr>
+                            <tr *ngFor="let t of GSTturnoverDetails">
+                                <td>{{t.name}}</td>
+                                <td>{{t.y}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-sm-6">
+                        <highcharts-chart [Highcharts]="highcharts2" [options]="chartOptions2"
+                            style="width: 100%; height: 300px; display: block;">
+                        </highcharts-chart>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="HSN / SAC Code wise">
+        <div class="contentpanel">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <br>
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th colspan="3" style="text-align: center;color:green;">PRE COVID</th>
+                            </tr>
+                            <tr>
+                                <th>HSN/SAC CODE</th>
+                                <th>Description</th>
+                                <th>Concentration</th>
+                            </tr>
+                            <tr *ngFor="let pre of preCovidHSNList">
+                                <td>{{pre.hsnId}}</td>
+                                <td>{{pre.hsnDec}}</td>
+                                <td>{{pre.hsnVal}}%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th colspan="3" style="text-align: center;color:red;">DURING COVID</th>
+                            </tr>
+                            <tr>
+                                <th>HSN/SAC CODE</th>
+                                <th>Description</th>
+                                <th>Concentration</th>
+                            </tr>
+                            <tr *ngFor="let dur of duringCovidHSNList">
+                                <td>{{dur.hsnId}}</td>
+                                <td>{{dur.hsnDec}}</td>
+                                <td>{{dur.hsnVal}}%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th colspan="3" style="text-align: center;color:orangered;">POST COVID</th>
+                            </tr>
+                            <tr>
+                                <th>HSN/SAC CODE</th>
+                                <th>Description</th>
+                                <th>Concentration</th>
+                            </tr>
+                            <tr *ngFor="let post of postCovidHSNList">
+                                <td>{{post.hsnId}}</td>
+                                <td>{{post.hsnDec}}</td>
+                                <td>{{post.hsnVal}}%</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </mat-tab>
+    <mat-tab label="TURNOVER / BTO Comparison">
+        <div class="contentpanel">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <br>
+                        <highcharts-chart [Highcharts]="highcharts1" [options]="chartOptions1"
+                            style="width: 100%; height: 300px; display: block;">
+                        </highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label=" GSTN SALES">
+        <div class="contentpanel">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <br>
+                        <highcharts-chart [Highcharts]="highcharts3" [options]="chartOptions3"
+                            style="width: 100%; height: 300px; display: block;">
+                        </highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label=" Customer Sales and Collection">
+        <br>
+        <div class="contentpanel">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table class="table table-striped table-bordered">
+                            <tr>
+                                <th>customer</th>
+                                <th>Rated/ UnRated</th>
+                                <th>Customer Industry</th>
+                                <th>Pre COVID% - SalesCollection</th>
+                                <th>During COVID% - SalesCollection</th>
+                                <th>Post COVID% - SalesCollection</th>
+                            </tr>
+                            <tr>
+                                <td>Agarwal Traders </td>
+                                <td></td>
+                                <td>Supplier</td>
+                                <td>35%- INR 2CR <br>- INR 2.6CR</td>
+                                <td>42%- INR 1.2CR <br>- INR 1.0CR</td>
+                                <td>40%- INR 1.7CR <br>- INR 1.5CR</td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Sales to Purchase Ratio">
+        <div class="contentpanel">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <br>
+                        <highcharts-chart [Highcharts]="highcharts4" [options]="chartOptions4"
+                            style="width: 100%; height: 300px; display: block;">
+                        </highcharts-chart>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </mat-tab>
+</mat-tab-group>

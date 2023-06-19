@@ -1,0 +1,250 @@
+
+
+<ng-template #confirmationMSG let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title"><b>Please confirm..</b></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">×</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Do you really want to Remove ?</p>
+  </div>
+
+  <div class="modal-footer">
+    <div class="fin-bottom-btn two-btn row">
+      <button type="button" class="btn btn-danger fin-btn" (click)="reject()"><i class="fas fa-trash-restore"></i>
+        NO</button>
+      <button type="button" class="btn btn-success fin-btn" (click)="accept()"><i class="fas fa-trash-alt"></i>
+        YES</button>
+    </div>
+    <!-- <button type="button" class="btn btn-primary" (click)="accept()">Yes</button>
+    <button type="button" class="btn btn-danger" (click)="reject()">No</button> -->
+  </div>
+</ng-template>
+
+<div class="fin-row">
+  <div class="fin-card">
+    <div class="table-responsive">
+      <table class="table fin-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Company Name</th>
+            <th>Program Name</th>
+            <th>Customer Name</th>
+            <th>Pan</th>
+            <th>Application ID</th>
+            <th>Application Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Remarks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let h of HeaderDetails">
+            <td><button class="btn btn-info btn-sm fin-btn" (click)="toggle()">Actions</button></td>
+            <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+            <td>{{h.programName}}</td>
+            <td>{{h.customerName}}</td>
+            <td>{{h.panNo}}</td>
+            <td>{{h.applicationNo}}</td>
+            <td>{{h.applicationDate}}</td>
+            <td>{{indianCurrency(h.loanAmount)}}</td>
+            <td>{{h.status}}</td>
+            <td>{{h.remarks}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="fin-row mt-20">
+  <div class="fin-card">
+    <div class="clearfix fin-heading">Document Type List
+    </div>
+    <div class="search-filters">
+      <table class="table">
+        <tr>
+          <td *ngFor="let l1 of list1">
+            <button class="btn-label text-left" (click)="docListfunction(l1)" *ngIf="!l1.selected"><i
+                [class]="l1.icon"></i> {{l1.name}}</button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l1)" *ngIf="l1.selected"><i
+                [class]="l1.icon"></i> {{l1.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+        <tr>
+          <td *ngFor="let l2 of list2">
+            <button class="btn-label text-left" (click)="docListfunction(l2)" *ngIf="!l2.selected"><i
+                [class]="l2.icon"></i> {{l2.name}} </button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l2)" *ngIf="l2.selected"><i
+                [class]="l2.icon"></i> {{l2.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+        <tr>
+          <td *ngFor="let l3 of list3">
+            <button class="btn-label text-left" (click)="docListfunction(l3)" *ngIf="!l3.selected"><i
+                [class]="l3.icon"></i> {{l3.name}} </button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l3)" *ngIf="l3.selected"><i
+                [class]="l3.icon"></i> {{l3.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+        <tr>
+          <td *ngFor="let l4 of list4">
+            <button class="btn-label text-left" (click)="docListfunction(l4)" *ngIf="!l4.selected"><i
+                [class]="l4.icon"></i> {{l4.name}} </button>
+            <button class="btn-label-select text-left" (click)="docListfunction(l4)" *ngIf="l4.selected"><i
+                [class]="l4.icon"></i> {{l4.name}} <i class="fas fa-check move-right"></i> </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="fin-row mt-20">
+      <div class="fin-card">
+        <div class="clearfix fin-heading">Document Type List
+        </div>
+        <div class="table-responsive mt-10">
+          <table class="table fin-table-blue">
+            <thead>
+              <tr>
+                <th>Sno</th>
+                <th>Category Name</th>
+                <th>Document Type</th>
+                <th>File Source</th>
+                <th *ngIf="roleId != 4 && roleId !=7 && !readRole && roleId !=20">Remove</th>
+                <th *ngIf="roleId != 4 && roleId !=7 && roleId !=20">Status</th>
+                <th *ngIf="roleId != 4 && roleId !=7 " style="white-space: nowrap;"><input type="checkbox"
+                    id="selectAll" name="selectAll" [(ngModel)]="selectAll" (click)="checkStatus()"> Select All</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="UploadedDocuments.length == 0">
+                <td colspan="6" style="text-align: center;">No Data Available</td>
+              </tr>
+              <tr *ngFor="let la of UploadedDocuments | paginate: { itemsPerPage: p1, currentPage: p };let i = index">
+            
+                <td>{{((p-1)*p1)+i+1}}</td>
+                <td>{{la.categoryName}}</td>
+                <td>{{la.documentName}}</td>
+                <td class="fin-mulitple">
+                  <button (click)="downloadView(la.filePath,la.fileSource)" class="btn btn-link">
+                    {{la.fileSource}}
+                  </button>
+                </td>
+
+                <td *ngIf="roleId != 4 && roleId !=7 && !readRole && roleId !=20" style="white-space: nowrap;">
+                  <button type="button" class="btn btn-danger btn-sm fin-btn"
+                    *ngIf="la.uploadedStatus==0 && la.documentType !=27"
+                    (click)="removeView(confirmationMSG,la.documentId)"><i class="fas fa-trash-alt"></i> Remove</button>
+                  <i class="fas fa-ban" *ngIf="la.uploadedStatus==1 || la.documentType == 27" aria-hidden="true"></i>
+                </td>
+                <td *ngIf="roleId != 4 && roleId !=7 && roleId !=20" style="white-space: nowrap;">
+                  <ng-container *ngIf="la.uploadedStatus==0">
+                    <button type="button" class="btn btn-warning btn-sm fin-btn"><i class="fas fa-clock"></i>
+                      Pending</button>
+                  </ng-container>
+                  <ng-container *ngIf="la.uploadedStatus==1">
+                    <button type="button" class="btn btn-warning btn-sm fin-btn"><i class="far fa-check-circle"></i>
+                      Completed</button>
+                  </ng-container>
+                </td>
+                <td *ngIf="roleId != 4 && roleId !=7">
+                  <ng-container *ngIf="la.uploadedStatus==0">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input style="text-align: center;" [(ngModel)]="la.Checkflag" type="checkbox" name="check"
+                      id="check_{{i}}">
+                  </ng-container>
+                  <ng-container *ngIf="la.uploadedStatus==1">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input style="text-align: center;" type="hidden" name="check" id="check_{{i}}">
+                  </ng-container>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+        <div class="fin-bottom-btn" *ngIf="roleId != 4 && roleId !=7 && docLength > 0"><button type="button"
+            class="btn btn-success fin-btn" (click)="submit()"><i class="fas fa-upload"></i>Upload</button></div>
+      </div>
+    </div>
+    <!-- <div class="table-responsive mt-10">
+          <table class="table fin-table-blue">
+              <thead>
+                  <tr>
+                      <th>Sno</th>
+                      <th>Document Category</th>
+                      <th>Document Type Name</th>
+                      <th>File Name</th>
+                      <th *ngIf="roleId != 4 && roleId !=7">Remove</th>
+                      <th *ngIf="roleId != 4 && roleId !=7">Status</th>
+                      <th *ngIf="roleId != 4 && roleId !=7 " style="white-space: nowrap;"><input type="checkbox" id="selectAll" name="selectAll" [(ngModel)]="selectAll" (click)="checkStatus()"> Select All</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr *ngFor="let la of UploadedDocuments | paginate: { itemsPerPage: 10, currentPage: p };let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{la.categoryName}}</td>
+                      <td>
+                        <div class="mb-2" *ngFor="let li of la.list">
+                          {{li.documentName}}
+                        </div>
+                      </td>
+                      <td>
+                        <div class="mb-2" *ngFor="let li of la.list">
+                          <button (click)="downloadView(la.filePath,la.fileSource)" class="btn btn-link">
+                            {{li.fileSource}}
+                          </button>
+                        </div>
+                      </td>
+                      <td *ngIf="roleId != 4 && roleId !=7" style="white-space: nowrap;">
+                        <div class="mb-2" *ngFor="let li of la.list">
+                          <button type="button" class="btn btn-danger btn-sm fin-btn" *ngIf="li.uploadedStatus==0 && li.documentType !=27" (click)="removeView(confirmationMSG,li.documentId)"><i class="fas fa-trash-alt"></i> Remove</button>
+                          <i class="fas fa-ban" *ngIf="li.uploadedStatus==1 || li.documentType == 27" aria-hidden="true"></i>
+                        </div>
+                      </td>
+                      <td *ngIf="roleId != 4 && roleId !=7" style="white-space: nowrap;">
+                        <div class="mb-2" *ngFor="let li of la.list">
+                          <ng-container *ngIf="li.uploadedStatus==0">
+                            <button type="button" class="btn btn-warning btn-sm fin-btn"><i class="fas fa-clock"></i> Pending</button>
+                        </ng-container>
+                        <ng-container *ngIf="li.uploadedStatus==1">
+                            <button type="button" class="btn btn-warning btn-sm fin-btn"><i class="far fa-check-circle"></i> Completed</button>
+                        </ng-container>
+                          </div>
+                          
+                      </td>
+                      <td *ngIf="roleId != 4 && roleId !=7">
+                        <div class="mb-2" *ngFor="let li of la.list;let a = index">
+
+                          <ng-container *ngIf="li.uploadedStatus==0">
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              <input style="text-align: center;" [(ngModel)]="li.Checkflag" type="checkbox" name="check" id="check_{{i*a}}">
+                          </ng-container>
+                          <ng-container *ngIf="li.uploadedStatus==1">
+                              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                              <input style="text-align: center;" type="hidden" name="check" id="check_{{i*a}}">
+                          </ng-container>
+                          </div>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div> -->
+    <!-- <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="fin-bottom-btn" *ngIf="roleId != 4 && roleId !=7 && docLength > 0"><button type="button"
+        class="btn btn-success fin-btn" (click)="submit()"><i class="fas fa-upload"></i>Upload</button></div> -->
+  </div>
+</div>
+
+
+<!-- <i class="far fa-address-card fa-fw"></i>
+<i class="far fa-id-card fa-fw"></i> 
+<i class="far fa-file-alt fa-fw"></i>
+<i class="far fa-file-archive fa-fw"></i>
+<i class="far fa-file fa-fw"></i> -->
+
+<app-action-tab *ngIf="tab" (toggle)="toggle()" ></app-action-tab>

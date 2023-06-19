@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="panel-heading">
+          <h2>Document Type List</h2>
+        </div>
+        <div class="panel-body">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Sno</th>
+                <th>Document Type</th>
+                <th>File Source</th>
+                <th>Creaated On</th>
+                <th>Download</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr *ngFor="let la of documentList;let i = index">
+                <td>{{i+1}}</td>
+                <td>{{la.docType}}</td>
+                <td>
+                  <button type="button" class="btn btn-link" (click)="downloadView(la.fileLocation,'')">{{la.fileName}}</button>
+                  
+                </td>
+                <td>{{la.createdOn}}</td>
+                <td> <button type="button" class="btn btn-primary " (click)="download(la.fileLocation,la.fileName)">Download</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,963 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="contentpanel">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <table style="width: 100%;">
+                            <tr>
+                                <td>
+                                    <h2><b>APPLICATION FORM </b> </h2>
+                                </td>
+                                <td style="text-align: right;">
+                                    <div>
+                                        <img src="assets/images/bank/IDFC Bank.jpeg"
+                                            style="width:200px;height: 75px;" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <hr style="width:100%;text-align:center;margin-left:0;color: black;
+                        border-width: 4px;">
+                        <table align="right">
+                            <tr>
+                            <tr>
+                                <td>{{loanDate}}</td>
+                            </tr>
+
+                        </table>
+                        <br>
+                        <table style="width: 100%;">
+                            <tr>
+                                <td colspan="4" style="text-align: center;">(Please write in <b>BLOCK LETTERS</b>.
+                                    Please
+                                    complete the application
+                                    to help us serve you
+                                    better)</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">
+                                    I hereby apply to {{lenderName}} to grant me business loans as
+                                    mentioned in
+                                    this Application Form.
+                                    <br>I furnish my particulars as mentioned
+                                    below.<br>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="width:250px">Application Ref.no:</td>
+                                <td style="width:650px">
+
+                                    {{applicationReferencNo}}
+                                </td>
+                                <td>City:</td>
+                                <td>
+
+                                    {{city}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Application Date:</td>
+                                <td>
+
+                                    {{loanDate}}
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="4" style="color: white;text-align: center;">FINANCE REQUIREMENT</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Purpose of Loan:</td>
+                                    <td colspan="3">
+
+                                        <mat-checkbox [(ngModel)]="checked">Working Capital</mat-checkbox>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Loan Amount (₹):</td>
+                                    <td>{{loanAmount}}</td>
+                                    <td>Desired Tenure:</td>
+                                    <td>{{desiredTenure}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="4" style="color: white;text-align: center;">COMPANY DETAILS</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Applicant Name:</td>
+                                    <td colspan="3">
+                                        {{name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Entity Type:</td>
+                                    <td colspan="3">
+                                        <mat-checkbox [(ngModel)]="Partnership">Partnership</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Proprietorship">Proprietorship</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="PrivateLimited">PrivateLimited</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="HUF">HUF</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="LLP">LLP</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Type of Industry:</td>
+                                    <td colspan="3">
+                                        <mat-checkbox [(ngModel)]="Manufacturing">Manufacturing</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Retail">Retail</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Wholesale">Wholesale</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="FoodServices">Food Services</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="OtherServices">Other Services</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>No. of years in Business:</td>
+                                    <td>{{yearInBusiness}}
+                                    </td>
+                                    <td>Date of Incorporation:</td>
+                                    <td>
+                                        {{incorpDate}}
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ID Document Type: PAN Card</td>
+                                    <td>
+                                        <mat-checkbox [(ngModel)]="checked">Entity</mat-checkbox>
+                                    </td>
+                                    <td>Pan Card No:</td>
+                                    <td>
+                                        {{panNo}}
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>No. of Directors/Partners:</td>
+                                    <td colspan="3">{{noOfPartners}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Office Address:</td>
+                                    <td colspan="3">
+                                        {{officceAddress1}},{{officceAddress2}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>State:</td>
+                                    <td>{{officeState}}</td>
+                                    <td>City:</td>
+                                    <td>{{officeCity}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pin:</td>
+                                    <td>
+
+                                        {{officePincode}}
+                                    </td>
+                                    <td>LandMark:</td>
+                                    <td>{{officeLandmark}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>Email Address:</td>
+                                    <td colspan="3">{{officeMailId}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;" *ngFor="let pa of applicant">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="5" style="color: white;text-align: center;">PERSONAL DETAILS -
+                                        APPLICANT</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4">Have taken Business Loan from {{lenderName}}
+                                        Earlier-&nbsp;<mat-checkbox>Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="checked">No</mat-checkbox>
+                                    </td>
+                                    <td rowspan="9" style="width: 150px;height: 200px;">
+                                        <img style="width: 150px;height: 200px;" src="{{pa.filePath}}{{pa.imageUrl}}" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> application Id:</td>
+                                    <td>{{applicationReferencNo}}</td>
+                                    <td>CKYC </td>
+                                    <td>{{pa.ckycId}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Father/Spouse Name:</td>
+                                    <td>
+                                        {{pa.fatherOrSpoFirstName}}
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mother’s Name:</td>
+                                    <td>
+                                        {{pa.motherFirstName}}
+                                    </td>
+                                    <td colspan="2"></td>
+                                </tr>
+                                <tr>
+                                    <td>Pan</td>
+                                    <td>{{pa.panNo}}</td>
+                                    <td colspan="2">(If not applicable, please provide duly filled form 60/61)</td>
+                                </tr>
+                                <tr>
+                                    <td>Aadhaar Card :</td>
+                                    <td>{{pa.aadharNo}}</td>
+                                    <td>Gender</td>
+                                    <td>
+                                        <mat-checkbox [(ngModel)]="male">Male</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="female">FeMale</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Transgender">Transgender</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Date of birth:</td>
+                                    <td>{{pa.dob}}</td>
+                                    <td>Marital Status:</td>
+                                    <td>
+                                        <mat-checkbox [(ngModel)]="Single">Single</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Married">Married</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Others">Others</mat-checkbox>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>Mobile No:</td>
+                                    <td>{{pa.mobileNo}}</td>
+                                    <td>Email Id:</td>
+                                    <td colspan="2">{{pa.emailId}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Current Residence:</td>
+                                    <td colspan="4">{{pa.addressOne}},{{pa.addressTwo}},{{pa.addressThree}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>District:</td>
+                                    <td>{{pa.district}}</td>
+                                    <td>State:</td>
+                                    <td colspan="2">{{pa.state}}</td>
+                                </tr>
+                                <tr>
+                                    <td>City:</td>
+                                    <td>{{pa.city}}</td>
+                                    <td>Country:</td>
+                                    <td colspan="2">{{pa.country}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pin:</td>
+                                    <td>{{pa.pincode}}</td>
+                                    <td>Landmark:</td>
+                                    <td colspan="2"> {{pa.landMark}}</td>
+
+                                </tr>
+                                <tr>
+                                    <td>Permanent Residence:</td>
+                                    <td colspan="4">{{pa.addressOne}},{{pa.addressTwo}},{{pa.addressThree}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>District:</td>
+                                    <td>{{pa.district}}</td>
+                                    <td>State:</td>
+                                    <td colspan="2">{{pa.state}}</td>
+
+                                </tr>
+                                <tr>
+                                    <td>City:</td>
+                                    <td>{{pa.city}}</td>
+                                    <td>Country:</td>
+                                    <td colspan="2">{{pa.country}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Pin:</td>
+                                    <td>{{pa.pincode}}</td>
+                                    <td>Landmark:</td>
+                                    <td colspan="2"> {{pa.landMark}}</td>
+
+                                </tr>
+                                <tr>
+                                    <td>CitiZenship:</td>
+                                    <td>{{pa.citizenShip}}</td>
+                                    <td>Residential Status: </td>
+                                    <td colspan="2">
+                                        <mat-checkbox [(ngModel)]="checked">Resident Individual</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>GST Regd No:</td>
+                                    <td>
+                                        <mat-checkbox [(ngModel)]="gstcheckbox1">Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="gstcheckbox2">No</mat-checkbox>
+                                    </td>
+                                    <td>GSTIN NO:</td>
+                                    <td colspan="2">{{GSTno}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">I would like to disclose that I have relation with {{lenderName}} –
+                                        <mat-checkbox>Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="checked">No</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">Whether Relative to Director of {{lenderName}} -
+                                        <mat-checkbox>Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="checked">No</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5">Whether Relative to Senior Management of {{lenderName}} -
+                                        <mat-checkbox>Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="checked">No</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="text-align: right;">Signature:</td>
+                                    <td><img style="width: 250px;height: 60px;" src="{{filePath}}{{signature}}" /></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="4" style="color: white;text-align: center;">GOODS AND SERVICES TAX
+                                        DETAILS</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>GST Regd No:</td>
+                                    <td>
+                                        <mat-checkbox [(ngModel)]="gstcheckbox1">Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="gstcheckbox2">No</mat-checkbox>
+                                    </td>
+                                    <td>GSTIN NO:</td>
+                                    <td>{{GSTno}}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        That I have shared correct GSTIN., hence separate verification of my GSTIN is
+                                        not required and I shall not hold {{lenderName}} liable for loss of
+                                        credit arising on account of incomplete, erroneous or wrong GST details.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4">
+                                        For all GST purposes the mailing address will be consider as place of supply
+                                        i.e. GST address
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="4" style="color: white;text-align: center;">BANK DETAILS</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Bank Name:</td>
+                                    <td colspan="3">{{bankName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Account NUmber</td>
+                                    <td>
+                                        {{accountNo}}
+                                    </td>
+                                    <td>Account Type:</td>
+                                    <td>
+                                        <mat-checkbox [(ngModel)]="Savings">Savings</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="Current">Current</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="OD">OD</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="CC">CC</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Branch Address:</td>
+                                    <td colspan="3">{{branchAddress}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td> Preferred Mode Of Payment:</td>
+                                    <td>
+                                        <mat-checkbox>PDC</mat-checkbox>&nbsp;
+                                        <mat-checkbox>ECS</mat-checkbox>&nbsp;
+                                        <mat-checkbox >NACH</mat-checkbox>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="4" style="color: white;text-align: center;">ACKNOWLEDGEMENT</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4">
+                                        {{lenderName}} would require a processing time of approximately 20
+                                        working days from the date of the completed application. This is subject to
+                                        submission of all documents as required by {{lenderName}}. For any
+                                        queries or suggestions, please write to us at {{lenderEmail}}
+                                        or
+                                        visit nearest branch.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 350px;">Customer Name:</td>
+                                    <td>
+                                        {{entityName}}
+                                    </td>
+                                    <td>Date:</td>
+                                    <td>
+                                        {{loanDate}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Application Reference Number:</td>
+                                    <td colspan="3">
+                                        {{applicationReferencNo}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"><b>Note:</b> This is a Preprinted acknowledgment and does not
+                                        require signature.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td style="color: white;text-align: center;">COMMUNICATION</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Would you like to receive updates about various offers and promotion from to
+                                        time?
+                                        <mat-checkbox [(ngModel)]="checked">Yes</mat-checkbox>&nbsp;
+                                        <mat-checkbox>No</mat-checkbox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>If yes, mode of communication:
+                                        <mat-checkbox [(ngModel)]="checked">Phone</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="checked">SMS</mat-checkbox>&nbsp;
+                                        <mat-checkbox [(ngModel)]="checked">E-mail</mat-checkbox>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td style="color: white;text-align: center;">IMPORTANT INFORMATION</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Loan Amount: As sanction and determined by credit appraisal process of
+                                        {{lenderName}}
+                                        Processing Fees:{{fees}}%
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Rate of Interest: Rate of interest is determined by credit appraisal process of
+                                        {{lenderName}}. The risk gradation is based on inter alia the quantum
+                                        and tenure of loan, the security offered by the customers, cost of funds and the
+                                        credit profile. Charges: Applicable charges as per the schedule of charges valid
+                                        at the time of loan approval. These are available as Sales point
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <table border="1">
+                                            <thead style="background-color: black;">
+                                                <tr>
+                                                    <td style="color: white;text-align: center;">Micro Business Loan
+                                                    </td>
+                                                    <td style="color: white;text-align: center;">Charges</td>
+                                                    <td style="color: white;text-align: center;">Micro Business Loan
+                                                    </td>
+                                                    <td style="color: white;text-align: center;">Charges</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Micro Business Loan
+                                                        Charges
+                                                        EMI Bounce charges per presentation</td>
+                                                    <td>400</td>
+                                                    <td>Physical Statement of Account</td>
+                                                    <td>500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Late payment/Penal charges/ Default interest/Overdue (per month)
+                                                    </td>
+                                                    <td>2% of the unpaid EMI or Rs 300 whichever is higher</td>
+                                                    <td>Document retrieval charges (per retrieval)</td>
+                                                    <td>500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cheque Swap charges (per swap)</td>
+                                                    <td>500</td>
+                                                    <td>Stamping Charges</td>
+                                                    <td>As per actuals</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Cancellation & Rebooking charges</td>
+                                                    <td>10000 within 30 days of disbursement or 1st EMI presentation
+                                                        whichever is earlier, Post 30 days or 1st EMI presentation
+                                                        request for cancellation will be treated as foreclosure</td>
+                                                    <td>Processing fees</td>
+                                                    <td>Up to 3.5% of the total amount</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Foreclosure / Prepayment charges*</td>
+                                                    <td>5% of Principle loan outstanding</td>
+                                                    <td>List of Documents</td>
+                                                    <td>500</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Loan re scheduling charges (per re scheduling)</td>
+                                                    <td>300</td>
+                                                    <td>Part Payment charges</td>
+                                                    <td>Part Payment is not allowed</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Duplicate No Objection Certificate Issuance Charges</td>
+                                                    <td>500</td>
+                                                    <td>Initial Money Deposit/ Application Fees (Non-refundable)</td>
+                                                    <td>3000</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Physical Repayment Schedule</td>
+                                                    <td>500</td>
+                                                    <td>EMI Pickup/ Collection Charges</td>
+                                                    <td>350</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+
+                                </tr>
+                                <br>
+                                <tr>
+                                    <td>*Charges above are Exclusive of GST</td><br>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        {{lenderName}} does not accept any payment either in cash or kind
+                                        along
+                                        with or in connection with its products at the time of applying for loan Charges
+                                        pertaining to Processing fees and those prescribed in the aforementioned
+                                        Schedule of Charges are the only charges levied by the bank.{{lenderName}}
+                                        and any of its directors, employees and /or officers shall neither be
+                                        liable for payment (if any) made in cash or kind nor shall also be held
+                                        responsible for payment (if any) made to any third party.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="4" style="color: white;text-align: center;">DECLARATION</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4">I/We declare that all the particulars and information given in the
+                                        Application
+                                        Form are true, correct, complete and up-to-date in all respects and I/We have
+                                        not withheld any information whatsoever. I/We confirm that no insolvency
+                                        proceeding(s) or suit for recovery of outstanding dues or monies whatsoever
+                                        and/or criminal proceedings have been initiated and/or pending against me/us and
+                                        that I/We have never been adjudicated insolvent/bankrupt by any court or other
+                                        authority. I/We declare that I/We have not made any payment in cash, bearer,
+                                        cheque or kind along with or in connection with this Application or any other
+                                        Application fees to the executive collecting my/our Application/and I/We shall
+                                        not hold {{lenderName}} liable for any such payment made by us to the
+                                        executive collecting this Application. I/We understand and confirm that the
+                                        Application Form and all other documents submitted by me/us to {{lenderName}}
+                                        shall not be returned to me/us and Lender shall have
+                                        the right to retain the same. I/We have read the Application Form and brochures
+                                        and are agreeable to all the terms/conditions of availing finance from
+                                        {{lenderName}}
+                                        FIRST Bank Ltd. I/We authorise {{lenderName}} FIRST Bank Ltd./its Agents to make
+                                        reference
+                                        and enquiries relevant to information in this Application Form which
+                                        {{lenderName}}
+                                        FIRST
+                                        Bank Ltd./its Group Companies/its Agents consider necessary. I/We undertake to
+                                        inform {{lenderName}} FIRST Bank Ltd./its Group Companies/its Agents regarding
+                                        the
+                                        change
+                                        in the residential addresses/employment/profession and to provide any further
+                                        information that {{lenderName}} FIRST Bank Ltd./its Group Companies/its Agents
+                                        may
+                                        require. I/We further declare and confirm that the credit facilities if any
+                                        enjoyed by me/us with banks/financial institutions/non banking finance companies
+                                        has been disclosed here in above. I/We agree that {{lenderName}} may
+                                        provide the credit facilities mentioned herein only if permitted and if approved
+                                        in the manner specified or required by the Reserve Bank of India from time to
+                                        time. I/We confirm that I/We shall not use the credit facility (or any part
+                                        thereof) for any improper, illegal or unlawful purpose/activities.
+                                        I/We have been read out and explained in the language known to me/us, the
+                                        contents of the Application Form for availing the loan from Lender FIRST Bank
+                                        Limited by the executive of Lender and I/we have signed the
+                                        said Application Form after having understood them and by signing the same. I/we
+                                        wish to avail of the NACH/ECS/SI/Direct Debit facility and hereby express my/our
+                                        unconditional consent to debit my/our loan instalments etc., from above
+                                        mentioned account through NACH/ECS/SI/ Direct Debit. l/We authorize the bank to
+                                        honour all such instructions. l/we authorize the representative of THE BANK to
+                                        get this mandate verified and registered with bank. Mandate Verification Charges
+                                        (if any) may be charged to my/our account. I/We will ensure sufficient balance
+                                        in the funding account on the date of execution. In case NACH/ECS/SI/Direct
+                                        Debit instruction is unsuccessful due to financial reasons, the
+                                        NACH/ECS/SI/Direct Debit instructions will be presented again for clearance.
+                                        I/We will bear the bounce changes for transactions that have been unsuccessful
+                                        due to financial reason. I / We am/are aware that I /We shall not hold Lender
+                                        liable for any loss of ITC arising due to incomplete
+                                        erroneous or wrong details provided by me / us as above.</td>
+
+                                </tr>
+                                <tr>
+                                    <td colspan="4">I/WE confirm that except to the extent disclosed to the Bank, no
+                                        director or a
+                                        relative (as specified by RBI) of a director of a banking company (as specified
+                                        by RBI) or a relative of a senior officer of the Bank (as specified by RBI) is -
+                                        the applicant(s), or a partner, managing agent, manager, employee, director of
+                                        our concern, or of our
+                                        05
+                                        Doc_V3/Mar/MBL/2019/26
+                                        subsidiary or our holding company, or a guarantor on my/our behalf, or holds
+                                        substantial interest in our concern or my/our subsidiary or holding company.
+                                        I/We hereby agree to abide by and be bound by all applicable
+                                        rules/regulations/instruction/guidelines including but not limited to those
+                                        issued by the Reserve Bank of India,
+                                        including the Foreign Exchange Management Act, 1999 and Foreign Account Tax
+                                        Compliance Act, 2010 (to the extent applicable to India) and the Common
+                                        Reporting
+                                        Standards (CRS), in force from time to time. I/We confirm having declared our
+                                        status as per the rules applicable under section 285BA of the Income Tax Act,
+                                        1961 (the Act)
+                                        as notified by Central Board of Direct Taxes (CBDT) in this regard.</td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 450px;">Country of Birth</td>
+                                    <td>{{countryOfBirth}}</td>
+                                    <td>Place Of Birth</td>
+                                    <td>{{placeOfBirth}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Country of Residence as Per Tax Laws</td>
+                                    <td>{{countryOfResidenceAsPerTaxLaw}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table style="width: 100%;">
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td colspan="6" style="color: white;text-align: center;">AUTHORISATION</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="6">I hereby authorise the Bank, without any notice to me to conduct
+                                        credit checks,
+                                        references, make enquiries, in its sole discretion and also authorise the Bank
+                                        and its agents to share and obtain information, records from any agencies,
+                                        statutory bodies, credit bureau, bank, financial institutions, or any third
+                                        party in respect of the application, as it may consider necessary the Bank shall
+                                        not be liable for use/ sharing of the information. I authorise the bank and/ or
+                                        its representatives, agents to communicate/ call/ SMS to me/ us with respect to
+                                        this Application or any other promotional activities. I/we would like to know as
+                                        well avail the benefits of various the Bank loan offer schemes or loan
+                                        promotional activities or any other promotional schemes and hereby authorize the
+                                        Bank, its employees, agents, representatives and associates to do so. I confirm
+                                        that laws in relation to the unsolicited communication referred in “national Do
+                                        Not Call Registry” as laid down by Telecom Regulatory of India will not be
+                                        applicable for such communications/ calls/ SMSs received from the Bank, its
+                                        representatives, agents. The Bank reserves the right to retain the photograph
+                                        and documents submitted with the Application and shall not returned back.<b> The
+                                            Bank shall be entitled at its sole and absolute discretion to approve/reject
+                                            this Application Form submitted by Applicant/Co-Applicant /Guarantor</b>.
+                                        I/we
+                                        authorise the Bank to submit application/other relevant documents submitted by
+                                        me to CERSAI. I/we hereby provide my consent to receive information from Central
+                                        KYC Registry through SMS/mail on the above registered number/email address.
+                                        Debit Card Application - Declaration:DECLARATION1. I/We wish to avail the
+                                        banking facilities/products from Lender ("Lender FIRST
+                                        Bank”),
+                                        and have read, understood and agree to the Terms and Conditions displayed on the
+                                        website of Lender FIRST Bank i.e. www.lenderbank.com, which may be amended by
+                                        Lender
+                                        FIRST Bank from time to time and hosted and notified on the website of Lender
+                                        FIRST Bank.2. I/We have read, understood and agree to the charges/costs,
+                                        mentioned in the extant Schedule of Charges. This Schedule of Charges is also
+                                        displayed on www.lenderbank.com.3. I/We agree to abide by and be bound by all
+                                        applicable rules/regulations/instruction/guidelines issued by the Reserve Bank
+                                        of India, and under the FEMA regulations, 2000 governing EEFC Accounts, the
+                                        Foreign Exchange Management Act, 1999 and Foreign Account Tax Compliance Act,
+                                        2010 (to the extent applicable to India) and the Common Reporting Standards
+                                        (CRS), in force from time to time. I/We have declared our status as per the
+                                        rules applicable under section 285BA of the Income Tax Act, 1961 (the Act) as
+                                        notified by Central Board of Direct Taxes (CBDT) in this regard.4. I/We
+                                        authorize Lender FIRST Bank to conduct my/our credit history verification with
+                                        CIBIL or any other credit rating agency and acknowledge that Lender FIRST Bank
+                                        shall have the right and authority to carry out investigations from the
+                                        information available in public domain for confirming the information provided
+                                        by me/us to Lender FIRST Bank. I/We declare that I/we have not availed any
+                                        credit
+                                        facility from any bank or have obtained NOC from such bank(s) for opening of a
+                                        current account with Lender FIRST Bank.5. I/We agree to furnish and intimate to
+                                        Lender FIRST Bank any other particulars that we are called upon to provide on
+                                        account of any change in law/statutory requirements either in India or abroad.
+                                        6. I/We authorize Lender FIRST Bank to exchange, share or part with all the
+                                        information provided herein with financial institutions/agencies/statutory
+                                        bodies/ other such persons, as may be required by Lender FIRST Bank. I/We shall
+                                        not hold Lender FIRST Bank or its agents/representatives liable for
+                                        using/sharing
+                                        such information.7. I/We hereby declare that the information provided herein as
+                                        well as in the documentary evidence provided by me/us to Lender FIRST Bank (the
+                                        “Customer Information”) is true, correct and complete in all aspects to the best
+                                        of my/our knowledge and that I/we have not withheld any Customer Information
+                                        that may affect the assessment categorization of the account as a Reportable
+                                        account or otherwise. I/We further agree that any false/misleading Customer
+                                        Information given by me/us or suppression of any material fact will render
+                                        my/our account liable for closure and the bank shall have the right to initiate
+                                        any action, under law or otherwise.If any of the information provided here is
+                                        incorrect, I/We hereby agree to indemnify and keep indemnified Lender FIRST
+                                        Bank,
+                                        affiliates and their successors or assignees.8. I/We agree and understand that
+                                        Lender FIRST Bank reserves the right to reject my/our account opening
+                                        application
+                                        form/request without assigning any reason thereof and without being liable to
+                                        me/us in any manner whatsoever.</td>
+                                </tr>
+                                <tr>
+                                    <td>Applicant/co-applicant/Guarantor's Signature</td>
+                                    <td><img style="width: 250px;height: 60px;" src="{{filePath}}{{signature}}" /></td>
+                                    <td>Date:</td>
+                                    <td>{{loanDate}}</td>
+                                    <td>Place:</td>
+                                    <td>{{city}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table>
+                            <thead style="background-color: black;">
+                                <tr>
+                                    <td style="color: white;text-align: center;">DOCUMENTS REQUIRED</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <b>Photo identity proof*:</b> Aadhar Card, Passport, PAN card, voters identity
+                                        card, driving license, Identity card with applicant’s photograph issued by
+                                        Central/ State Government Departments, Statutory/ Regulatory Authorities, Public
+                                        Sector Undertakings, Scheduled Commercial Banks, and Public Financial
+                                        Institutions.
+                                        Letter issued by a gazetted officer, with a duly attested photograph of the
+                                        person.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Address proof:</b> passport, driving license, bank statement,
+                                        electricity/telephone bill, aadhaar card, post-paid mobile phone, piped gas,
+                                        water bill, Property or Municipal Tax receipt.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Post Office savings bank account statement <b>(any document notified by the
+                                            central government):</b></td>
+                                </tr>
+                                <tr>
+                                    <td>i. Letter of allotment of accommodation from employer issued by State or
+                                        Central Government departments, statutory or regulatory bodies, public sector
+                                        undertakings, scheduled commercial banks, financial institutions and listed
+                                        companies. Similarly, leave and license agreements with such employers allotting
+                                        official accommodation.</td>
+                                </tr>
+                                <tr>
+                                    <td>ii. Pension or family pension payment orders (PPOs) issued to retired employees
+                                        by Government Departments or Public Sector Undertakings, if they contain the
+                                        address.</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Documents issued by Government departments of foreign jurisdictions and letter
+                                        issued by Foreign Embassy or Mission in India.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Income proof*</b> Latest ITR, Latest Form 16, Latest salary slip/certificate,
+                                        Latest Audited Financials, Bank details with last 3 months salary credited, Add-
+                                        Business Proof -Qualification Certificate/Certificate ofPractice(COP),Shop Act
+                                        License/MOA & AOA/Sales TaxNat registration I Partnership Deed.
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Property Document*</b> copy of original sale deed, allotment.possession
+                                        letter, NOC from Society & other documents as per legal report. The Application
+                                        will be assessed quickly after receiving the required documents. Please quote
+                                        the Application Reference Number mentioned in the slip for any enquiry(ies).
+                                        *Requirement of documents might vary according to the scheme chosen.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,132 @@
+<div class="fin-card mt-20 clearfix">
+    <div class="clearfix fin-heading">Pending Repayments <a class="fin-right fin-dash-icon "
+            (click)="exportPendingList()"><i class="far fa-file-excel green" style="font-size: 30px;"></i></a> <a
+            (click)="pdf()" class="fin-right fin-dash-icon "><i class="far fa-file-pdf red"
+                style="font-size: 30px;"></i></a></div>
+    <div class="table-responsive mt-10">
+        <table class="table table-striped table-bordered fin-table-blue">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Customer Name</th>
+                    <th>Paid Amount</th>
+                    <th>Transaction Date</th>
+                    <th>Received Date</th>
+                    <th>Action</th>
+                    <th>Remarks</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor=" let row of pendingRepaymentList | filter:searchList | paginate: {id:'id1', itemsPerPage: p1, currentPage: q1 }; let i = index">
+                    <td>{{((q1-1)*p1)+i+1}}</td>
+                    <td>{{row.customerName}}</td>
+                    <td>{{indianCurrency(row.receivedAmount)}}</td>
+                    <td>{{row.creditDate | date:"dd-MM-yyyy"}}</td>
+                    <td>{{row.receivedDate| date:"dd-MM-yyyy"}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning btn-sm fin-btn" (click)="detail(row.id)"
+                            *ngIf="row.status=='2' && roleId == 1"><i class="fas fa-history"></i> Process</button>
+                        <button class="btn btn-lg ml-3" *ngIf="row.status!='2' && roleId == 1"
+                            (click)="description(row.id)"><i class="fa fa-file" aria-hidden="true"></i></button>
+                        <button class="btn"> <img *ngIf="roleId != 1" src="assets/images/icons/disable.png"
+                                style="width: 30px; height:30px;" />
+                        </button>
+                    </td>
+                    <td>{{row.remarks}}</td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <pagination-controls id="id1" (pageChange)="q1 = $event" (click)="showPageIndex1(q1,p1)"></pagination-controls>
+</div>
+
+<div class="fin-card mt-20 clearfix">
+    <div class="clearfix fin-heading">Repayment Search </div>
+    <form [formGroup]="searchForm" (ngSubmit)="searchSubmit()">
+        <div class="table-responsive mt-10">
+            <table class="table fin-table-green nowrap">
+                <tbody>
+                    <tr>
+                        <td style="border-bottom:0px none; text-align:right;">From</td>
+                        <td style="border-bottom:0px none;">
+                            <div class="fin-date-textbox">
+                                <input class="form-control" formControlName="startDate" type="date"
+                                    [(ngModel)]="postDate.startDate" (keypress)="preventTyping()">
+                                <div *ngIf="((searchForm.controls['startDate'].touched && searchForm.controls['startDate'].invalid) || (submitted && searchForm.controls['startDate'].invalid))"
+                                    class="alert-danger">
+                                    <div
+                                        *ngIf="(searchForm.controls['startDate'].errors) && (searchForm.controls['startDate'].errors.required)">
+                                        Required Field
+                                    </div>
+                                    <div
+                                        *ngIf="(searchForm.controls['startDate'].errors) && (searchForm.controls['startDate'].errors.pattern)">
+                                        Invalid Date
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="border-bottom:0px none; text-align:right;">to</td>
+                        <td style="border-bottom:0px none;">
+                            <div class="fin-date-textbox">
+                                <input class="form-control" formControlName="endDate" type="date"
+                                    [(ngModel)]="postDate.endDate" (keypress)="preventTyping()"/>
+                                <div *ngIf="((searchForm.controls['endDate'].touched && searchForm.controls['endDate'].invalid) || (submitted && searchForm.controls['endDate'].invalid))"
+                                    class="alert-danger">
+                                    <div
+                                        *ngIf="(searchForm.controls['endDate'].errors) && (searchForm.controls['endDate'].errors.required)">
+                                        Required Field
+                                    </div>
+                                    <div
+                                        *ngIf="(searchForm.controls['endDate'].errors) && (searchForm.controls['endDate'].errors.pattern)">
+                                        Invalid Date
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td style="border-bottom:0px none; text-align:right;">Customer Name</td>
+                        <td style="border-bottom:0px none;">
+                            <select class="form-select" formControlName="customerName" [(ngModel)]="postDate.loanId"
+                                style="width: 300px;">
+                                <option></option>
+                                <option *ngFor="let Customer of customerName;" [value]="Customer.loanId">
+                                    {{Customer.orgName}} - {{Customer.lenderName}} ({{Customer.loanRequestNo}})</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="fin-bottom-btn two-btn"><button type="button" class="btn btn-info fin-btn"
+                (click)="searchSubmit()"><i class="fas fa-search"></i> Search</button><button type="button"
+                class="btn btn-success fin-btn" (click)="export()" [disabled]="isDisabled"><i
+                    class="far fa-file-excel"></i> Export as Excel</button></div>
+    </form>
+    <div class="table-responsive mt-30">
+        <table class="table table-striped table-bordered fin-table-blue">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Customer Name</th>
+                    <th>Paid Amount</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr
+                    *ngFor="let search of searchResult| paginate: {id:'id2', itemsPerPage: p2, currentPage: q2 }; let i = index">
+                    <td>{{((q2-1)*p2)+i+1}}</td>
+                    <td>{{search.customerName}}</td>
+                    <td>{{indianCurrency(search.receivedAmount)}}</td>
+                    <td>{{search.creditDate | date:"dd-MM-yyyy"}}</td>
+                    <td>{{search.processStatus}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+    <pagination-controls id="id2" (pageChange)="q2 = $event" (click)="showPageIndex2(q2,p2)"></pagination-controls>
+</div>

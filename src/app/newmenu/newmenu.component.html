@@ -1,0 +1,419 @@
+<!--
+    *********************************************************
+    Author  :   Nandha Kumar s
+    *********************************************************
+-->
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">MenuBoard</h3>
+        <div class="search-hero">
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchMenuList" autocomplete="off"
+                placeholder="&#61442;  Start searching ">
+        </div>
+        <mat-tab-group>
+            <!-- Menu Tab  -->
+            <mat-tab label="MENU">
+                <br />
+                <button class="btn btn-success" (click)="addNewMenu(menuitem)">Add</button>
+                <div class="table-responsive mt-10">
+                    <table class="table table-striped table-bordered fin-table-blue fin-custom-table fbig  ">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th>Label Class</th>
+                                <th>Icon</th>
+                                <th>Menu Name</th>
+                                <th>Title</th>
+                                <th>Class</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let s of getMenuList | filter:searchMenuList | paginate: { id:'first' ,itemsPerPage: 15, currentPage: p }; let i=index">
+                                <td>{{((p-1)*15)+i+1}}</td>
+                                <td>{{s.labelclass}}</td>
+                                <td>{{s.icon}}</td>
+                                <td>{{s.menuName}}</td>
+                                <td>{{s.title}}</td>
+                                <td>{{s.class}}</td>
+                                <td>
+                                    <button class="btn btn-success" class="btn"
+                                        (click)=" editMenuDetails(editmenuitem,s)" style="margin-left: 10px"><i
+                                            class="fa fa-edit fa-2x" style="color: #1fc1f7;"
+                                            title="Update"></i></button>
+                                    <button class="btn btn-success" class="btn" (click)=" deleteMenu(s.menuId)"
+                                        style="margin-left: 10px"><i class="fa fa-trash fa-2x" style="color: #FF0000;"
+                                            title="trash"></i></button>
+                                    <!-- <input type="checkbox"  [(ngModel)]="checkFlag"/> -->
+                                </td>
+                            <tr>
+                        <tbody>
+                    </table>
+                    <!-- <button class="btn btn-success" *ngIf="checkFlag">submit</button> -->
+                </div>
+                <pagination-controls id="first" (pageChange)="p = $event">
+                </pagination-controls>
+            </mat-tab>
+            <!-- Submenu Tab -->
+            <mat-tab label="SUB MENU">
+                <br />
+                <button class="btn btn-success" (click)="addNewSubMenu(submenuitem)">Add</button>
+                <br />
+                <div class="table-responsive mt-10">
+                    <table class="table table-striped table-bordered fin-table-blue fin-custom-table fbig ">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th>Path</th>
+                                <th>SubMenu Name</th>
+                                <th>Menu Name</th>
+                                <th>Title</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let s of getSubMenuList  | filter:searchMenuList | paginate: { id:'second',itemsPerPage:10, currentPage: p }; let i=index">
+                                <td>{{((p-1)*10)+i+1}}</td>
+                                <td>{{s.path}}</td>
+                                <td>{{s.submenuName}}</td>
+                                <td>{{s.menuName}}</td>
+                                <td>{{s.title}}</td>
+                                <td>
+                                    <button class="btn btn-success" class="btn" (click)="editSubMenu(editsubmenuitem,s)"
+                                        style="margin-left: 10px"><i class="fa fa-edit fa-2x" style="color:#1fc1f7;"
+                                            title="Update"></i></button>
+                                    <button class="btn btn-success" class="btn"
+                                        (click)="deleteSubMenu(s.submenuId,s.functionId)" style="margin-left: 10px"><i
+                                            class="fa fa-trash fa-2x" style="color: #FF0000;"
+                                            title="trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination-controls id="second" (pageChange)="p = $event">
+                </pagination-controls>
+            </mat-tab>
+            <!-- Role  ID Tab-->
+            <mat-tab label="ROLE ID">
+                <br />
+                <button class="btn btn-success" (click)="addRoleId(roleiditem)">Add</button>
+
+                <div class="table-responsive mt-10">
+                    <table class="table table-striped table-bordered fin-table-blue fin-custom-table fbig ">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th>Defaut Path</th>
+                                <th>Role Name</th>
+                                <th>Action</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor=" let s of getRoleList | filter:searchMenuList |paginate: { id:'third',itemsPerPage:15, currentPage: p }; let i=index">
+                                <td>{{((p-1)*15)+i+1}}</td>
+                                <td>{{s.defaultPath}}</td>
+                                <td>{{s.roleName}}</td>
+                                <td>
+                                    <button class="btn btn-success" class="btn" style="margin-left: 10px"
+                                        (click)="editRoleId(editroleiditem,s)"><i class="fa fa-edit fa-2x"
+                                            style="color: #1fc1f7;" title="Update"></i>
+                                    </button>
+                                    <button class="btn btn-success" class="btn" (click)="deleteRoleId(s.roleId)"
+                                        style="margin-left: 10px"><i class="fa fa-trash fa-2x" style="color: #FF0000;"
+                                            title="trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination-controls id="third" (pageChange)="p = $event">hhg
+                </pagination-controls>
+            </mat-tab>
+            <!-- Role-Menu-Mapping Tab-->
+            <mat-tab label="ROLE-MENU-MAPPING">
+                <br />
+                <div class="row">
+                    <div class="col-2">
+                        <h4>Role Name</h4>
+                    </div>
+                    <div class="col-4">
+                        <select class="form-control-sm" [(ngModel)]="filterStatus" (ngModelChange)="onRoleChoose()">
+                            <option *ngFor="let p1 of getRoleList" [value]="p1.roleId">{{p1.roleName}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive mt-10">
+                    <table class="table table-bordered ">
+                        <tr *ngFor="let c of roleMenuMappingListone; let i=index">
+
+                            <td>{{i+1}}</td>
+                            <td>
+                                <input type="checkbox" id="check_{{i}}" name="check_{{i}}"
+                                    [(ngModel)]="c.MenuIDcheckflag" (change)="ontrigger()" /> {{c.menuName}}
+                            </td>
+                            <td>
+                                <table class="table-bordered">
+                                    <tr *ngFor="let b of c.subMenuDetails; let j=index">
+                                        <td>
+                                            <input type="checkbox" id="check_{{j}}" name="check_{{j}}"
+                                                [(ngModel)]="b.submenucheckflag" (change)="onmenu(c.MenuId)" />
+                                            {{b.submenuName}}
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <button class="btn btn-success" (click)="submitNow()">submit</button>
+                    </table>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+
+<!-- popup menu -->
+<ng-template #menuitem let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add NewMenu</h4>
+        <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="false">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="width: 200%;">
+                <th>Add Menu</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MenuName</td>
+                    <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="menuName"
+                            placeholder="MenuName" /></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="title"
+                            placeholder="Title" /></td>
+                </tr>
+                <tr>
+                    <td>Icon</td>
+                    <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="icon"
+                            placeholder="Icon" /></td>
+                </tr>
+                <tr>
+                    <td>Class</td>
+                    <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="class"
+                            placeholder="Class" /></td>
+                </tr>
+                <!-- <tr>
+                    <td>LabelClass</td>
+                    <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="labelClass"
+                            placeholder="Labelclass" /></td>
+                </tr> -->
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary" (click)="saveMenuDetails()">Save</button></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+<!-- popup submenu -->
+<ng-template #submenuitem let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add NewSubMenu</h4>
+        <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="width: 200%;">
+                <th>Add Sub Menu </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SubMenuName</td>
+                    <td><input type="text" class="form-control" [(ngModel)]="submenuName" placeholder="submenu" /></td>
+                </tr>
+                <tr>
+                    <td>MenuId</td>
+                    <td> <select class="form-control " [(ngModel)]="filterStatus" [(ngModel)]="menuId">
+                            <option *ngFor="let p1 of getMenuList" [value]="p1.menuId">{{p1.menuName}}</option>
+                        </select>
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>Path</td>
+                    <td><input type="text" class="form-control " [(ngModel)]="path " placeholder="path" /></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td><input type="text" class="form-control " [(ngModel)]="title" placeholder="title" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary" (click)="saveSubMenuDetails()">Save</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+<!-- popup  roleid -->
+<ng-template #roleiditem let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add New RoleId</h4>
+        <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="width: 200%;">
+                <th>Add RoleId</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Role Name</td>
+                    <td><input type="text" class="form-control form-control-sm" [(ngModel)]="roleName"
+                            placeholder="Rolename" /></td>
+                </tr>
+                <tr>
+                    <td>defaultPath</td>
+                    <td><input type="text" class="form-control form-control-sm" [(ngModel)]="path"
+                            placeholder="DefaultPath" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary" (click)="saveRoleIdDetails()">Save</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+<!-- popup edit menu -->
+<ng-template #editmenuitem let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit Menu</h4>
+        <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="width: 200%;">
+                <th>Edit Menu</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>MenuName</td>
+                    <td> <input type="text" class="form-control " [(ngModel)]="menuName" /></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td> <input type="text" class="form-control  " [(ngModel)]="title" /></td>
+                </tr>
+                <tr>
+                    <td>Icon</td>
+                    <td> <input type="text" class="form-control " [(ngModel)]="icon" /></td>
+                </tr>
+                <tr>
+                    <td>Class</td>
+                    <td> <input type="text" class="form-control " [(ngModel)]="class" /></td>
+                </tr>
+                <!-- <tr>
+                    <td>MenuId</td>
+                    <td> <input type="text" class="form-control form-control-sm" [(ngModel)]="menuId" /></td>
+                </tr> -->
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary" (click)="updateMenuDetails() ">Save</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+<!-- edit  submenu -->
+<ng-template #editsubmenuitem let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Edit SubMenu</h4>
+        <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="width: 200%;">
+                <th>Edit Sub Menu </th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>SubMenuName</td>
+                    <td><input type="text" class="form-control " [(ngModel)]=" submenuName" /></td>
+                </tr>
+                <!-- <tr>
+                    <td>MenuName</td>
+                    <td><input type="text" class="form-control form-control-sm" [(ngModel)]=" menuName" /></td>
+                </tr> -->
+                <tr>
+                    <td>Path</td>
+                    <td><input type="text" class="form-control " [(ngModel)]="path " /></td>
+                </tr>
+                <tr>
+                    <td>Title</td>
+                    <td><input type="text" class="form-control " [(ngModel)]="title" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary" (click)="updateSubMenuDetails()">Save</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+<!-- edit roleiditem -->
+<ng-template #editroleiditem let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add New RoleId</h4>
+        <h4 style="color: red; margin-left: 10px;">{{errormsg}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="width: 200%;">
+                <th>Add RoleId</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Role Name</td>
+                    <td><input type="text" class="form-control" [(ngModel)]="roleName" /></td>
+                </tr>
+                <tr>
+                    <td>DefaultPath</td>
+                    <td><input type="text" class="form-control " [(ngModel)]="path" /></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button class="btn btn-primary" (click)="updateRoleIdDetails() ">Save</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>

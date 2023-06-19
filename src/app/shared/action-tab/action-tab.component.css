@@ -1,0 +1,155 @@
+.utility {
+    position: fixed;
+    top: 10%;
+    left: 50%;
+    background-color: #fff;
+    /* width: 33%; */
+    z-index: 999;
+    border-radius: 15px;
+    /* opacity: 0.1; */
+    border: 3px solid #1976d2;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.utility-activity {
+    position: fixed;
+    top: 200px;
+    right: 50px;
+    background-color: #fff;
+    /* width: 40%; */
+    z-index: 999;
+    border-radius: 15px;
+    /* opacity: 0.1; */
+    border: 3px solid #1976d2;
+    font-size: 12px;
+    padding: 10px;
+}
+
+.tooltip-text-t {
+    position: relative;
+    padding: 5px;
+    background-color: #ccc;
+    border-radius: 5px;
+    bottom: 5px !important;
+    left: 15px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000 !important;
+    font-weight: 800;
+    z-index: 1;
+    visibility: hidden;
+    opacity: 1;
+    font-size: 14px;
+    /* width: 150px; */
+    height: 0px;
+}
+
+.tooltip-text-t ul li {
+    color: #FFF;
+}
+
+.tooltip-text-t::after {
+    content: "";
+    position: relative;
+    /* width:10px; */
+    /* height: 10px; */
+    top: 0px !important;
+    /* background-color:rgb(0, 0, 0); */
+    transform: rotate(45deg) translate(-50%, -50%);
+    z-index: 9999;
+    right: 5px !important;
+}
+
+.tooltip-example-t:hover .tooltip-text-t {
+    visibility: visible;
+    opacity: 1;
+    width: 150px;
+    height: 50px;
+}
+.slider {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    overflow-x: auto;
+  }
+  .slide {
+    width: 300px;
+    flex-shrink: 0;
+    height: 100%;
+  }
+  
+.action-slide-button {
+    position: fixed;
+    top: 130px;
+    right: 44%;
+    z-index: 999;
+}
+
+.action-slide {
+    position: fixed;
+    top: 20%;
+    right: 0%;
+    background-color: #fff;
+    /* width: 90%; */
+    z-index: 999;
+    border-radius: 15px;
+    /* opacity: 0.1; */
+    border: 3px solid #1fad3c;
+    font-size: 12px;
+    padding: 10px;
+}
+
+/* width */
+
+.action-slide::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+}
+
+
+/* Track */
+
+.action-slide::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+.action-slide::-webkit-scrollbar-thumb {
+    background: skyblue;
+}
+
+
+/* Handle on hover */
+
+.action-slide::-webkit-scrollbar-thumb:hover {
+    background: skyblue; 
+}
+.fa-file-excel-o{
+
+    color: green;
+
+}
+
+.fa-file-pdf-o {
+
+    color: red;
+}
+.red{
+    color: red;
+}
+
+.green{
+    color: green;
+}
+
+.pointer {
+    cursor: pointer;
+}
+.wordBreak {
+    /* word-break:break-all */
+    white-space: nowrap;
+}

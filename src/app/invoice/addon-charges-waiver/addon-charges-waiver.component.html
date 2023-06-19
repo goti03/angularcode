@@ -1,0 +1,145 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row text-center">
+                    <div class="col">
+                        Add on Master CHARGES / WAIVER
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col">
+
+                        <mat-tab-group mat-stretch-tabs>
+                            <mat-tab label="Addon Charge Master">
+                                <div class="row mt-3 pl-5">
+                                    <div class="col">
+
+                                        <div class="row mt-4 justify-content-center">
+                                            <div class="col-10">
+                                                <table class="table table-striped" style="width: 100% !important;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S.No</th>
+                                                            <th>Name of the Charge</th>
+                                                            <th>Minimum Charge</th>
+                                                            <th>Type of the Charge</th>
+                                                            <th>GST %</th>
+                                                            <th>Calculation type</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let a of newChargelist; let i = index">
+                                                            <td>{{i+1}}</td>
+                                                            <td><input type="text" class="form-control" name="charge"
+                                                                    [(ngModel)]="a.chargeName"></td>
+                                                            <td><input type="text" class="form-control" name="cii"
+                                                                    [(ngModel)]="a.minCharge"
+                                                                    (keypress)="keyPress($event)"></td>
+                                                            <td>
+                                                                <select class="form-control" name="toc"
+                                                                    [(ngModel)]="a.chargeType">
+                                                                    <option value="1">Flat</option>
+                                                                    <option value="2">Percentage</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" class="form-control" [(ngModel)]="a.gst" (keypress)="keyPress($event)">
+                                                            </td>
+                                                            <td>
+                                                                <select class="form-control" name="ct"
+                                                                    [(ngModel)]="a.calculationProcess">
+                                                                    <option value="0">Manual</option>
+                                                                    <option value="1">Automatic</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-danger" (click)="remove(i,1)" *ngIf="i != 0">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mt-4 justify-content-around">
+                                            <div class="col-2">
+                                                <button class="btn btn-primary float-left"
+                                                    (click)="addNewCharge()">Add</button>
+                                            </div>
+                                            <div class="col-2">
+                                                <button class="btn btn-success float-left"
+                                                    (click)="newCharge()">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Addon Waiver Master ">
+                                <div class="row mt-3 pl-5">
+                                    <div class="col">
+
+                                        <div class="row mt-4 justify-content-center">
+                                            <div class="col-10">
+                                                <table class="table table-striped" style="width: 100% !important;">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>S.No</th>
+                                                            <th>Name of the WaiveOff</th>
+                                                            <th>Minimum WaiveOff</th>
+                                                            <th>Type of the WaiveOff</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let a of newDiscountlist; let i = index">
+                                                            <td>{{i+1}}</td>
+                                                            <td><input type="text" class="form-control" name="charge"
+                                                                    [(ngModel)]="a.discountName"></td>
+                                                            <td><input type="text" class="form-control" name="cii"
+                                                                    [(ngModel)]="a.minCharge"
+                                                                    (keypress)="keyPress($event)"></td>
+                                                            <td>
+                                                                <select class="form-control" name="toc"
+                                                                    [(ngModel)]="a.discountType">
+                                                                    <option value="1">Flat</option>
+                                                                    <option value="2">Percentage</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button class="btn btn-danger" (click)="remove(i,2)" *ngIf="i != 0">Remove</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="row mt-4 justify-content-around">
+                                            <div class="col-2">
+                                                <button class="btn btn-primary float-left"
+                                                    (click)="addNewDiscount()">Add</button>
+                                            </div>
+                                            <div class="col-2">
+                                                <button class="btn btn-success float-left"
+                                                    (click)="newDiscount()">Save</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,329 @@
+  
+    <div class="contentpanel">        
+      <div class="col-12">
+        <div class="table-responsive">
+                      <div class="col-sm-15">  
+         
+          <table class="table table-striped table-bordered">
+            <thead>
+                <tr  class="table-info">
+                    <th  >                                                    
+                        Bank Details
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr >
+                   <td>
+            <mat-tab-group  (selectedTabChange)="mergedAccountDetails();" >              
+              
+              <mat-tab  label="Merged Account"  >                
+                <table *ngFor="let mergedDetails of CustomerBankMergedDetails" class="table table-striped table-bordered">
+                  <tbody>
+                    <tr><td><b>No of Bank Account</b></td><td>{{mergedDetails.count}}</td></tr>
+                    <tr><td><b>Type of Account</b></td><td>{{mergedDetails.acctype}}</td></tr>
+                    <tr><td><b>Bank Name</b></td><td>{{mergedDetails.bank}}</td></tr>
+                    <tr><td><b>Account Holder's Name</b></td><td>{{mergedDetails.holder}}</td></tr>  
+                    <tr><td><b>Month Available</b></td><td>
+                      <select  class="form-control" id="loanYear" #t  (change)="monthTradsMerged(t.value);" style="width:125px;font-style:normal;font-size:9pt;font-family:Arial;">
+                        <option value="0">selelct</option>
+                        <option *ngFor="let loanYear of LoanMonthAvailable" value="{{loanYear.year}}and{{loanYear.month}}">
+                          {{loanYear.month}}- {{loanYear.year}}</option>
+                        </select> 
+                        </td></tr>
+                  </tbody>
+                  </table>
+                </mat-tab>
+
+              <mat-tab label="Bank {{i + 1}}" (click)="bankAccountDetails();" *ngFor="let bankDetails of CustomerBankDetails; let i = index">  
+                
+                <table  *ngFor="let bankDetails of CustomerBankDetails" class="table table-striped table-bordered">
+                <tbody>
+                  <tr><td>{{bankDetails.bank}}</td><td></td></tr>
+                  <tr><td>Type of Account</td><td>{{bankDetails.acctype}}</td></tr>
+                  <tr><td>Bank Name</td><td>{{bankDetails.bank}}</td></tr>
+                  <tr><td>Account Holder's Name</td><td>{{bankDetails.holder}}</td></tr>
+                  <tr><td>Month Available</td><td>
+                      <select  class="form-control" id="monthAva{{i}}" #y  (change)="monthTrads(y.value);" style="width:125px;font-style:normal;font-size:9pt;font-family:Arial;">
+                        <option value="0">selelct</option>
+                        <option *ngFor="let loanMonthAvail of bankDetails.loanMonthAvail" value="{{loanMonthAvail.year}}and{{loanMonthAvail.month}}and{{loanMonthAvail.bankid}}and{{i}}">
+                          {{loanMonthAvail.month}}- {{loanMonthAvail.year}}</option>
+                        </select> 
+                        </td>
+                      </tr>  
+                      </tbody>  
+                </table>
+              </mat-tab>
+              
+            </mat-tab-group>
+          </td>
+                                   </tr>
+    
+                                </tbody>
+                            </table>
+           
+            
+      </div>
+                  
+     </div>
+    </div>
+  
+        <br><br>
+        
+        <div class="col-12">
+          <div class="table-responsive">
+                        <div class="col-sm-15">  
+            <table class="table table-striped table-bordered">
+            <thead>
+             <tr  class="table-info">
+               <th>
+                Aggregates Banking Trends Ananlysis
+               </th>
+             </tr> 
+            </thead>  
+            </table>
+            <!-- <input type="radio" id="radio1" name="radio1"  (onclick)="radio1();">* ALL &emsp;&emsp;&emsp;
+        <input type="radio" id="radio2" name="radio2" seleted (onclick)="radio2();">Operational Transaction&emsp;&emsp;&emsp;
+        <input type="radio" id="radio3" name="radio3" (onclick)="radio3();">Non Operational Transaction -->
+      
+            <table *ngFor="let aggre of AggregateBankDetails;" class="table table-striped table-bordered">
+                <thead>
+                    <tr class="table-info">
+                        <th >Identifier</th>                        
+                        <th colspan="2" align="center" > {{aggre.monthYear}}</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                                      
+                <tr>        
+                <td><b>Total CREDIT</b></td>                  
+                <td><b>Value</b></td>                   
+                <td>INR {{aggre.creditAmt}}</td>                    
+                </tr>                
+                <tr>        
+                <td></td>                    
+                <td><b>Tranaction Count</b> </td>                     
+                <td> {{aggre.creditCnt}}</td>                      
+                </tr>
+
+                <tr>        
+                  <td><b>Total DEBIT</b></td>                  
+                  <td><b>Value</b></td>                   
+                  <td>INR {{aggre.debitAmt}}</td>                    
+                  </tr>                
+                  <tr>        
+                  <td></td>                    
+                  <td><b>Tranaction Count</b></td>                     
+                  <td> {{aggre.debitCnt}}</td>                      
+                  </tr>
+                  <tr>
+                    <td><b>ABB (Daily)</b></td>
+                    <td colspan="2">INR </td>
+                    
+                </tr>
+            </tbody>
+        </table>
+        </div>
+    
+
+</div>
+<br><br>
+
+<div >
+    <div class="row" >
+        <br>
+        <div class="col-sm-6">
+          <table class="table table-striped table-bordered">
+            <thead>
+             <tr class="table-info">
+               <th>
+                Banking INFLOW - CREDIT
+               </th>
+             </tr> 
+            </thead>  
+            </table>
+                
+          <div [hidden]="!InflowChart" >
+           
+          <highcharts-chart
+          [Highcharts] = "highcharts" 
+          [options] = "chartOptions" 
+          style = "width: 100%; height: 300px; display: block;">
+      </highcharts-chart>
+
+        </div>
+        
+          <br>
+          <br>
+          <select  class="form-control" id="inFlowId" #t  (change)="BankInflow(t.value);" >
+            <option value="0">selelct</option>
+            <option *ngFor="let inFlow of BankInflowGroups" value="{{inFlow.groupId}}and{{index}}">
+              {{inFlow.groupName}}</option>
+            </select> 
+        </div>
+        <div class="col-sm-6">
+         
+          <table class="table table-striped table-bordered">
+            <thead>
+             <tr class="table-info">
+               <th>
+                Banking OUTFLOW - CREDIT
+               </th>
+             </tr> 
+            </thead>  
+            </table>
+
+          
+          <div [hidden]="!OutflowChart">
+            <highcharts-chart
+            [Highcharts] = "highcharts2" 
+            [options] = "chartOptions2" 
+            style = "width: 100%; height: 300px; display: block;">
+        </highcharts-chart>
+        </div>
+        
+          <br>
+          <br>
+          <select  class="form-control" id="outFlowId" #x  (change)="BankOutflow(x.value);" >
+            <option value="0">selelct</option>
+            <option *ngFor="let outFlow of BankOutflowGroups" value="{{outFlow.groupId}}and{{index}}">
+              {{outFlow.groupName}}</option>
+            </select> 
+          </div>
+        
+    </div>
+<br><br></div>
+<div class="row" >
+        <div class="col-sm-6" ><br>        
+
+        <table class="table table-striped table-bordered">
+          <thead>
+           <tr class="table-info">
+             <th>
+              EMI and Loan Servicing - Debits
+             </th>
+           </tr> 
+          </thead>  
+          </table>
+
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="table-info">
+                    <th>NO</th>
+                    <th>Lender</th>
+                    <th>EMI Amount</th>
+                    <th>DATE OF DEBIT</th>
+                    <th>CIBIL MATCH <br>(Match does from CIC Report)</th>
+                </tr>
+            </thead>
+        </table>
+        </div>
+    
+        <div class="col-sm-6" >
+            <br>            
+            <table class="table table-striped table-bordered">
+              <thead>
+               <tr class="table-info">
+                 <th>
+                  GST & Advance Tax
+                 </th>
+               </tr> 
+              </thead>  
+              </table>
+    
+
+            <table class="table table-striped table-bordered">
+            <thead>
+                <tr class="table-info">
+                    <th>NO</th>
+                    <th>TAX HEAD</th>
+                    <th>Amount</th>
+                    <th>DATE OF DEBIT</th>
+                    <th>MATCH WITH GST <br> (If Avaialable)</th>
+                </tr>
+            </thead>
+        </table>
+        </div>
+    </div>
+<br><br>
+    <div class="row">
+        <div class="col-sm- 12"></div>
+    </div>
+    <table class="table table-striped table-bordered">
+      <thead>
+       <tr class="table-info">
+         <th>
+          Average Monthly Banking to Obligation - Loan
+         </th>
+       </tr> 
+      </thead>  
+      </table>
+
+    <div id="chart_div"></div>
+    <table class="table table-striped table-bordered">
+        <thead><tr class="table-info">
+            <th>Inward Cheque Bounce Ration<br> value %</th>
+            <th>Outward Cheque Bounce Ration<br> value %</th>
+        </tr></thead>
+    </table>
+
+  
+</div>
+
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/jquery-migrate-1.2.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/modernizr.min.js"></script>
+<script src="js/jquery.sparkline.min.js"></script>
+<script src="js/toggles.min.js"></script>
+<script src="js/retina.min.js"></script>
+<script src="js/jquery.cookies.js"></script>
+
+
+<script src="js/jquery.datatables.min.js"></script>
+<script src="js/select2.min.js"></script>
+
+<script src="js/custom.js"></script>
+<script>
+  jQuery(document).ready(function() {
+    
+    "use strict";
+    
+    jQuery('#table1').dataTable();
+    
+    jQuery('#table2').dataTable({
+      "sPaginationType": "full_numbers"
+    });
+    
+    // Select2
+    jQuery('select').select2({
+        minimumResultsForSearch: -1
+    });
+    
+    jQuery('select').removeClass('form-control');
+    
+    // Delete row in a table
+    jQuery('.delete-row').click(function(){
+      var c = confirm("Continue delete?");
+      if(c)
+        jQuery(this).closest('tr').fadeOut(function(){
+          jQuery(this).remove();
+        });
+        
+        return false;
+    });
+    
+    // Show aciton upon row hover
+    jQuery('.table-hidaction tbody tr').hover(function(){
+      jQuery(this).find('.table-action-hide a').animate({opacity: 1});
+    },function(){
+      jQuery(this).find('.table-action-hide a').animate({opacity: 0});
+    });
+  
+  
+  });
+</script>
+</div>

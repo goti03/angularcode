@@ -1,0 +1,22 @@
+.bg {
+    color: black;
+    font-weight: 200;
+    padding: 5%;
+}
+
+.otp-box {
+    height: 45px !important;
+    width: 45px !important;
+    flex-grow: 0 !important;
+    outline: black 1px;
+}
+
+.sticky {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+background-color: #ffcccb;
+padding: 20px;
+font-size: 15px;
+z-index: 999;
+}

@@ -1,0 +1,64 @@
+<div class="lg-body">
+    <div class="login-container">
+        <div class="login-section">
+            <!-- <div class="login-card-left">
+                <div class="welcome-text">
+                    <div class="welcome-text1"><span>FinAgg</span> Quick cash flow</div>
+                    <div class="welcome-text2">One Stop Solution for entire Value Chain</div>
+                </div>
+            </div> -->
+            <div class="login-card-right">
+                <div class="portal-login">
+                    <div class="login-logo"><img src="assets/images/background/portal_login_logo.png" alt=""></div>
+                    <div class="login-heading">Signup</div>
+                    <div class="login-subtitle">Already have an account? <a class="btn btn-link" (click)="signin()">Sign In</a></div>
+                    <div class="login-form">
+                        <div class="login-form-input"><span><i class="fa fa-sitemap"></i></span>
+                            <select name="orgTypeId" [(ngModel)]="orgTypeId" class="top-radius">
+                            <option  [value]="0">Choose Org Type</option>
+                            <option *ngFor="let o of orgType" [value]="o.id">{{o.name}}</option>
+                          </select>
+                        </div>
+                        <div class="login-form-input" *ngIf="orgTypeId==1"><span><i class="fa fa-list-alt"></i></span>
+                            <select name="orgId" [(ngModel)]="orgId" class="top-radius">
+                            <option  [value]="0">Choose Organisation</option>
+                            <option *ngFor="let o of organisationList" [value]="o.orgId">{{o.orgName}}</option>
+                          </select>
+                        </div>
+                        <div class="login-form-input" *ngIf="orgTypeId==2"><span><i class="fa fa-list-alt"></i></span>
+                            <select name="lenderId" [(ngModel)]="lenderId" class="top-radius" (change)="setOrgId()">
+                            <option  [value]="0">Choose Lender</option>
+                            <option *ngFor="let o of lenderList" [value]="o.lenderId">{{o.lenderName}}</option>
+                          </select>
+                        </div>
+                        <div class="login-form-input"><span><i class="fa fa-database"></i></span>
+                            <select name="roleId" [(ngModel)]="roleId" class="top-radius">
+                            <option  [value]="0">Choose Role</option>
+                            <option *ngFor="let r of roleList" [value]="r.roleId">{{r.roleName}}</option>
+                          </select>
+                        </div>
+
+                    </div>
+                    <div class="login-form">
+                        <div class="login-form-input"><span><i class="fa fa-phone"></i></span><input type="text" name="mobileNo" maxlength="10" value="" [(ngModel)]="mobileNo" (keypress)="keyPress($event)" placeholder="Mobile No" class="top-radius"></div>
+                        <div class="login-form-input"><span><i class="fa fa-drivers-license-o"></i></span><input type="email" value="" name="firstName" [(ngModel)]="firstName" placeholder="First Name" class="bottom-radius"></div>
+                    </div>
+                    <div class="login-form">
+                        <div class="login-form-input"><span><i class="fa fa-user"></i></span><input type="text" value="" name="userName" [(ngModel)]="userName" placeholder="userName" class="top-radius"></div>
+                        <div class="login-form-input"><span><i class="fa fa-key"></i></span><input type="password" value="" name="password" [(ngModel)]="password" placeholder="Password" class="top-radius"></div>
+                        <div class="login-form-input"><span><i class="fa fa-key"></i></span><input type="password" value="" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Confirm Password" class="bottom-radius"></div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
+                            <label class="form-check-label" for="flexCheckChecked">
+            I agree to all Terms
+            </label>
+                        </div>
+                        <div class="error-msg login-form-input">{{message}}</div>
+                        <div class="login-form-btn"><button type="submit" value="" (click)="signUp()">Sign Up</button></div>
+                    </div>
+                    <div class="copy-text-signup">&copy; FinAGG Technologies Pvt. Ltd. All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

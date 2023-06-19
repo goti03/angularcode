@@ -1,0 +1,97 @@
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+
+        <h3>Create Master Program</h3>
+        
+          <form [formGroup]="validation" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label for="name">
+                <font style="color: red;">*</font>Master Program Name
+              </label>
+              <div class="input-group box-size">
+                <input type="text" class="form-control" id="masterName" required [(ngModel)]="master.masterName"
+                  name="masterName" formControlName="name" style="width: 250px;">
+              </div>
+              <!-- <p style="font-size:smaller; color: black;">**MasterName must contain atleast one upper,lower,numeric character
+              </p> -->
+              <div *ngIf="((validation.controls['name'].touched && validation.controls['name'].invalid)||(submitted && validation.controls['name'].invalid))" class="invalid-feedback" >
+                <div *ngIf="validation.controls['name'].errors && validation.controls['name'].errors.required">
+                  Required Field.
+                </div>
+              </div>
+            </div>
+
+            
+            <div class="form-group">
+              <label for="name">
+                <font style="color: red;">*</font>Start Date
+              </label>
+              <div class="input-group box-size">
+                <input type="date" class="form-control" id="startDate" required [(ngModel)]="master.startDate"
+                  name="startDate" formControlName="startDate" style="width: 250px;" (keypress)="preventTyping()"  max="{{master.endDate}}">
+              </div>
+              <div *ngIf="((validation.controls['startDate'].touched && validation.controls['startDate'].invalid)||( submitted && validation.controls['startDate'].invalid))" class="invalid-feedback">
+                <div
+                  *ngIf="validation.controls['startDate'].errors && validation.controls['startDate'].errors.required">
+                  Required Field.</div>
+                <div *ngIf="validation.controls['startDate'].errors && validation.controls['startDate'].errors.pattern">
+                  Invalid date Format
+                </div>
+                <div *ngIf="validation.controls['startDate'].errors && validation.controls['startDate'].errors.currentdateValidator">
+                 The start date should be on or before Current date
+                </div> 
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="name">
+                <font style="color: red;">*</font>End Date
+              </label>
+              <div class="input-group box-size">
+                <input type="date" class="form-control" id="endDate" required [(ngModel)]="master.endDate"
+                  name="endDate" formControlName="endDate" style="width: 250px;" (keypress)="preventTyping()" min="{{master.startDate}}">
+              </div>
+              <div *ngIf="((validation.controls['endDate'].touched && validation.controls['endDate'].invalid)||( submitted && validation.controls['endDate'].invalid))" class="invalid-feedback">
+                <div *ngIf="validation.controls['endDate'].errors && validation.controls['endDate'].errors.required">
+                  Required Field.</div>
+                <div *ngIf="validation.controls['endDate'].errors && validation.controls['endDate'].errors.pattern">
+                  Invalid date Format
+                </div>
+                <div *ngIf="validation.controls['endDate'].errors && validation.controls['endDate'].errors.startendcheckDate">
+                  The end date should not be ahead of start date
+                 </div> 
+              </div>
+            </div>
+          
+
+            <div class="form-group">
+              <label for="name">
+                <font style="color: red;">*</font>
+                Total Limit
+              </label>
+              <div class="input-group box-size" *ngIf="showb">
+                <input type="text" class="form-control" id="totalLimit" (keypress)="keyPress($event)"
+                  [(ngModel)]="master.totalLimit" name="totalLimit" formControlName="limit" style="width: 250px;" (change)="showlimits()">
+                  
+              </div>
+              <div class="input-group box-size" (click)="showlimits()" *ngIf="!showb">
+                <input type="text" class="form-control"
+                  value={{indianCurrency(master.totalLimit)}} name="totalLimit" formControlName="limit" style="width: 250px;">
+                  
+              </div>
+              <div *ngIf="((validation.controls['limit'].touched && validation.controls['limit'].invalid)||(submitted && validation.controls['limit'].invalid))" class="invalid-feedback" >
+                <div *ngIf="validation.controls['limit'].errors && validation.controls['limit'].errors.checkLimit">
+                  The limit should not be zero.
+                </div>
+              </div>
+              
+            </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+          </form>
+        
+      </div>
+    </div>
+  </div>
+</div>

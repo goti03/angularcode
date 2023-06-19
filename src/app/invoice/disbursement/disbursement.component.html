@@ -1,0 +1,191 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col">
+                <div class="row mt-2">
+                    <div class="col">
+                        <h3>Disbursement</h3>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mt-2">
+                    <table>
+                        <tr>
+                            <td style="padding-right: 20px;" *ngIf="roleId!=16"><label for="program" class="form-label">Program Name</label></td>
+                            <td *ngIf="roleId!=16"><select class="form-control" name="program" id="program" [(ngModel)]="programId" (change)="setCustomer()">
+                                <option [value]="0"></option>
+                                <option *ngFor="let a of programList" [value]="a.id">{{a.name}}</option>
+                            </select></td>
+                            <td style="padding-right: 20px;"><label for="customer" class="form-label">Customer Name</label></td>
+                            <td> <select class="form-control" name="customer" id="customer" [(ngModel)]="orgId" (change)="getProgramId()">
+                                <option [value]="0"></option>
+                                <option *ngFor="let a of customerForProgram" [value]="a.orgId">{{a.orgName}}</option>
+                            </select></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td style="padding-top: 10px;"> <button class="btn btn-info ml-30" (click)="disburse()">Show Invoices</button> <button class="btn btn-info  ml-3 " (click)="cancelList()">Show Ongoing Disbursements</button></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+
+                <!-- <div class="row mt-4">
+                    <button class="btn btn-primary offset-9" >Resend OTP</button>
+                    <button class="btn btn-primary offset-1" >Resend Link</button>
+                </div> -->
+
+
+                <div class="row mt-5" style="padding-right: 35px;" *ngIf="listVisible && customerList.length!=0">
+                    <div class="col-12">
+                        <h3>Pending Disbursement</h3>
+                    </div>
+                    <hr />
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-2">
+                                &nbsp;&nbsp; Program Name
+                            </div>
+                            <div class="col-2">
+                                Customer Name
+                            </div>
+
+                            <div class="col-2" b *ngIf="!canceldisburse">
+                                Total Invoice Amount
+                            </div>
+                            <div class="col-2" *ngIf="!canceldisburse">
+                                Allowed Tranch Limit
+                            </div>
+                            <div class="col-2" *ngIf="!canceldisburse">
+                                Available Limit
+                            </div>
+                            <div class="col-2" *ngIf="!canceldisburse">
+                                Total Disbursement Value
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <mat-expansion-panel *ngFor="let a of customerList; let b = index" class="col-12 mt-2">
+                        <mat-expansion-panel-header class="row">
+                            <div class="col-2">
+                                {{program}}
+                            </div>
+                            <div class="col-2">
+                                {{a.customerName}}
+                            </div>
+                            <div class="col-2" *ngIf="!canceldisburse">
+                                {{a.totalPending | currency:'INR'}}
+                            </div>
+                            <div class="col-2" *ngIf="!canceldisburse">
+                                {{a.tranchLimit | currency:'INR'}}
+                            </div>
+                            <div class="col-2" *ngIf="!canceldisburse">
+                                {{a.availLimit | currency:'INR'}}
+                            </div>
+                            <div class="col-2" *ngIf="a.sumAmount>0">
+                                {{a.sumAmount | currency:'INR'}}
+                            </div>
+                        </mat-expansion-panel-header>
+                        <!-- <mat-action-row *ngIf="canceldisburse">
+                            <button class="btn btn-danger" (click)="cancelRequest()">Cancel Request</button>
+                        </mat-action-row> -->
+                        <div class="row mt-5 float-right mb-5">
+                            <div class="row" *ngIf="disbursement">
+                                <button class="btn btn-info mr-5" (click)="generateorIntitateDisbursement(1,otpModal,a.loanRequestId,a.orgid)">Generate
+                                OTP</button>
+                                <button class="btn btn-primary" (click)="generateorIntitateDisbursement(2,otpModal,a.loanRequestId,a.orgid)">Initiate
+                                Disbursement</button>
+                            </div>
+                            <div class="row" *ngIf="canceldisburse && a.status == 0">
+                                <div *ngIf="canceldisburse && a.requestType == 1">
+                                    <button class="btn btn-info ml-3" (click)="resentOtp(1,a.orgid,a.loanRequestId,a.dimid,otpModal)">Resend Otp</button>
+                                </div>
+                                <div *ngIf="canceldisburse && a.requestType == 2">
+                                    <button class="btn btn-primary ml-3" (click)="resentOtp(2,a.orgid,a.loanRequestId,a.dimid,otpModal)">Resend Link</button>
+                                </div>
+                                <button class="btn btn-danger ml-3" (click)="cancelRequest(a.orgid,a.loanRequestId,a.dimid)">Cancel Disbuserment</button>
+                            </div>
+                            <div class="row" *ngIf="canceldisburse && a.status != 0">
+                                <div style="color: green;" class="lead">Disbursed Successfully</div>
+                            </div>
+
+                        </div>
+                        <table class="table table-stripped">
+                            <thead>
+                                <th>Invoice Date</th>
+                                <th>Invoice No</th>
+                                <th>Invoice Amount</th>
+                                <th>Distributor Name</th>
+                                <th *ngIf="!canceldisburse">Free Credit Days</th>
+                                <th *ngIf="!canceldisburse">Discount Amount</th>
+                                <th *ngIf="!canceldisburse">What you pay</th>
+                                <th *ngIf="!canceldisburse"><input type="checkbox" [(ngModel)]="a.totalMark" (ngModelChange)="allMark(b)" /> </th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let inv of a.invoiceList;let i = index">
+                                    <td>{{inv.invoiceDate}}</td>
+                                    <td>{{inv.invoiceNo}}</td>
+                                    <td>{{inv.invoiceAmount | currency:'INR'}}</td>
+                                    <td>{{inv.distName}}</td>
+                                    <td *ngIf="!canceldisburse">{{inv.freeCreditDays}}</td>
+                                    <td *ngIf="!canceldisburse">{{inv.invoiceAmount-inv.fundingAmount | currency:'INR'}}</td>
+                                    <td *ngIf="!canceldisburse">{{inv.fundingAmount | currency:'INR'}}</td>
+                                    <td *ngIf="!canceldisburse"><input type="checkbox" [(ngModel)]="inv.mark" (ngModelChange)="mark(b,inv.fundingAmount,i,inv.distid)" [disabled]="a.availLimit == 0"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </mat-expansion-panel>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #otpModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">OTP Section</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <label for="otp" class="form-label col-8 offset-2">OTP Sent to {{mobileNo}}</label>
+        </div>
+        <div class="row">
+            <label for="otp" class="form-label col-3 offset-2">Enter OTP</label>
+            <!-- <input type="text" class="form-control col-4" name="otp" id="otp" [(ngModel)]="otpVal"
+                (keypress)="keyPress($event)"> -->
+
+            <div class="row justify-content-center mt-8">
+
+                <input class="otp-box m-1 col" maxlength="1" (keypress)="keyPress($event)" type="text" [(ngModel)]="o1" id="otp_1" (ngModelChange)="move(2)">
+                <input class="otp-box m-1 col" maxlength="1" (keypress)="keyPress($event)" type="text" [(ngModel)]="o2" id="otp_2" (ngModelChange)="move(3)">
+                <input class="otp-box m-1 col" maxlength="1" (keypress)="keyPress($event)" type="text" [(ngModel)]="o3" id="otp_3" (ngModelChange)="move(4)">
+                <input class="otp-box m-1 col" maxlength="1" (keypress)="keyPress($event)" type="text" [(ngModel)]="o4" id="otp_4" (ngModelChange)="blur(4)">
+
+            </div>
+
+
+        </div>
+        <div class="row mt-2 text-center" *ngIf="emptyOtp">
+            <div class="col" style="color: red;">
+                Enter OTP
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-1 offset-6">
+                <button class="btn btn-success" (click)="verifyOtp()">Submit</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

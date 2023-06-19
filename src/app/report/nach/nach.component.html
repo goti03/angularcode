@@ -1,0 +1,163 @@
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+                    <tr>
+                        <th>Company Name</th>
+                        <th>Program Name</th>
+                        <th>Customer Name</th>
+                        <th>Pan</th>
+                        <th>Application ID</th>
+                        <th>Application Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                    </tr>
+                    <tr *ngFor="let h of HeaderDetails">
+                        <td><button class="btn btn-link" (click)="goToList()">{{h.companyName}}</button></td>
+                        <td>{{h.programName}}</td>
+                        <td>{{h.customerName}}</td>
+                        <td>{{h.panNo}}</td>
+                        <td>{{h.applicationNo}}</td>
+                        <td>{{h.applicationDate}}</td>
+                        <td>{{indianCurrency(h.loanAmount)}}</td>
+                        <td>{{h.status}}</td>
+                        <td>{{h.remarks}}</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row mt-5">
+                    <div class="col-4 offset-1">
+                        <select class="form-control" [(ngModel)]="NachPdc">
+                            <option value="0">--select--</option>
+                            <option value="1">Nach</option>
+                            <option value="2">PDC Cheque</option>
+                            <option value="3">Emandate/Aadhaar Mandate</option>
+                        </select>
+                    </div>
+
+                    <div class="col-4 offset-1">
+                        <button class="btn btn-success" (click)="nachpdcroute()">Proceed</button>
+                    </div>
+
+                    <!-- <div *ngIf="NachPdc == 1" class="col-4 offset-1">
+                        <button class="btn btn-primary" (click)="downloadNachForm()">Download</button>
+                    </div>
+                    <div *ngIf="NachPdc == 2" class="col-4 offset-1">
+                        <label>No of Cheque:</label>
+                        <input type="text" (keypress)="keypress($event)" [(ngModel)]="noOfChequeValue" readonly
+                            class="form-control col-3 offset-1">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #nachLinkGeneration let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">E-Mandate Response</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true" style="color: red;">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead style="font-size: 12px;">
+                <tr *ngIf="!nachLinkMsg" style="font-size: 10px;">
+                    <th *ngIf="idfccheck">
+                        <h2>IDFC Debit </h2>
+                    </th>
+                    <th *ngIf="idfccheck">
+                        <h2>IDFC Netbanking </h2>
+                    </th>
+                    <th *ngIf="!idfccheck">
+                        <h2>Digio </h2>
+                    </th>
+                </tr>
+            </thead>
+            <tbody style="font-size: 12px;">
+                <tr *ngIf="!nachLinkMsg">
+                    <div *ngIf="idfccheck">
+                        <td *ngIf="debitNachAmount">
+                            <div style="font-weight: bold;">Debit Nach Amount:</div> {{debitNachAmount}}
+                        </td>
+                        <td *ngIf="netbankingNachAmount&&!idfccheck">
+                            <div style="font-weight: bold;">Netbanking Nach Amount:</div> {{netbankingNachAmount}}
+                        </td>
+                    </div>
+                    <div *ngIf="!idfccheck">
+                        <td *ngIf="digioAmount&&!idfccheck">
+                            <div style="font-weight: bold;">Digio Nach Amount:</div> {{digioAmount}}
+                        </td>
+                    </div>
+                </tr>
+                <tr *ngIf="!nachLinkMsg">
+                    <div *ngIf="idfccheck">
+                        <td *ngIf="debitUrl">
+                            <div style="font-weight: bold;">Debit Url:</div>
+                            <div style="word-break: break-all;font-size: 12px;  ">
+                                https://portal.finagg.in/emandate/idfc?{{debitUrl}}</div>
+                        </td>
+                        <td *ngIf="debitMsg">
+                            <div style="font-weight: bold;">Debit Status:</div>
+                            <div style="word-break: break-all;font-size: 12px; ">{{debitMsg}}</div>
+                        </td>
+                        <td *ngIf="netbankingUrl">
+                            <div style="font-weight: bold;"> Netbanking Url:</div>
+                            <div style="word-break: break-all;font-size: 12px; ">
+                                https://portal.finagg.in/emandate/idfc?{{netbankingUrl}}</div>
+                        </td>
+                        <td *ngIf="!netbankingUrl && netbankingMsg">
+                            <div style="font-weight: bold;">Netbanking Status:</div>
+                            <div style="word-break: break-all;font-size: 12px; ">{{netbankingMsg}}</div>
+                        </td>
+                    </div>
+                    <div *ngIf="!idfccheck">
+                        <td *ngIf="digio">
+                            <div style="font-weight: bold; font-size: 25px;">Debit/Netbanking:</div>
+                            <!-- <button class="btn btn-success mb-2;" (click)="netbanking()" > ENACH LINK</button> -->
+
+                            <div style="font-size: 12px; color: red; margin-top: 2px; word-break: break-all;" *ngIf="!digioDebitNet">
+                                {{debitMsg}}
+                            </div>
+                            <div style="font-size: 12px; color: black; margin-top: 2px; word-break: inline;" *ngIf="digioDebitNet">
+                                ENACH LINK: https://portal.finagg.in/emandate/enach?{{digio}}#portal
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-weight: bold; font-size:25px">Aadhar:</div>
+                            <!-- <button class="btn btn-success mb-2" (click)="aadhar()" >ENACH LINK</button> -->
+
+                            <div style="font-size: 12px; color: red; margin-top: 2px; word-break: break-all;" *ngIf="!digioAadhaar">
+                                {{netbankingMsg}}
+                            </div>
+                            <div style="font-size: 12px; color: black; margin-top: 2px; word-break: break-all;" *ngIf="digioAadhaar">
+                                ENACH LINK: https://portal.finagg.in/emandate/enach?{{digioesign}}#portal
+                            </div>
+                        </td>
+                    </div>
+                </tr>
+                <tr *ngIf="nachLinkMsg">
+                    <td colspan="2" style="color: red;">{{nachLinkMsg}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-link" type="button" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            close
+        </button>
+    </div>
+</ng-template>

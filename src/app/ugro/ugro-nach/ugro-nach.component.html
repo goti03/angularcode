@@ -1,0 +1,120 @@
+<div class="row">
+  <div class="">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row">
+          <div class="col">
+            <h3>NACH List</h3>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <div class="search-hero">
+              <input class="form-control" type="text" name="search" [(ngModel)]="searchReportList" autocomplete="off"
+                placeholder="&#61442;  Start searching ">
+              <br>
+            </div>
+            <table class="table table-striped table-bordered ad" style="font-style:normal;font-size:10pt;width: 100%;">
+              <thead>
+                <tr class="table-info">
+                  <th>Sno</th>
+                  <th>Customer Name</th>
+                  <th>Bank Name</th>
+                  <th>Account Number</th>
+                  <th>IFSC Code</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Reg No</th>
+                  <th>NACH Amount</th>
+                  <th>NACH NoAttempted</th>
+                  <th>NACH Register Date</th>
+                  <th>NACH Status</th>
+                  <!-- <th>NACH Remarks</th> -->
+                  <!-- <th>Status On</th> -->
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tr
+                *ngFor="let NACHData of ugroNachList | filter:searchReportList | paginate: { itemsPerPage: p1, currentPage: p };let i=index">
+                <td>{{((p-1)*p1)+i+1}}</td>
+                <td>{{NACHData.orgname}}</td>
+                <td>{{NACHData.bankname}}</td>
+                <td>{{NACHData.accountno}}</td>
+                <td>{{NACHData.ifsccode}}</td>
+                <td>{{NACHData.startdate}}</td>
+                <td>{{NACHData.enddate}}</td>
+                <td>{{NACHData.regno}}</td>
+                <td>{{indianCurrency(NACHData.nachamount)}}</td>
+                <td>{{NACHData.noAttempted}}</td>
+                <td>{{NACHData.registerDate}}</td>
+                <!-- <td>{{NACHData.nachstatus}}</td> -->
+                <!-- <td style="width:100px;word-wrap: break-word;overflow: hidden;">
+                  <span style="cursor: pointer;" (click)="getNachTransaction(NACHTracking,NACHData.phnachid,NACHData)">
+                    {{NACHData.remarks}}
+                  </span>
+                </td> -->
+                <!-- <td>{{NACHData.modifiedon}}</td> -->
+                <td> <span
+                    [ngClass]="{'badge badge-pill badge-success':'Approved'==NACHData.nachstatus,'badge badge-pill badge-warning':'In-Progress'==NACHData.nachstatus, 'badge badge-pill badge-danger':'Rejected'==NACHData.nachstatus}">{{NACHData.nachstatus}}</span>
+                </td>
+                <td> <button type="button" class="btn btn-warning mb-2" (click)="updateStatus(NACHData.phnachid,Status)"
+                    *ngIf="NACHData.nachstatus=='In-Progress'; else other">
+                    Update Status</button></td>
+                <ng-template #other>
+                  <td><i class="fa fa-ban" aria-hidden="true" style="font-size:36px"></i></td>
+                </ng-template>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+
+        <ng-template #Status let-modal>
+          <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">Update Status</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="row text-center">
+              <div class="col" style="color: red;">
+                {{message}}
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-2 offset-1">
+                <label>Status</label>
+              </div>
+              <select [(ngModel)]="nachStatus" class="form-control col-6 offset-1" required>
+                <option value="2">Approve</option>
+                <option value="3">Reject</option>
+              </select>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-2 offset-1">
+                <label>Remarks</label>
+              </div>
+              <textarea class="form-control col-6 offset-1" [(ngModel)]="remarks" required></textarea>
+            </div>
+
+            <div class="row text-center">
+              <div class="col">
+                <button class="btn btn-success" (click)="submit()">Submit</button>
+              </div>
+            </div>
+
+          </div>
+        </ng-template>
+
+
+      </div>
+    </div>
+  </div>
+</div>

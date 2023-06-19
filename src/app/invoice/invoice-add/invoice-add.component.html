@@ -1,0 +1,154 @@
+<div class="fin-card mt-20 clearfix" [hidden]="submitted">
+    <div class="clearfix fin-heading">Invoice Upload </div>
+    <hr>
+    <div class="table-responsive mt-10" style="margin-bottom: 20px;">
+        <table class="table fin-table-green nowrap">
+            <tbody>
+                <tr>
+                    <td><span class="red"></span> Sourcing Partner
+                    </td>
+                    <td><span class="red"></span> Distributer
+                    </td></tr>
+                    <tr>
+                    <td style="border-bottom:0px none;">
+                        <select class="form-select" (change)="getProgramId()" [disabled]="hide" [(ngModel)]="sourcingPartnerId" name="sourcingPartnerId" id="sourcingPartnerId" required>
+                            <option value="" disabled selected hidden>Select Sourcing Partner</option>
+                            <option selected>-- Select Partner --</option>
+                            <option *ngFor="let spl of sourcingPartnerList" [value]="spl.orgId">
+                                {{spl.name}}
+                            </option>
+                        </select>
+                    </td>
+                
+                    <td style="border-bottom:0px none;">
+                        <select class="form-select" [(ngModel)]="retailerId" name="retailerId" id="retailerId" [disabled]="roleId ==8||roleId==16" required>
+                            <option value="" disabled selected hidden>Select Distributer</option>
+
+                            <option selected>-- Select Retailer/Dealer --</option>
+                            <option [value]="0">NA</option>
+                            <option *ngFor="let spl of retailerList" [value]="spl.id">{{spl.name}}</option>
+                        </select>
+                    </td>
+                </tr>
+                <div style="margin-top:20px;">
+                <tr>
+                    <td><span class="red"></span> File Upload (.xls)
+                        </td>
+                        </tr>
+                    </div>
+                        <tr>
+                    <td style="border-bottom:0px none;">
+                        <div class="input-group">
+
+                            <input type="text" style="width:40% !important;" class="form-control file-upload-text" disabled="" placeholder="select a file" [(ngModel)]="filenameinput">&nbsp;&nbsp;
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btngray file-upload-text">
+                                    <i class="fas fa-upload" aria-hidden="true"></i> Browse
+                                    <input type="file" id="file" class="file-upload" name="myFile" (change)="onFileChange($event)"
+                                        accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                </button>
+                            </span>
+                            </div>
+                    </td>
+                    <td colspan="3"></td>
+                </tr>
+           
+            </tbody>
+        </table>
+    </div>
+    <div class="fin-bottom-btn two-btn" style="margin-bottom: 20px;"><a type="button" class="btn btnblue" href="{{url}}"><i
+                class="fas fa-download"></i> Download Template</a><button type="button" class="btn btn-danger fin-btn" (click)="submit()"><i class="fas fa-file-import"></i> Submit</button></div>
+</div>
+
+<div class="fin-card mt-20 clearfix" [hidden]="!submitted">
+    
+    <div class="clearfix fin-heading">Invoice Data </div>
+       <div class="card" >
+        <div class="card-body" style="padding:4%;">
+    <table class="table table-responsive table-striped" style="font-size: 14px;padding: 0px !important;">
+        <thead  style="border-radius: 10px !important;">
+                <tr>
+                    <th>Sno</th>
+                    <th>Remarks</th>
+                    <th>Anchor Reference No</th>
+                    <th>Retailer Pan No</th>
+                    <th>Invoice No</th>
+                    <th>Invoice Date</th>
+                    <th>Due Date</th>
+                    <th>Invoice Amount</th>
+                    <th>Bene Id</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let fl of  finalList| paginate: { itemsPerPage: 10, currentPage: p }; let i=index">
+                    <td>{{((p-1)*10)+i+1}}</td>
+                    <td>
+                        <ng-container *ngIf="fl.remarks == 'Success'">
+                            <i class="fas fa-check-circle"></i> Success
+                        </ng-container>
+                        <ng-container *ngIf="fl.remarks != 'Success'">
+                            <img src="assets/images/icons/invoice_warning.png" height="15px" width="15px">
+                            <font color="red"><b>{{fl.remarks}}</b></font>
+                        </ng-container>
+
+                    </td>
+                    <td>{{fl.anchorReferenceNo}}</td>
+                    <td>{{fl.sellerPan}}</td>
+                    <!-- <td>{{fl.buyerPan}}</td> -->
+                    <td>{{fl.invoicNo}}</td>
+                    <td>{{fl.invoiceDate}}</td>
+                    <td>{{fl.dueDate}}</td>
+                    <td>{{fl.invoiceAmount}}</td>
+                    <td>{{fl.beneId}}</td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- <nav aria-label="...">
+          <ul class="pagination">
+            <li class="page-item disabled">
+              <span class="page-link">Previous</span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active">
+              <span class="page-link">
+                2
+                <span class="sr-only">(current)</span>
+              </span>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav> -->
+    
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    <div class="fin-bottom-btn two-btn"><button type="button" class="btn btn-success fin-btn" (click)="uploadExcelData()" *ngIf="!failed"><i class="fas fa-file-import" aria-hidden="true"></i> Submit</button><button type="button" class="btn btn-danger fin-btn" (click)="reupload()"><i class="fas fa-redo-alt"></i>
+            ReUpload</button></div>
+</div>
+</div>
+</div>
+<ng-template let-modal #invoiceWarning>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title" style="color: red;">Invoice Warning</h4>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+    </div>
+    <div class="modal-body" style="background-color:#FFC000;color:black"> 
+      <ul>
+        <li *ngFor="let w of warningMsg;let i=index;" >
+          <span style="margin-left: 10px;"> {{w.retailerName}} ,</span>
+          
+        </li>
+       </ul>
+   <div  style="display: flex;align-items: center;">
+       <img src="assets/images/icons/invoice_warning.png" height="70px" width="60px">
+  
+        <span>Total Invoice Amount is more than available limit or hold disbursement, Above mentioned customers may not be able to Disburse some of the Invoices</span>
+        <br>
+
+        </div>
+
+    </div>
+</ng-template>

@@ -1,0 +1,1206 @@
+<div class="action-slide" id="action-slide" *ngIf="activitytable == true" cdkDrag>
+    <div class="row">
+        <div class="col">
+            <div class="row mt-1">
+                <div class="col-2"></div>
+                <div class="col-8 text-center ">
+                    <h6>Actions - {{actions.loanNo}}</h6>
+                </div>
+                <div class="col-2">
+                    <button class="float-right mr-1 btn" (click)="activitytable=false;">
+                        <span aria-hidden="true" style="color : red; font-weight: 600;">×
+                        </span>
+                    </button>
+                </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="row text-center justify-content-center mb-1" >
+                        <div class="col font-weight-bold" *ngIf="roleId!=17 && roleId!=2"> CAM </div>
+                        <div class="col font-weight-bold" *ngIf="roleId==17 &&  roleId!=2 && roleId!=13"> Borrower VPA </div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 7 && roleId!=17 &&  roleId!=2 && roleId!=13">Application Form</div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 7&&roleId!=17 &&  roleId!=2 && roleId!=13">Check List</div>
+                        <div class="col font-weight-bold">View Docs</div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 7&&  roleId!=2 && roleId!=13">Disbursal</div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 17&&  roleId!=2 && roleId!=13">Suplier Excel</div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 4 && roleId != 12 &&  roleId!=2 ">Action</div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==1">Anchor</div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 7 && roleId!=17 &&  roleId!=2  && roleId!=13">SOA Report</div>
+                        <div class="col font-weight-bold" *ngIf="roleId != 4 && roleId != 7 && roleId != 12 && roleId!=17 &&  roleId!=2 ">Doc Upload
+                        </div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==1 || roleId==13">Change Status</div>
+                        <div class="col font-weight-bold" *ngIf="actions.approvalStatus=='Approved' && roleId!=13 && roleId!=2">Repayment</div>
+                        <div class="col font-weight-bold"
+                            *ngIf="(roleId==3||roleId==1||roleId == 6 || roleId == 13) && actions.renewalFlag==1 && roleId!=17"> Extension</div>
+                        <div class="col font-weight-bold"
+                            *ngIf="(roleId==3||roleId==1||roleId == 6) && actions.renewalFlag==2 && roleId!=17"> Renewal</div>
+                        <div class="col font-weight-bold" *ngIf="roleId!=17">NPA Date</div>
+                        <div class="col font-weight-bold" *ngIf="roleId!=17&&!readRole">Borrower NPA Date</div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==1 || roleId ==49">E-Sign</div>
+                        <div class="col font-weight-bold">Udyam</div>
+
+                    </div>
+                    <div class="row text-center justify-content-center mb-1" >
+                        <div class="col">
+                            <a class="btn"
+                                (click)="camGstDetails(actions.cusomertId,actions.loanReqId,actions.orgId,actions.retailerId,actions.programTypeId,actions)">
+                                <img src="assets/images/icons/supplier_xks.png" style="width: 30px; height:30px;"
+                                    title="CAM GST Summary" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId != 7  && roleId!=17 &&  roleId!=2 && roleId!=13 ">
+                            <ng-container *ngIf="actions.programTypeId == sellerProgramTypeId">
+                                <a class="pointer" title="Application From" (click)="downloadLoanForm(2)">
+                                    <img src="assets/images/icons/application_form.png"
+                                        style="width: 30px; height:30px;" />
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="actions.programTypeId == retailerProgramTypeId">
+                                <img *ngIf="actions.digital==1" src="assets/images/icons/disable.png"
+                                    style="width: 30px; height:30px;" />
+                                <a *ngIf="actions.digital==0" title="Application From" class="pointer"
+                                    (click)="downloadLoanForm(2)">
+                                    <img src="assets/images/icons/application_form.png"
+                                        style="width: 30px; height:30px;" />
+                                </a>
+                            </ng-container>
+                            <ng-container
+                                *ngIf="actions.programTypeId != sellerProgramTypeId && actions.programTypeId != retailerProgramTypeId">
+                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                            </ng-container>
+                        </div> 
+                        <div class="col" *ngIf="roleId != 7  && roleId!=17 &&  roleId!=2 && roleId!=13">
+                            <ng-container *ngIf="actions.statusId >= PAN_Verification_Fail">
+                                <img *ngIf="actions.digital==1" src="assets/images/icons/disable.png"
+                                    style="width: 30px; height:30px;" />
+                                <a *ngIf="actions.digital==0" class="pointer" title="Check List"
+                                    (click)="checklist(actions.cusomertId,actions.loanReqId,actions.orgId,actions.retailerId)">
+                                    <img src="assets/images/icons/check_list.png" style="width: 30px; height:30px;" />
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="actions.statusId < PAN_Verification_Fail ">
+                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                            </ng-container>
+                        </div>
+                        <div class="col">
+                            <a class="pointer" title="View Doc"
+                                (click)="viewdocument(actions.cusomertId,actions.loanReqId,actions.orgId,actions.retailerId)">
+                                <img src="assets/images/icons/view_docs.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId != 7 &&  roleId!=2 && roleId!=13">
+                            <a class="pointer" title="Loan Disbursal"
+                                (click)="loandisbursal(actions.cusomertId,actions.loanReqId,actions.orgId,actions.retailerId,actions.digital)">
+                                <img src="assets/images/icons/disbursal.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId!=17 &&  roleId!=2 && roleId!=13">
+                            <ng-container *ngIf="actions.programTypeId == 8">
+                                <i class="fa fa-file-excel-o fa-2x pointer" aria-hidden="true"
+                                    title="Download Supplier Excel"
+                                    (click)="downloadSupplierExcel(actions.loanReqId)"></i>
+                            </ng-container>
+                            <ng-container *ngIf="actions.programTypeId != 8">
+                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                            </ng-container>
+                        </div>
+                        <div class="col" *ngIf="roleId != 4 && roleId != 12 &&  roleId!=2 ">
+                            <a class="pointer" title="Action"
+                                (click)="action(actions.loanReqId,actions.substatusId,actions.programTypeId,actions.orgId)">
+                                <img src="assets/images/icons/action.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId==3 || roleId==1">
+                            <a class="pointer" title="Anchor Details"
+                                (click)="openAnchorPopup(anchorPopup,actions.orgId,actions.loanReqId)">
+                                <img src="assets/images/icons/anchor.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId != 7 && roleId!=17&&  roleId!=2 && roleId!=13 ">
+                            <a class="pointer" title="SOA"
+                                (click)="statementAccount(actions.cusomertId,actions.loanReqId,actions.orgId,actions.retailerId)">
+                                <img src="assets/images/icons/soa_report.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId != 4 && roleId != 7 && roleId != 12 &&roleId!=17 &&  roleId!=2">
+                            <a class="pointer" title="Upload Doc"
+                                (click)="uploadDocuments(actions.cusomertId,actions.loanReqId,actions.orgId,actions.retailerId)">
+                                <img src="assets/images/icons/upload_docs.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId==3 || roleId==1 || roleId==13">
+                            <a class="pointer" *ngIf="roleId==1||(actions.approvalStatus!='Approved' &&(actions.statusId!=63 &&
+                            actions.statusId!=64 && actions.statusId!=77 && actions.statusId!=79 && actions.statusId!=26 && actions.statusId!=36 &&
+                            actions.statusId!=100 && actions.statusId!=101 && actions.statusId!=113)) "
+                                title="Change Status"
+                                (click)="updateLoanStatus(actions.loanReqId,actions.programTypeId,actions.orgId)">
+                                <img src="assets/images/icons/change_status.png" style="width: 30px; height:30px;" />
+                            </a>
+                            <ng-container *ngIf="roleId!=1 && actions.approvalStatus=='Approved'&&(actions.statusId==63||
+                        actions.statusId==64||actions.statusId==77||actions.statusId==79||actions.statusId==26||actions.statusId==36||
+                        actions.statusId==100||actions.statusId==101||actions.statusId==113)">
+                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                            </ng-container>
+                        </div>
+                        <div class="col" *ngIf="actions.approvalStatus=='Approved' && roleId!=2 && roleId!=13">
+                            <a  title="Repayment"
+                                (click)="repayviaqr(previewpopup,actions.orgId,actions.retailerId,actions.compayName)">
+                                <img src="assets/images/icons/qrrepay.jpeg" style="width: 30px; height:30px; color: #1fad3c;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="(roleId==3 || roleId==1||roleId == 6 || roleId == 13) && actions.renewalFlag==1">
+                            <a class="pointer" title="Extension"
+                                (click)="extentLoan(extensive,actions.loanReqId,actions.orgId,actions.programId,'2','Extension',actions.lenderId)">
+                                <img src="assets/images/icons/extenison.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="(roleId==3 || roleId==1||roleId == 6) && actions.renewalFlag==2">
+                            <a class="pointer" title="Renewal"
+                                (click)="extentLoan(extensive,actions.loanReqId,actions.orgId,actions.programId,'2','Renewal',actions.lenderId)">
+                                <img src="assets/images/icons/renewal.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col"
+                            *ngIf="roleId!=17">
+                            <a class="pointer" title="borrowerNPA" *ngIf="actions.borrowerNpaDate=='0'"
+                                (click)="updateExternalNpaDate(actions.loanReqId,npaDatePopUp,'2',actions.borrowerNpaDate)">
+                                <img src="assets/images/icons/renewal.png" style="width: 30px; height:30px;" />
+                            </a>
+                            <span *ngIf="actions.borrowerNpaDate!='0'" class="wordBreak">
+                                <p style="display: inline-block;">{{actions.borrowerNpaDate}}</p><br>
+                                <button  (click)="updateExternalNpaDate(actions.loanReqId,npaDatePopUp,'2',actions.borrowerNpaDate)" class="btn" style="display: inline-block;" *ngIf="!readRole"><i class="fa fa-edit" style="color: #1fc1f7;" title="Update Borrower Date"></i></button>
+                                <button  type="button" (click)="removeNPADate(actions.loanReqId,npaDatePopUp,'2',actions.borrowerNpaDate)" class="btn" style="display: inline-block;" *ngIf="!readRole"><i class="fa fa-trash " style="color: #fc120e;" title="Delete Borrower Date"></i></button>
+                            </span>
+                        </div>
+                        <div class="col" *ngIf="roleId==3 || roleId==1 || roleId ==49">
+                            <a title="E-Sign"
+                            (click)="Esign(actions.orgId,actions.loanReqId,actions.cusomertId,actions.retailerId)">
+                                <img src="assets/images/icons/qrrepay.jpeg" style="width: 30px; height:30px; color: #1fad3c;" />
+                            </a>
+                        </div>
+                        <div class="col"  >
+                            <a class="pointer" title="Udyam" (click)="Udhyam(actions.orgId,actions.loanReqId,actions.cusomertId,actions.retailerId)">
+                                <img src="assets/images/icons/supplier_xks.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                    </div>
+                    <hr />
+
+                    <div class="row text-center justify-content-center mb-1">
+                        <div class="col font-weight-bold" *ngIf="roleId != 7 && roleId != 4 && roleId != 12 && roleId!=2 && roleId!=13 && roleId!=20">NACH
+                            Registration
+                        </div>
+                        <!-- <div class="col font-weight-bold" *ngIf="roleId != 7 && (roleId == 1 || roleId==13||actions.approvalStatus!='Approved') && roleId!=17  && roleId!=2 ">Sanction Date</div> -->
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId ==17 || roleId==19 || roleId==20">GST 3B</div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId ==17 || roleId==19 || roleId==20">GST R1</div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId==19 || roleId==20 ">GSTN Limit</div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId ==17 || roleId==19 || roleId==20">2A Data</div>
+                        <div class="col font-weight-bold" *ngIf="(roleId != 7 && lenderIdp==0 && roleId!=2 && roleId!=13)||readRole ">SOA </div>
+                        <div class="col font-weight-bold" *ngIf="roleId == 1 && env!= 'Jana'|| lenderIdp!=0 && roleId!=2 && roleId!=13 && env!='Jana'">Lender SOA</div>
+                        <div class="col font-weight-bold" *ngIf="roleId!=17 && roleId!=2 && roleId!=13">Edit Contact Info</div>
+                        <div class="col font-weight-bold" *ngIf="roleId==1">Update Program</div>
+                        
+                       
+                        <div class="col font-weight-bold"
+                            *ngIf="(roleId==3||roleId==1||roleId == 6) && actions.renewalFlag==1">Adhoc</div>
+                        <div class="col font-weight-bold" *ngIf="roleId!=17 && roleId!=13"> Loan Page</div>
+                    </div>
+                    <div class="row text-center justify-content-center mb-1" >
+                        <div class="col" *ngIf="roleId != 7 && roleId != 4 && roleId != 12  && roleId!=2 && roleId!=13 && roleId!=20">
+                            <a class="pointer" title="Nach Register"
+                                (click)="registerNACH(actions.statusId,actions.loanReqId,actions.orgId,actions.programTypeId)">
+                                <img src="assets/images/icons/nach.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <!-- <div class="col" *ngIf="roleId != 7 && (roleId == 1 || roleId==13 || actions.approvalStatus!='Approved') && roleId!=17  && roleId!=2 ">
+                            <a class="pointer" title="Update Sanction Date" 
+                                (click)="sactionDatePopup(actions.loanReqId,sactionDateCondition,actions.programId)">
+                                <img src="assets/images/icons/sanction_date.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div> -->
+                        <div class="col" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId==17 || roleId==19 || roleId==20">
+                            <a class="pointer" title="GST 3B"
+                                (click)="gst3b(actions.loanReqId,actions.orgId)">
+                                <img src="assets/images/icons/gst_3b.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId==17 || roleId==19 || roleId==20">
+                            <a class="pointer" title="GST R1"
+                                (click)="gstr1(actions.loanReqId,actions.orgId )">
+                                <img src="assets/images/icons/gst_r1.png" style="width: 30px; height:30px;" /></a>
+                        </div>
+                        <div class="col" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId==19 || roleId==20">
+                            <a class="pointer" title="Update GSTN"
+                                (click)="updateGSTN(actions.loanReqId,actions.orgId)">
+                                <img src="assets/images/icons/gstn_limit.png" style="width: 30px; height:30px;" /></a>
+                        </div>
+                        <div class="col" *ngIf="roleId==3 || roleId==6 || roleId==13 || roleId==1 || roleId == 17 || roleId==19 || roleId==20">
+                            <!-- <ng-container *ngIf="actions.programTypeId == 4 && actions.lenderId==ugroLenderId"> -->
+                                <a class="pointer" title="GST 2A"
+                                    (click)="update2AData(actions.loanReqId,actions.orgId)">
+                                    <img src="assets/images/icons/2d_data.png" style="width: 30px; height:30px; " />
+                                </a>
+                            <!-- </ng-container>
+                            <ng-container *ngIf="actions.programTypeId != 4 || actions.lenderId!=ugroLenderId">
+                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                            </ng-container> -->
+                        </div>
+                        <div class="col font-weight-bold" *ngIf="(roleId != 7 && lenderIdp==0 && roleId!=2 && roleId!=13)||readRole">
+                            <a class="pointer" title="Borrower SOA Report" >
+                            <img src="assets/images/icons/borrower_soa_report.png" style="width: 30px; height:30px; color: #1fad3c;" (click)="downloadSOAPopup(soareports,0,actions.loanReqId)" />
+                        </a>
+                        </div>
+                        <div class="col font-weight-bold" *ngIf="roleId == 1 &&env!='Jana' || lenderIdp!=0  && roleId!=2 && roleId!=13 && env!='Jana'">
+                            <a class="pointer" title="Lender SOA Report" >
+                            <img src="assets/images/icons/lender_soa_report.png" style="width: 30px; height:30px; color: #1fad3c;" (click)="downloadSOAPopup(soareports,1,actions.loanReqId)" />
+                        </a>
+                        </div>
+                        <div class="col font-weight-bold" *ngIf="roleId!=17  && roleId!=2 && roleId!=13">
+                            <ng-container
+                                *ngIf="(actions.approvalStatus!='Approved' && (roleId==3 || roleId==6 ))||roleId==1">
+                                <a class="pointer" title="Edit Contact Info"
+                                    (click)="updateApplicationDetails(updateApplication,actions.loanReqId,actions.programTypeId,actions.orgId,actions.panNo,actions.lenderId,actions.approvalStatus)">
+                                    <img src="assets/images/icons/edit_application.png"
+                                        style="width: 30px; height:30px;" />
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="actions.approvalStatus=='Approved'&&roleId!=1">
+                                <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                            </ng-container>
+                        </div>
+                        <div class="col font-weight-bold" *ngIf="roleId==3 || roleId==1">
+                            <ng-container>
+                                <a class="pointer" title="Update Program"
+                                    (click)="programChange(program,actions.loanReqId,actions.programTypeId,actions.orgId)">
+                                    <img src="assets/images/icons/migrations.png" style="width: 30px; height:30px;" />
+                                </a>
+                            </ng-container>
+                        </div>
+                        <div class="col font-weight-bold"
+                            *ngIf="(roleId==3||roleId==1||roleId == 6) && actions.renewalFlag==1">
+                            <a class="pointer" title="Adhoc"
+                                (click)="extentLoan(extensive,actions.loanReqId,actions.orgId,actions.programId,'2','Adhoc',actions.lenderId)">
+                                <img src="assets/images/icons/adhoc.png" style="width: 30px; height:30px;" />
+                            </a>
+                        </div>
+                        <div class="col font-weight-bold" *ngIf="roleId!=17  && roleId!=2 && roleId!=13">
+                            <img src="assets/images/icons/disable.png" style="width: 30px; height:30px;" />
+                          
+                        </div>
+                    </div>
+                
+               
+                </div>
+            </div>
+      
+   
+</div>
+
+<div class="utility" *ngIf="false" cdkDrag>
+    <div class="row" *ngIf="searchbox">
+        <div class="search-hero col-10">
+            <div class="row">
+                <div class="col-12">
+                    <input class="form-control" type="text" name="search" [(ngModel)]="searchReportList"
+                        autocomplete="off" placeholder="&#61442;  Start searching " (change)="setSearchList()"
+                        (ngModelChange)="p=1;" #searchbox>
+                </div>
+            </div>
+        </div>
+        <i class="fa fa-window-minimize col-1" aria-hidden="true" (click)="utility(1)" style="color: red;"></i>
+    </div>
+    <div class="row" (click)="utility(0)" *ngIf="!searchbox">
+        <div class="col-12"><i class="fa fa-search" aria-hidden="true" style="color: #1fad3c;"></i>&nbsp;Search
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+
+                <table class=""
+                    style="font-size: 14px;padding: 0px !important ; color: black;border: 0; text-align: left;">
+                    <tr>
+                        <th class="inputBox"><b>LOS</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Loan Request Id" type="text"
+                                id="loanRequestNo" [(ngModel)]="loanRequestNo" name="loanRequestNo"
+                                (keyup)="enterKey($event)"></td>
+                        <th class="inputBox"><b>Firm Name</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Firm Name" type="text"
+                                id="firmName" [(ngModel)]="firmName" name="firmName" (keyup)="enterKey($event)"></td>
+                        <th class="inputBox"><b>Applicant Name</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Application Name" type="text"
+                                [(ngModel)]="applicantName" id="applicantName" name="applicantName"
+                                (keyup)="enterKey($event)"></td>
+                        <th class="inputBox"><b>PAN Card</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; PAN No" type="text"
+                                [(ngModel)]="filterPanNo" id="filterPanNo" name="filterPanNo"
+                                (keyup)="enterKey($event)"></td>
+                        <th class="inputBox"><b>Program</b></th>
+                        <td>
+                            <input #program (keyup)="0" matInput placeholder="&#61442; Program Name" [(ngModel)]="programs"
+                                aria-label="program" [matAutocomplete]="auto1" class="form-control inputBox"
+                                [formControl]="programCtrl" (keyup)="enterKey($event)">
+                            <mat-autocomplete #auto1="matAutocomplete">
+                                <mat-option (onSelectionChange)="program.value !=undefined"
+                                    *ngFor="let program of filteredprogram| async" [value]="program.programInfo">
+                                    <span>{{program.programInfo}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="inputBox"><b>Mobile No</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; Mobile No" type="text"
+                                (keypress)="keyPress($event)" [(ngModel)]="filterMobileNo" id="filterMobileNo"
+                                name="filterMobileNo" (keyup)="enterKey($event)"></td>
+                        <th class="inputBox"><b>LAN No</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; LAN No" type="text"
+                                [(ngModel)]="filterLanNo" id="lanNo" name="lanNo" (keyup)="enterKey($event)"></td>
+                        <th class="inputBox"><b>App Start Date</b></th>
+                        <td><input class="form-control inputBox" type="date" id="startDate" name="startDate"
+                                [(ngModel)]="startDate" max="{{endDate}}" (keypress)="preventTyping()"></td>
+                        <th class="inputBox"><b>App End Date</b></th>
+                        <td><input class="form-control inputBox" type="date" id="endDate" name="endDate"
+                                [(ngModel)]="endDate" min="{{startDate}}" (keypress)="preventTyping()"></td>
+                        <th class="inputBox"><b>Anchor</b></th>
+                        <td>
+                            <input #anchor (keyup)="0" matInput placeholder="&#61442; Anchor Name" aria-label="anchor"
+                                [matAutocomplete]="auto2" class="form-control inputBox" [formControl]="anchorCtrl"
+                                (keyup)="enterKey($event)">
+                            <mat-autocomplete #auto2="matAutocomplete">
+                                <mat-option (onSelectionChange)="anchor.value !=undefined"
+                                    *ngFor="let anchor of filteredanchor| async" [value]="anchor.anchorInfo">
+                                    <span>{{anchor.anchorInfo}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <!-- <th class="inputBox"><b>Status</b></th>
+                        <td >
+                           <select class="form-control inputBox" aria-placeholder="status"  [(ngModel)]="currentstatus" (change)="searchLoanList(1)"> 
+                               <option selected value=" ">All</option>
+                               <option *ngFor="let spl of statusList" [value]="spl.statusName">
+                                   {{spl.statusName}}
+                           </select>
+                      
+                       </td>  -->
+                        <th class="inputBox"><b>CRN No</b></th>
+                        <td><input class="form-control inputBox" placeholder="&#61442; CRN No" type="text"
+                                [(ngModel)]="crnNo" id="crnNo" name="crnNo" (keyup)="enterKey($event)"></td>
+                        <th>Status</th>
+                        <td>
+                            <input #status (keyup)="0" matInput placeholder="&#61442; Status Name" aria-label="status"
+                                [matAutocomplete]="auto3" class="form-control inputBox" [formControl]="statusCtrl"
+                                (keyup)="enterKey($event)">
+                            <mat-autocomplete #auto3="matAutocomplete">
+                                <mat-option (onSelectionChange)="status.value !=undefined"
+                                    *ngFor="let status of filteredStatus| async" [value]="status.name">
+                                    <span>{{status.name}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <th>Sub Status</th>
+                        <td>
+                            <input #substatus (keyup)="0" matInput placeholder="&#61442; Substatus Name"
+                                aria-label="anchor" [matAutocomplete]="auto4" class="form-control inputBox"
+                                [formControl]="substatusCtrl" (keyup)="enterKey($event)">
+                            <mat-autocomplete #auto4="matAutocomplete">
+                                <mat-option (onSelectionChange)="substatus.value !=undefined"
+                                    *ngFor="let substatus of filteredSubStatus| async" [value]="substatus.name">
+                                    <span>{{substatus.name}}</span>
+                                </mat-option>
+                            </mat-autocomplete>
+                        </td>
+                        <td colspan="2" style="text-align: center;"><button type="button" class="btn btn-primary"
+                                (click)="searchLoanList(1)">Search</button>
+                            &nbsp;<button type="button" class="btn btn-danger" (click)="resetSearch()">Reset</button>
+                        </td>
+                    </tr>
+                </table>
+                <table class="table table-responsive table-striped" style="font-size: 14px;padding: 0px !important;">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;"><b>S.No</b></th>
+                            <th title="Loan Reference Number"><b>LOS Ref. No.</b></th>
+                            <th><b>Program</b></th>
+                            <th title="Application Details"><b>App. Details</b></th>
+                            <th title="Rate Of Interest" *ngIf="roleId==1||roleId==3||roleId==6"><b>ROI</b></th>
+                            <th><b>LOS Status</b></th>
+                            <th><b>Date</b></th>
+                            <th><b>Limit</b></th>
+                            <th><b>User</b></th>
+                            <th><b>LAN</b></th>
+                            <th><b>CRN</b></th>
+                            <th><b>Lender</b></th>
+                            <th><b>Sales Person</b></th>
+                            <th><b>Sourcing Partner</b></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="requestList.length==0" style="color: red; text-align: center;">
+                            <td colspan="100">
+                                No Result Found, Please Use Filters.
+                            </td>
+                        </tr>
+                        <tr *ngFor="let loginRequest of requestList ; let i = index ">
+                            <td>
+                                <div style="width: 40px;">
+                                    <input type="radio" (click)="choose(loginRequest)"
+                                        name="choose">&nbsp;{{((p-1)*10)+i+1}}
+                                </div>
+                            </td>
+                            <td>
+                                <!-- <a (click)="camGstDetails(loginRequest.cusomertId,loginRequest.loanReqId,loginRequest.orgId,loginRequest.retailerId,loginRequest.programTypeId,loginRequest)"> -->
+                                <div style="width: 120px;">
+                                    {{loginRequest.loanNo}}</div>
+                                <!-- </a> -->
+                            </td>
+                            <td>
+                                <div style="width: 70px;">
+                                    {{loginRequest.programName}}
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-size: 12px; width: 150px;">
+                                    Name - <span style="font-weight: 600;">{{loginRequest.customerName}}</span> <br />
+                                    Firm Name - <span style="font-weight: 600;">{{loginRequest.compayName}}</span>
+                                    <br /> Mobile - <span style="font-weight: 600;">{{loginRequest.mobile}}</span>
+                                    <br /> PAN - <span style="font-weight: 600;">{{loginRequest.panNo}}</span>
+                                </div>
+                            </td>
+                            <td *ngIf="roleId==1||roleId==3||roleId==6">
+                                <div style="font-size: 12px; width: 80px;">
+                                    Lender - <span style="font-weight: 600;">{{loginRequest.lenderRoi}}</span> <br />
+                                    Borrower - <span style="font-weight: 600;">{{loginRequest.borrowerRoi}}</span>
+                                    <br />
+                                </div>
+                            </td>
+                            <td>
+                                <div style="font-size: 12px; width: 150px;">
+                                    Approved status - <span
+                                        style="font-weight: 600;">{{loginRequest.approvalStatus}}</span> <br />
+                                    Status - <span style="font-weight: 600;">{{loginRequest.statusName}}</span> <br />
+                                    Sub status - <span style="font-weight: 600;">{{loginRequest.subStatusName}}</span>
+                                </div>
+
+                            <td>
+                                <div style="font-size: 12px; width: 150px;">
+                                    App. Date : <span style="font-weight: 600;">{{loginRequest.createdOn}}</span> <br />
+                                    Sanc. Date : <span style="font-weight: 600;">{{loginRequest.sanctionDate}}</span>
+                                    <br />
+                                    <div *ngIf="roleId==1||roleId==3||roleId==6"> Exp. Date : <span
+                                            style="font-weight: 600;">{{loginRequest.loanEndDate}}</span> </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width: 150px; font-size: 12px;word-break: break-all;">
+                                    Sanction - <span
+                                        style="font-weight: 600;">{{indianCurrency(loginRequest.loanAmount)}}</span><br>
+                                    Avail - <span
+                                        style="font-weight: 600;">{{indianCurrency(loginRequest.availLimit)}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                {{loginRequest.approvalBy}}
+                            </td>
+                            <td>
+                                {{loginRequest.lanNo}}
+                            </td>
+                            <td>
+                                {{loginRequest.crnNo}}
+                            </td>
+                            <td>
+                                <div style="width: 100px; font-size: 12px;">
+                                    {{loginRequest.lenderName}}
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width: 150px; font-size: 12px;">
+                                    Name - <span style="font-weight: 600;">{{loginRequest.salesPersonName}}</span>
+                                    <br /> Mobile - <span
+                                        style="font-weight: 600;">{{loginRequest.salesPersonMobile}}</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div style="width: 150px; font-size: 12px;">
+                                    <ng-container *ngIf="loginRequest.programTypeId == sellerProgramTypeId">
+                                        -
+                                    </ng-container>
+                                    <ng-container *ngIf="loginRequest.programTypeId != sellerProgramTypeId">
+                                        Name - <span style="font-weight: 600;">{{loginRequest.spName}}</span> <br />
+                                        Anchor Ref No. - <span
+                                            style="font-weight: 600;">{{loginRequest.anchorRefNo}}</span>
+                                    </ng-container>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <pagination-controls (pageChange)="p = $event" (click)="showPageIndex(p,p1)" ></pagination-controls> -->
+                <div class="pagination">
+                    <button style="border: 1;" (click)="previousButton()" class="btn ml-2"
+                        style="border: 1px solid #9a9da0" [disabled]="p==1">Previous</button>
+                    <span style="border: 1;" class="btn ml-2" style="border: 1px solid #9a9da0 ">{{p}}</span>
+                    <button style="border: 1;" class="btn ml-2" (click)="nextButton()" style="border: 1px solid #9a9da0"
+                        [disabled]="requestList.length!=10">next</button>
+                </div>
+                <!-- <div class="pagination">
+                    <span (click)="number('prev')" id="prev">PREV</span>
+                    <span (click)="number('first')">{{first}}</span>
+                    <span >{{firstdot}}</span>
+                    <span (click)="number('prevpage')">{{prevpage}}</span>
+                    <span (click)="number('currpage')" id="currpage">{{currpage}}</span>
+                    <span (click)="number('nextpage')">{{nextpage}}</span>
+                    <span >{{lastdot}}</span>
+                    <span (click)="number('last')">{{last}}</span>
+                    <span (click)="number('next')" id="next">NEXT</span>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #finalLimit let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Final Limit</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Final Limit Amount</th>
+                    <th>Created Date</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" (keypress)="keyPress($event)" id="final_Limit" name="final_Limit"
+                            class="form-control" (keypress)="keyPress($event)">
+                        <!-- <div>Final Limit - {{creditLimit}}</div> -->
+                    </td>
+                    <td><input type="date" id="final_Limit_create_date" name="final_Limit_create_date"
+                            class="form-control" (keypress)="preventTyping()"></td>
+                    <td><input type="text" id="final_Limit_remarks" name="final_Limit_remarks" class="form-control">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #sactionCondition let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Sanction Condition</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sno</th>
+                    <th>Condition Describtion</th>
+                    <th>Type</th>
+                    <th>Remarks</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let a of sanctionConditionList;let i=index;">
+                    <td>{{i+1}}</td>
+                    <td><input type="text" id="conditionDesc_{{i}}" name="conditionDesc_{{i}}" class="form-control"
+                            [(ngModel)]="a.conditionDesc"></td>
+                    <td>
+                        <select id="type_{{i}}" name="type_{{i}}" class="form-control" [(ngModel)]="a.type">
+                            <option value="1">Internal</option>
+                            <option value="2">External</option>
+                        </select>
+                    </td>
+                    <td><input type="text" id="remarks_{{i}}" name="remarks_{{i}}" class="form-control"
+                            [(ngModel)]="a.remarks">
+                    </td>
+                    <td>
+                        <button type="button" (click)="deleteRow(i)" class="btn btn-danger btn-sm">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align: center;">
+
+                        <button type="button" class="btn btn-primary mb-2"
+                            (click)="addRow()">Add</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-success mb-2"
+                            (click)="saveSanctionCondition()">save</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>
+
+<ng-template #updateLan let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Lan</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Lan No</th>
+                    <th>Created Date</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="text" (keypress)="keyPress($event)" id="lan" name="lan" class="form-control"></td>
+                    <td><input type="date" id="lan_create_date" name="lan_create_date" class="form-control" (keypress)="preventTyping()"></td>
+                    <td><input type="text" id="lan_remarks" name="lan_remarks" class="form-control"></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="savelan()">save</button>
+    </div>
+</ng-template>
+
+<ng-template #anchorPopup let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Anchor Update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped" style="width: 600px;">
+            <tr>
+                <td colspan="2">
+                    <div class="search-hero">
+                        <input class="form-control" type="text" name="searchPanNo" [(ngModel)]="searchPanNo"
+                            autocomplete="off" placeholder="&#61442;  Start searching ">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    To add new ANCHOR
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <form>
+                        <div class="row">
+                            <label class="col-2">Pan NO</label>
+                            <input type="text" [(ngModel)]="newPan" name="newPan" class="col-2 form-control" required>
+                            <button class="btn btn-info offset-1 col-2" (click)="addPan()">Submit</button>
+                        </div>
+                        <div class="row" *ngIf="errorMSG">
+                            <label class="invalid">{{errorMSG}}</label>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+
+            <tr>
+                <td style="width: 10%;"><label>Selected Pan No </label></td>
+                <td style="width: 500px; word-break: break-all;">{{resultVallue}}</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <button type="button" class="btn btn-primary" style="border-radius: 15px;"
+                        (click)="generateAnchorProfile()">Generate AnchorProfile</button>
+                </td>
+            </tr>
+        </table>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="col-5">
+                                <h4 class="card-title" style="color: black;"><b>Anchors Funding Limit</b></h4>
+                            </div>
+                            <div class="col-5">
+                                <a class="pointer" (click)="pdf()">
+                                    <i class="fa fa-file-pdf-o " aria-hidden="true"></i>
+                                </a>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a class="pointer" (click)="excel()">
+                                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+
+
+                        <form>
+                            <table style="width: 100%;" class="table table-striped table-bordered">
+                                <thead>
+                                    <th>Sno</th>
+                                    <th>Pan No</th>
+                                    <th>Anchor Name</th>
+                                    <th>Company Type</th>
+                                    <th>Company Rating</th>
+                                    <th>Funding %age</th>
+                                    <th>Escrow A/c No</th>
+                                    <th>Limit Usage</th>
+                                    <th>Amount</th>
+                                    <th>Tenure</th>
+                                    <th>ROI</th>
+                                    <th>Since</th>
+                                    <th>No of Invoices</th>
+                                    <th>Invoice Amount</th>
+                                    <th>Status</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let f of anchorData;let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{f.panNo}}
+                                        </td>
+                                        <td>
+                                            {{f.buyerName}}
+                                        </td>
+                                        <td>
+                                            <select class="form-control" name="ratingCompanyTypeId_{{i}}" required
+                                                id="ratingCompanyTypeId_{{i}}" [(ngModel)]="f.ratingCompanyTypeId"
+                                                (change)="checkChanges(i)">
+                                                <option [value]="0">Choose Company Type</option>
+                                                <option *ngFor="let ms of companyTypeList" [value]="ms.id">{{ms.name}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select class="form-control" name="ratingId_{{i}}" required
+                                                id="ratingId_{{i}}" [(ngModel)]="f.ratingId"
+                                                (change)="setFundingPercentage(i)">
+                                                <option [value]="0">Choose Company Rate</option>
+                                                <option *ngFor="let ms of companyRatingList" [value]="ms.raingId">
+                                                    {{ms.ratingName}}</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            {{f.fundingPercentage}}
+                                        </td>
+                                        <td>{{f.vaNumber}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>{{f.startDate}}</td>
+                                        <td>{{f.totalInvoices}}</td>
+                                        <td>{{f.invoiceValue}}</td>
+                                        <td><select [(ngModel)]="f.isAnchorActive" name="isAnchorActive_{{i}}"
+                                                class="form-control" id="isAnchorActive_{{i}}"
+                                                (change)="checkChanges(i)">
+                                                <option *ngFor="let s of status" [value]="s.status">{{s.name}}</option>
+                                            </select></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+
+                        <div style="text-align: center;">
+                            <button type="button" style="border-radius: 15px;" class="btn btn-primary "
+                                (click)="updateFundingLimit()">Update</button> &nbsp;&nbsp;&nbsp;&nbsp;
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <span *ngIf="!showAnger" style="color: red;"> No Data Available</span>
+        <br>
+    </div>
+    <!-- <div class="modal-footer">
+    <button *ngIf="showAnger" type="button" class="btn btn-success" (click)="saveBuyer()">save</button>
+  </div> -->
+</ng-template>
+
+<ng-template #program let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Program Update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <h4 style="color:red" *ngIf="err">{{errorMsg}]</h4>
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered" style="font-style:normal;font-size:10pt;width: 100%;">
+            <tr>
+                <th>Company Name</th>
+                <th>Program Name</th>
+                <th>Customer Name</th>
+                <th>Pan</th>
+                <th>Application ID</th>
+                <th>Application Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Remarks</th>
+            </tr>
+            <tr *ngFor="let h of HeaderDetails">
+                <td>{{h.companyName}}</td>
+                <td>{{h.programName}}</td>
+                <td>{{h.customerName}}</td>
+                <td>{{h.panNo}}</td>
+                <td>{{h.applicationNo}}</td>
+                <td>{{h.applicationDate}}</td>
+                <td>{{indianCurrency(h.loanAmount)}}</td>
+                <td>{{h.status}}</td>
+                <td>{{h.remarks}}</td>
+            </tr>
+        </table>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="lender">Lender</label>
+            <select class="form-control col-3" name="lender" id="lender" [(ngModel)]="newLender"
+                (click)="getprogramList($event.target.value)">
+                <option *ngFor="let a of lenderList" [value]="a.id">{{a.name}}</option>
+            </select>
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="program">Program</label>
+            <select class="form-control col-3" name="program" id="program" [(ngModel)]="newProgram">
+                <option *ngFor="let a of programList" [value]="a.programId">{{a.programName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="updateProgram()">save</button>
+    </div>
+</ng-template>
+
+<ng-template #search let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Advance Search</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col">
+
+                <div class="row mt-4">
+                    <div class="col-3">Applicant Name</div>
+                    <div class="col-3"><input class="form-control" type="text" id="applicantName" name="applicantName">
+                    </div>
+                    <div class="col-3">LOS_Reference No</div>
+                    <div class="col-3"><input class="form-control" type="text" id="referenceNo" name="referenceNo">
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-3">Loan Id</div>
+                    <div class="col-3"><input class="form-control" type="text" (keypress)="keyPress($event)"
+                            id="loanRequestNo" name="loanRequestNo"></div>
+                    <div class="col-3">Lan No</div>
+                    <div class="col-3"><input class="form-control" type="text" (keypress)="keyPress($event)" id="lanNo"
+                            name="lanNo"></div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-3">Crn No</div>
+                    <div class="col-3"><input class="form-control" type="text" id="crNo" name="crnNo"></div>
+                    <div class="col-3">PAN Card</div>
+                    <div class="col-3"><input class="form-control" type="text" id="panid" name="panid"></div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-3">Mobile No</div>
+                    <div class="col-3"><input class="form-control" type="text" (keypress)="keyPress($event)"
+                            id="mobileNo" name="mobileNo"></div>
+                    <div class="col-3">Program</div>
+                    <div class="col-3">
+                        <input class="form-control" type="text" id="program" name="program">
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-2">Transaction Start Date</div>
+                    <div class="col-4">
+                        <input class="form-control" type="date" id="startDate" name="startDate">
+                        <input matInput [matDatepicker]="dp" style="height:35px;width:200px" [max]="maxDate"
+                            class="form-control" readonly id="startDate" name="startDate" [(ngModel)]="startDate" (keypress)="preventTyping()">
+                        <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+                        <mat-datepicker #dp></mat-datepicker>
+                    </div>
+                    <div class="col-2">Transaction End Date</div>
+                    <div class="col-4">
+                        <input class="form-control" type="date" id="endDate" name="endDate">
+                        <input matInput [matDatepicker]="dp1" style="height:35px;width:200px" [min]="startDate"
+                            [max]="maxDate" class="form-control" readonly id="endDate" name="endDate"
+                            [(ngModel)]="endDate" [formControl]="control" (keypress)="preventTyping()">
+                        <mat-datepicker-toggle matSuffix [for]="dp1"></mat-datepicker-toggle>
+                        <mat-datepicker #dp1></mat-datepicker>
+                        <div *ngIf="!control.valid" class="invalid-feedback">
+                            End Date Should not be less than Start Date
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row text-center mt-4">
+                    <div class="col">
+                        <button type="button" class="btn btn-primary mb-2" (click)="searchLoanList()">
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</ng-template>
+
+
+<ng-template #updateApplication let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Contact Info</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="customerName">Firm Name</label>
+            <input class="form-control col-3" name="customerName" id="customerName" [disabled]="isLive"
+                [(ngModel)]="customerName">
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="mobileNo">Mobile Number</label>
+            <input class="form-control col-3" name="mobileNo" id="mobileNo" [(ngModel)]="mobileNo" maxlength="10">
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="emailId">Email Id</label>
+            <input class="form-control col-3" name="emailId" id="emailId" [(ngModel)]="emailId">
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="address">Address</label>
+            <input class="form-control col-3" name="address" id="address" [(ngModel)]="address">
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="address">Pin code</label>
+            <input class="form-control col-3" name="pincode" id="pincode" [disabled]="isLive" [(ngModel)]="pincode"
+                maxlength="6" (change)="getAddressByPincode($event.target.value)">
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="state">State</label>
+            <select class="form-control col-3" [(ngModel)]="state" [disabled]="isLive" required id="state" name="state"
+                (change)="setCityValue($event.target.value)">
+                <option *ngFor="let s of stateList" [value]="s.stateName">{{s.stateName}}</option>
+            </select>
+        </div>
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="city">City</label>
+            <select class="form-control col-3" [(ngModel)]="city" [disabled]="isLive" required id="city" name="city">
+                <option *ngFor="let c of cityList" [value]="c.cityName">{{c.cityName}}</option>
+            </select>
+        </div>
+        <div class="row mt-3" *ngFor="let a of applicantDetails;let i=index">
+            <label class="col-3 offset-1" for="applicatName_{{i}}">{{i+1}}.Applicat Name</label>
+            <input class="form-control col-3" name="applicatName_{{i}}" [disabled]="isLive" id="applicatName_{{i}}"
+                [(ngModel)]="a.applicantName">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="saveApplicationDetails()">save</button>
+    </div>
+</ng-template>
+
+
+<ng-template #extensive let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Extension / Renewal</h4>
+        <h4 style="color:red">{{errrorMSG}}</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered "
+            style="font-style:normal;font-size:8pt;width: 90%; margin-right: 20px;">
+            <tr>
+                <th>Company Name</th>
+                <th>Program Name</th>
+                <th>Customer Name</th>
+                <th>Pan</th>
+                <th>Application ID</th>
+                <th>Application Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Remarks</th>
+            </tr>
+            <tr *ngFor="let h of HeaderDetails" style="font-size: 8pt;">
+                <td>{{h.companyName}}</td>
+                <td>{{h.programName}}</td>
+                <td>{{h.customerName}}</td>
+                <td>{{h.panNo}}</td>
+                <td>{{h.applicationNo}}</td>
+                <td style="white-space: nowrap;">{{h.applicationDate}}</td>
+                <td style="white-space: nowrap;">{{indianCurrency(h.loanAmount)}}</td>
+                <td>{{h.status}}</td>
+                <td>{{h.remarks}}</td>
+            </tr>
+        </table>
+
+        <div class="row mt-3">
+            <label class="col-3 offset-1" for="program">Program</label>
+            <select class="form-control col-3" name="program" id="program" [(ngModel)]="newProgram">
+                <option *ngFor="let a of programList" [value]="a.id">{{a.programName}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="submitExtension()">save</button>
+    </div>
+</ng-template>
+<ng-template #confirmationMSG let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><b>Please confirm..</b></h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>Do you really want to Accept ?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="acceptMSG()">Okay</button>
+        <button type="button" class="btn btn-danger" (click)="rejectMSG()">Cancel</button>
+    </div>
+</ng-template>
+<ng-template #soareports>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><b>{{soatype}} SOA Report</b></h4>
+        <button type="button" class="close" aria-label="Close" (click)="hello()">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table>
+        
+            <tr>
+                <td *ngIf="actions.approvalStatus=='Approved' || actions.approvalStatus=='Debit Freeze' ||
+                actions.approvalStatus=='Closed'">
+                <i class="fa fa-file-pdf-o fa-4x pointer" aria-hidden="true" title="SOA pdf"
+                            (click)="downloadSOA(1,actions.loanReqId)"></i>
+                            &nbsp;
+                   <i class="fa fa-file-excel-o fa-4x pointer" aria-hidden="true" title="SOA excel"
+                            (click)="downloadSOA(0,actions.loanReqId)"></i>
+                </td>
+                
+                <td *ngIf="actions.approvalStatus!='Approved' && actions.approvalStatus!='Debit Freeze' &&
+                actions.approvalStatus!='Closed'"> <h4 style="color: red;">No Data Available</h4>
+                </tr>
+       
+        </table>
+    </div>
+</ng-template>
+
+<ng-template let-modal #previewpopup>
+    <div class="modal-header">
+        <h2>QR Code Repayment</h2>
+        <h4 style="color: red;">{{message}}</h4>
+        <button type="button" class="close btn" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngIf="!showqrcode">
+            <input type="radio" value="1" [(ngModel)]="color" > <label style="color: black;">Total Outstanding Amount:&nbsp;</label>{{indianCurrency(totalOutstanding)}}<br>
+            <input type="radio" value="2" [(ngModel)]="color" > <label style="color: black;">Custom Amount:&nbsp;</label><input type="text" placeholder="0.00" [(ngModel)]="customOutstanding" (change)="customamountcalled()" style="padding:10px; margin-left: 3px; border-color: grey;"><br>
+           <button class="btn btn-success" (click)="showqr()" style="margin-left:100px; margin-top:10px">Generate QR CODE</button>
+
+        </div>
+      
+        <div class="qr-code-wrapper" id="qrcodecontent" style="margin-top: 10px;" *ngIf="showqrcode">
+            <div class="finagg-logo" style="margin-bottom: -5px;">
+                <img src="assets/imager/hello.svg" alt="finagg logo" width="60">
+            </div>
+
+            <div class="merchant-name" style="margin-top: -10px;">
+                <span class="name">{{qrfirm}}<br> Amount:{{indianCurrency(qramount)}}</span>
+            </div>
+
+            <div class="text-center" style="background-color: #1fad3c; padding:10px;">
+                <ngx-qrcode [value]="instancevalue" cssClass="aclass" errorCorrectionLevel="L" width="150">
+                </ngx-qrcode>
+                <span style="color: #fff; font-size:12px; font-weight:500;">{{instanceupiId}}</span>
+
+            </div>
+            <div class="text-center">
+
+            </div>
+            <div class="text-center" style="font-size:10px; font-weight:500; margin-top:1px;">Scan and Pay with any BHIM
+                UPI app</div>
+            
+                  <div class="text-center" style="margin-top:-20px;">
+                <span class="logo-1"><img src="assets/imager/google-pay.svg" alt="" width="40"></span>
+                <span class="logo-1"><img src="assets/imager/phone-pay.svg" alt="" width="80"></span>
+                <span class="logo-1"><img src="assets/imager/amazon.svg" alt="" width="60"></span>
+            </div>
+            <div class="text-center" style="margin-top:-15px; border-top:1px dashed #a5a5a5;">
+                <!-- <span class="logo-1"><img src="assets/imager/bhim-app.svg" style="width: 50px;"alt="" width="60"></span> -->
+                <span class="logo-1"><img src="assets/imager/upi-logo.svg" alt="" width="50"></span>
+            </div>
+            <div class="footer-text">Missed Call@ 81860 81830 | Whatsapp@ 8920201334</div>
+            <div class="footer-text">Website : www.finagg.in | E-mail : hello@finagg.in</div>
+
+        </div>
+        <div class="text-center" *ngIf="showqrcode">
+        
+           
+            <button class="btn btn-success" (click)="qrnavigator()" *ngIf="somemore" style="color:black; margin-top: 2px;">Next Account</button>
+   <i class="fa fa-download" (click)="download()" style="margin-left: 10px;"></i>
+        </div>
+    </div>
+ 
+</ng-template>
+<ng-template #sactionDateCondition let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Update Sanction Date</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Sanction Date </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="date" id="sanctionDate" class="form-control" name="sanctionDate"
+                            [(ngModel)]="sanctionDate" (keypress)="preventTyping()">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center;">
+                        <button type="button" class="btn btn-success mb-2" (click)="saveSanctionDate()">save</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</ng-template>

@@ -1,0 +1,230 @@
+<div class="card">
+  <div class="card-body">
+
+    <div class="row">
+
+      <div class="">
+        <form #ruleForm="ngForm" class="container mt-3" (ngSubmit)="logValue()">
+          <div class="row">
+            <div class="col-2">
+              <h4>Rule Name</h4>
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control" id="ruleName" required [(ngModel)]="rule.ruleName" name="ruleName"
+                autocomplete="off">
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-2">
+              <h4>Program</h4>
+            </div>
+            <div class="col-4">
+              <select class="form-control" [(ngModel)]="rule.programId" name="programId">
+                <option *ngFor="let pl of programList" [value]="pl.id">{{pl.name}}</option>
+              </select>
+            </div>
+          </div>
+          <!-- WHEN -->
+          <div class="row" style="margin-top: 5%;">
+            <div class="col-3">
+              <h4>
+                <font color=green><b>When</b></font>
+              </h4>
+            </div>
+            <div class="col-3 " [hidden]="!whenAddButton">
+              <button type="button" class="btn btn-primary mb-2" (click)="addRowWhen(0)">Add</button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:5%;">
+            <div class="row">
+              <div class="col-6">
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Action</th>
+                      <th>No</th>
+                      <th style="width: 150px;">Data</th>
+                      <th style="width: 150px;">Object</th>
+                      <th style="width: 150px;">Condition</th>
+                      <th style="width: 100px;">Value</th>
+                      <th style="width: 100px;">UOM</th>
+                      <th style="width: 100px;">Subsequent Condition</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let dynamic of ruleDynamicWhen; let i = index;">
+                      <td>
+                        <img src="assets/images/remove-icon.jpg" style="width: 20px; height: 20px;" alt="Delete"
+                          (click)="deleteRowWhen(i)" />
+                        
+                      </td>
+                      <td>
+                        <!-- {{dynamic.sequenceNo}} -->
+                        {{i+1}}
+                      </td>
+                      <td>
+                        <select class="form-control" [(ngModel)]="dynamic.parameter1Object"
+                          name="parameter1Object_{{i}}" style="width: 150px;" (change)='onMastersSelected(i,$event)'>
+                          <option *ngFor="let mdl of masterDataList" [value]="mdl.name">{{mdl.name}}</option>
+                        </select>
+                      </td>
+                      <!-- <td>{{dynamic.parameter1}}</td> -->
+                      <td>
+                        <!-- {{dynamic.parameter1}} -->
+                        <select class="form-control" [(ngModel)]="dynamic.parameter1" name="parameter1_{{i}}" id="parameter1_{{i}}" style="width: 150px;">
+                          <option *ngFor="let p1 of dynamic.objectListWhen" [value]="p1.name">{{p1.name}}</option>
+                        </select>
+                      </td>
+                    
+
+                      <td>
+                        <select class="form-control" [(ngModel)]="dynamic.validationValue" name="validationValue_{{i}}"
+                          style="width: 150px;">
+                          <option *ngFor="let cl of conditionList" [value]="cl.id">{{cl.name}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" [(ngModel)]="dynamic.parameter2" name="parameter2_{{i}}"
+                          style="width: 100px;" />
+                      </td>
+                      <td>
+                        <!-- {{dynamic.parameter2UOM}} -->
+                        <select class="form-control" [(ngModel)]="dynamic.parameter2UOM" name="parameter2UOM_{{i}}"
+                          style="width: 150px;">
+                          <option *ngFor="let ul of uomList" [value]="ul.name">{{ul.name}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <input type="text" class="form-control" [(ngModel)]="dynamic.subsequentConditionType"
+                          name="subsequentConditionType_{{i}}" style="width: 100px;" />
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- WHEN -->
+
+          <!-- THEN -->
+          <div class="row">
+            <div class="col-3">
+              <h4>
+                <font color=red><b>Then</b></font>
+              </h4>
+            </div>
+            <div class="col-3" [hidden]="!thenAddButton">
+              <button type="button" class="btn btn-primary mb-2" (click)="addRowThen()">Add</button>
+            </div>
+          </div>
+          <div class="form-group" style="margin-top:5%;">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>No</th>
+                  <th>Data</th>
+                  <th>Object</th>
+                  <th>result type</th>
+                  <th>result value</th>
+                  <th>result expr object</th>
+                  <th>result expr parameter</th>
+                  <th>result expr math operator</th>
+                  <th>result expr value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dynamicThen of ruleDynamicThen; let z = index;">
+                  <td>
+                    <img src="assets/images/remove-icon.jpg" style="width: 20px; height: 20px;" alt="Delete"
+                      (click)="deleteRowThen(z)" />
+                  </td>
+                  <td>{{ z+1}}</td>
+                  <td>
+                    <select class="form-control" [(ngModel)]="dynamicThen.parameter1Object" [disabled]="true"
+                      name="parameter1ObjectT_{{z}}" style="width: 150px;" (change)='onMastersSelectedThen(z,$event,0)'>
+                      <option *ngFor="let mdl of masterDataList" [value]="mdl.name">{{mdl.name}}</option>
+                    </select>
+                  </td>
+                  <td>
+                    <!-- {{dynamicThen.parameter1}} -->
+                    <select class="form-control" [(ngModel)]="dynamicThen.parameter1" name="parameter1T_{{z}}" id="parameter1T_{{z}}" style="width: 150px;" [disabled]="true">
+                      <option *ngFor="let p2 of dynamicThen.objectListThen" [value]="p2.name">{{p2.name}}</option>
+                    </select>
+                  </td>
+                 
+
+                  <td>
+                    <!-- {{dynamicThen.resultType}} -->
+                    <select class="form-control" name="resultTypeT_{{z}}" id="resultTypeT_{{z}}" style="width: 200px;"
+                      [(ngModel)]="dynamicThen.resultType" (change)="resultValue(z,$event)"  [disabled]="true">
+                      <option value="boolean">boolean</option>
+                      <option value="expression">expression</option>
+                      <option value="literal">literal</option>
+                    </select>
+                  </td>
+                  <ng-template [ngIf]="dynamicThen.resultType==''">
+
+                  </ng-template>
+                  <ng-template [ngIf]="dynamicThen.resultType=='boolean'">
+
+                  </ng-template>
+                  <ng-template [ngIf]="dynamicThen.resultType=='expression'">
+                    <td></td>
+                    <td id="column2_{{z}}">
+                      <select class="form-control" [(ngModel)]="dynamicThen.resultExprObject"
+                        name="resultExprObject_{{z}}" id="resultExprObject_{{z}}" style="width: 150px;"
+                        (change)='onMastersSelectedThen(z,$event,1)'  [disabled]="true">
+                        <option *ngFor="let mdl of masterDataList" [value]="mdl.name">{{mdl.name}}</option>
+                      </select>
+                    </td>
+            
+                    <td>
+                      <select class="form-control" [(ngModel)]="dynamicThen.resultExprParameter" name="resultExprParameter_{{z}}" id="resultExprParameter_{{z}}" style="width: 150px;"  [disabled]="true">
+                        <option *ngFor="let p3 of dynamicThen.objectListThen1" [value]="p3.name">{{p3.name}}</option>
+                      </select>
+                    </td>
+                    <td id="column4_{{z}}">
+                      <select class="form-control" [(ngModel)]="dynamicThen.resultExprMathOperator"
+                        name="resultExprMathOperator_{{z}}" id="resultExprMathOperator_{{z}}" style="width: 150px;"  [disabled]="true">
+                        <option value="+">+ </option>
+                        <option value="-">- </option>
+                        <option value="*">* </option>
+                        <option value="/">/ </option>
+                      </select>
+                    </td>
+                    <td id="column5_{{z}}">
+                      <input type="text" class="form-control" [(ngModel)]="dynamicThen.resultExprValue"
+                        name="resultExprValue_{{z}}" id="resultExprValue_{{z}}" style="width: 200px;" value=""  [disabled]="true"/>
+                    </td>
+                  </ng-template>
+                  <ng-template [ngIf]="dynamicThen.resultType=='literal'">
+                    <td></td>
+                    <td id="column2_{{z}}">
+                      <select class="form-control" [(ngModel)]="dynamicThen.resultExprObject"
+                        name="resultExprObject_{{z}}" id="resultExprObject_{{z}}" style="width: 150px;"
+                        (change)='onMastersSelectedThen(z,$event,1)'  [disabled]="true">
+                        <option *ngFor="let mdl of masterDataList" [value]="mdl.name">{{mdl.name}}</option>
+                      </select>
+                    </td>
+                    <td>
+                      <select class="form-control" [(ngModel)]="dynamicThen.resultExprParameter" name="resultExprParameter_{{z}}" id="resultExprParameter_{{z}}" style="width: 150px;"  [disabled]="true">
+                        <option *ngFor="let p4 of dynamicThen.objectListThen1" [value]="p4.name">{{p4.name}}</option>
+                      </select>
+                    </td>
+                  </ng-template>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- THEN -->
+          <div>
+            <input type="submit" class="btn btn-success" value="Submit" />
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>

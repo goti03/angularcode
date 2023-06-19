@@ -1,0 +1,91 @@
+<div class="fin-row mt-20">
+    <div class="fin-card">
+        <div class="clearfix fin-heading" style="font-weight: 600;">PDD Report
+        </div>
+        &nbsp;
+        <div class="row">
+            <div class="col-2"> <label style="font-weight: 600;">From Sanction Date</label> <input class="form-control" [(ngModel)]="startDate"
+                    type="date"></div>
+            <div class="col-2"> <label style="font-weight: 600;">To Sanction Date </label> <input class="form-control" [(ngModel)]="endDate"
+                    type="date"></div>
+            <div class="col-2"> <label style="font-weight: 600;">PAN</label> <input class="form-control" type="text" [(ngModel)]="panNo"
+                    placeholder="Enter pan number "></div>
+            <div class="col-2"> <label style="font-weight: 600;">LAN</label> <input class="form-control" type="text" [(ngModel)]="loanId"
+                    placeholder="Enter lan number "></div>
+            <div class="col-2"> <label style="font-weight: 600;">Anchor Name</label>
+                <input #anchor (keyup)="0" matInput placeholder="&#61442; Anchor Name" aria-label="anchor" [(ngModel)]="anchors"
+                [matAutocomplete]="auto2" class="form-control inputBox" [formControl]="anchorCtrl"
+                (keyup)="enterKey($event)">
+            <mat-autocomplete #auto2="matAutocomplete">
+                <mat-option (onSelectionChange)="anchor.value !=undefined"
+                    *ngFor="let anchor of filteredanchor| async" [value]="anchor.anchorInfo">
+                    <span>{{anchor.anchorInfo}}</span>
+                </mat-option>
+            </mat-autocomplete>
+                <!-- <input class="form-control"
+                    type="text" placeholder="Enter anchor name "> -->
+                </div>
+            <div class="col-2">
+                <label style="font-weight: 600;">Select the Status</label> <br>
+                <select class="form-select form-control" [(ngModel)]="status">
+                    <option value="Open">Open</option>
+                    <option value="Wip">WIP</option>
+                    <option value="Closed">Closed</option>
+                </select>
+            </div>
+            <div class="col-2 py-2"> <label style="font-weight: 600;">Customer Name </label> <input class="form-control" [(ngModel)]='customerName'
+                    type="text" placeholder="Enter customer Name "></div>
+        </div>
+        <div class="col-12 text-center">
+            <div class="text-center">
+            <button type="button" class="btn btn-success " (click)="searchSanctionConditionList()">Search</button>
+            &nbsp;
+            <button type="button" class="btn btn-danger " (click)="resetSanctionCondition()">Reset</button>
+            <div style="float:right">
+                <i class="fa fa-file-excel-o pointer fa-3x"  (click)="getSanctionConditionExcel()"></i>
+            </div>
+            </div>
+        </div>
+    
+        <div class="table-responsive mt-10" *ngIf="searchFilter">
+            <table class="table fin-table-blue text-center">
+                <thead>
+                    <tr>
+                        <th>S.No.</th>
+                        <th rowspan="2">LAN </th>
+                        <th rowspan="2">Sanction Date</th>
+                        <th rowspan="2">Customer Name</th>
+                        <th rowspan="2">Anchor</th>
+                        <th rowspan="2">Program Name</th>
+                        <th rowspan="2">Contact No</th>
+                        <th rowspan="2">No of Sanction Condition</th>
+                        <th rowspan="2">No of Sanction Condition Closed</th>
+                        <th rowspan="2">Status</th>
+                        <th rowspan="2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of sanctionList | paginate: { itemsPerPage: p1, currentPage: p }; let i = index">
+                        <td>{{((p-1)*p1)+i+1}}</td>
+                        <td>{{x.loanRequestId}}</td>
+                        <td>{{x.sanctionDate}}</td>
+                        <td>{{x.customerName}}</td>
+                        <td>{{x.anchor}}</td>
+                        <td>{{x.programName}}</td>
+                        <td>{{x.mobileNo}}</td>
+                        <td>{{x.noOfSanctionCondition}}</td>
+                        <td>{{x.noOfSanctionConditioClosed}}</td>
+                        <td>{{x.status}}</td>
+                        <td><a style="color:rgb(24, 107, 201); text-decoration: underline; font-weight: 600;cursor: pointer;" (click)="viewSanctionCondition(x.loanRequestId)">View</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center" *ngIf="searchFilter">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+     
+
+
+    </div>
+</div>

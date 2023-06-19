@@ -1,0 +1,89 @@
+<div class="row">
+</div>
+<div class="col-md-12 ">
+    <div class="card">
+        <div class="card-body">
+            <div class="search-hero">
+                <input class="form-control" type="text" name="search" [(ngModel)]="searchDisbursalList" autocomplete="off" placeholder="Start searching ">
+            </div>
+            <label style="color: black;">From Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="consentdate" style="margin-left: 3px; width: 200px;" max={{updatedate}} (keypress)="preventTyping()">
+            <label style="color: black; margin-left: 3px;">To Date:</label>
+            <input type="date" class="form-control" [(ngModel)]="updatedate" style="margin-left: 3px; width:200px" min={{consentdate}} max={{maxdate}} (keypress)="preventTyping()">
+            <button class="btn btn-primary" style=" margin-bottom: 3px; margin-left: 5px;" (click)="displaydetails()">View</button>
+            <div style="float: right;">
+                <a routerLink="loandisbursal" routerLinkActive="active" (click)="exportExcel()">
+                    <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                </a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered custom-table table-striped" style="overflow: scroll;">
+                    <thead>
+                        <tr>
+                            <th>S No</th>
+                            <th>Consent date</th>
+                            <th>Update date</th>
+                            <th>Loan Request Id</th>
+                            <th>Retailer Code</th>
+                            <th>Request Id</th>
+                            <th>District code</th>
+                            <th>Vintage</th>
+                            <th>District Name</th>
+                            <th>Mobile No</th>
+                            <th>Org Id</th>
+                            <th>Org Name</th>
+                            <th>Program Id</th>
+                            <th>Program Name</th>
+                            <th>OKYC</th>
+                            <th>UDC</th>
+                            <th>Paper Nach</th>
+                            <th>Approval Status</th>
+              
+                            <th>Loan Limit</th>
+                            <th>Bank Name</th>
+                            <th>Utr No</th>
+                            <th>OD Acknowledgement</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!retailer">
+                        <tr *ngFor="let m of detailslist| filter:searchDisbursalList  | paginate: { itemsPerPage: p1, currentPage: p }; let i=index" style=" border-color: transparent;">
+                            <td>{{((p-1)*p1)+i+1}}</td>
+                            <td>{{m.consentDate}}</td>
+                            <td>{{m.faUpdateDate}}</td>
+                            <td button class="btn btn-link" (click)="gotoList(m.loanRequestId)">{{m.loanRequestId}}</td>
+                            <td>{{m.retCode}}</td>
+                            <td>{{m.requestId}}</td>
+                            <td>{{m.distCode}} </td>
+                            <td>{{m.vintage}}</td>
+                            <td>{{m.distName}}</td>
+                            <td>{{m.mobileNo}} </td>
+                            <td>{{m.orgId}}</td>
+                            <td>{{m.orgName}}</td>
+                            <td>{{m.programId}}</td>
+                            <td>{{m.programName}}</td>
+                            <td>{{m.okyc}}</td>
+                            <td>{{m.udc}}</td>
+                            <td>{{m.paperNach}}</td>
+                            <td>{{m.approvalStatus}} </td>
+                            <!-- <td *ngIf="m.loanStatus=='1'" class="label label-success">Active</td>
+                            <td *ngIf="m.loanStatus=='0'" class="label label-warning">Inactive</td> -->
+                          
+                            <td>{{m.loanLimit}} </td>
+                            <td>{{m.bankName}}</td>
+                            <td>{{m.utrNo}} </td>
+                            <td>
+                                <ng-container *ngIf="m.loanStatus=='active'"><span class="label label-success text-color">Active</span>
+                                </ng-container>
+                                <ng-container *ngIf="m.loanStatus=='inactive'"><span class="label label-danger text-color">IN-Active</span>
+                                </ng-container>
+                                </td>
+                              </tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls (pageChange)="p = $event" ></pagination-controls>
+            <div>
+            </div>
+        </div>
+    </div>
+</div>

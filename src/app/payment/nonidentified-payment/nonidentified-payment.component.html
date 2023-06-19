@@ -1,0 +1,128 @@
+<div class="row">
+    <div class="">
+        <div class="card" style="align-content: center; margin-left: 20px;">
+            <div class="card-body">
+                <div class="col">
+                    <h4 class="card-title">Unidentified Payments</h4>
+                </div>
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <div class="search-hero">
+                            <input class="form-control" type="text" name="search" [(ngModel)]="paylist"
+                                autocomplete="off" placeholder="&#61442;  Start searching ">
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr class="table-info">
+                            <th>Sno</th>
+                            <th>Payment Received Date</th>
+                            <th>Amount</th>
+                            <th>UTR No.</th>
+                            <th>VA number</th>
+                            <th>Additional Details</th>
+<th>Remarks</th>
+                            <th>Action</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr
+                            *ngFor="let p of paymentlist  | filter:paylist| paginate: { itemsPerPage: p1, currentPage: p }; let i = index">
+
+                            <td>{{i+1}}</td>
+                            <td>{{p.transactionDateTime}}</td>
+                            <td style="text-align: left;">{{indianCurrency(p.credit)}}</td>
+                            <td>{{p.utrNo}}</td>
+                            <td>{{p.vaNumber}}</td>
+                            <td>{{p.identifiedType}}</td>
+<td>{{p.remarks}}</td>
+                            <td> <button class="btn btn-primary"
+                                    style="height: 30px ;width:80px; font-size: 13px; padding:5px" *ngIf="p.readOnly==0"
+                                    (click)="orgMapping(orgmap,p.id,p.credit)">ACTION</button>
+                                <i class="fa fa-ban fa-2x" *ngIf="p.readOnly!=0"></i>
+                            </td>
+
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+
+
+        </div>
+    </div>
+</div>
+
+<ng-template let-modal #orgmap>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Unidentified Payment Processing</h4>
+        
+       
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div style="width:200px">
+  
+            <select class="form-control" id="coApplicantSoleProp" required [(ngModel)]="mapper"  (change)="changer(mapper)">
+                <option [value]="1">Tranch Payment</option>
+                <option [value]="0">PF Payment</option>
+            </select>
+        </div>
+        <div class="row">
+         
+            <div class="col" > 
+                <label for="sp"> Select Organization</label>
+                <!-- <select class="form-control" style="width: 240px;" [(ngModel)]="orgId" name="sp" id="sourcingPartnerId">
+                    <option *ngFor="let spl of accountType" [value]="spl.orgId">
+                        {{spl.orgName}}
+                    </option>
+                </select> -->
+
+                <input #parnter1 (keyup)="0" matInput placeholder="&#61442; Organization Name" aria-label="Partner" 
+                    [matAutocomplete]="auto1" class="form-control inputBox" [formControl]="accountnameCtrl">
+                <mat-autocomplete #auto1="matAutocomplete" id="sourcingPartnerId" [(ngModel)]="dataset">
+                    <mat-option (onSelectionChange)="parnter1.value !=undefined"
+                        *ngFor="let parnter1 of filteredaccountname| async" [value]="parnter1.accountInfo">
+                        <span>{{parnter1.accountInfo}}</span>
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+        </div>
+        <!-- <div class="red mt-10">Please download, sign the form and upload it.</div> -->
+
+    </div>
+    <div class="modal-footer">
+        <h4 style="color: red;">{{errormsg}}</h4>
+        <button class="btn btn-success" (click)="confirmstranch( )"
+            *ngIf="tranch&&!proceedc">Proceed</button>
+            <h4 *ngIf="tranch&&proceedc">Are you sure you want to do Tranch Payment?</h4>
+            <button class="btn btn-success"(click)="registerOrganization()"
+            (click)="modal.dismiss('Cross click')" *ngIf="tranch&&proceedc">YES</button>  
+            <button class="btn btn-success" (click)="reject()"
+            (click)="modal.dismiss('Cross click')" *ngIf="tranch&&proceedc" style="background-color: red;">NO</button>  
+            <button class="btn btn-success" (click)="confirms()"
+             *ngIf="!tranch&&!proceedc"> Proceed</button>
+            <h4 *ngIf="!tranch&&proceedc">Are you sure you want to  PF payment?</h4>
+            <button class="btn btn-success" (click)="acceptpf()"
+            (click)="modal.dismiss('Cross click')" *ngIf="!tranch&&proceedc">YES</button>  
+            <button class="btn btn-success" (click)="reject()" style="background-color: red;"
+            (click)="modal.dismiss('Cross click')" *ngIf="!tranch&&proceedc">NO</button>
+    </div>
+  </ng-template>
+
+
+
+  

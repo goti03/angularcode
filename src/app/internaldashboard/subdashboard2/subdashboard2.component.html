@@ -1,0 +1,232 @@
+
+
+<body>
+	
+	<div class="fin-card mt-10 clearfix">
+		<div style="float:right; margin-right: 40px;" >
+
+			<label style="color:green" (click)="gotoList()" class="pointer">InternalDashboard/</label><label style="color:green;" *ngIf="retailernow" (click)="gotomain()" class="pointer">Anchor Dashboard</label><label style="color:green;" *ngIf="sellernows" (click)="gotomain()" class="pointer">Seller Dashboard</label><label style="color:grey;">/Invoice Dashboard</label></div>
+		
+		<div class="table-responsive" style="margin-left: 120px;">
+			<table class="table fin-table-green nowrap" style="margin-bottom:0px;">
+				<tbody>
+					<tr>
+						<td class="summary-icon" ><i class="fas fa-compact-disc green" style="color: red;" ></i> Total Disbursement Amount <span>{{indianCurrency(sum)}}</span></td>
+					
+					
+						<td class="summary-icon" ><i class="fa fa-compass red" style="color:green"></i> Total number of Disbursements <span>{{lengths}}</span></td>
+						
+
+					</tr>
+				</tbody>
+			
+			</table>
+		</div>
+	</div>
+  <div class="container-scroller">
+	<!--- Top Header Start -->
+	
+	<!-- Top Header Ends --->
+	
+	
+	<!-- Page Container Starts --->
+	<div class="container-fluid page-body-wrapper">
+	
+		  
+		  <!-- Content Panel Starts -->
+		  <div class="main-panel">
+			<div class="content-wrapper">
+		
+				
+				<div class="row" *ngIf="retailernow">					
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+							    <div class="col">
+							
+									
+									<div class="search-hero">
+										
+									<input class="form-control" type="text" name="search" [(ngModel)]="internallist" autocomplete="off"
+										placeholder="&#61442;  Start searching ">
+										
+								</div>
+								</div>
+							
+							<div class="row mt-2" style="margin-bottom: 3px; "> 
+								<select class="form-control col-2 ml-3 md-2" style="width: 180px;"  [(ngModel)]="lenderId" name="lenderId" id="lenderId">
+									<option selected [value]="0">All Lender</option>
+									<option *ngFor="let ll of LenderList" [value]="ll.id">{{ll.name}}</option>
+								</select>
+							
+							</div>
+							<div style="float: right; margin-right: 10px;" >
+								<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcel()" *ngIf="sellernows"></i>
+								<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcels()" ></i>
+						</div>
+							<div class="row" style="margin-bottom: 5px;">
+						
+							<input type="month" class="form-control" [(ngModel)]="invoiceDate" style="margin-left: 8px; width: 200px;" max={{maxdate}}>
+						
+							<input type="month" class="form-control" [(ngModel)]="invoiceendDate" style="margin-left: 5px; width:200px" min={{disburseDate}} max={{maxdate}}>
+				
+							<button class=" btn btn-primary" (click)="invoicedetails()" style="margin-left: 100px;">Search</button>
+						</div>
+						
+								<table id="example" class=" table-bordered table-striped table-responsive" >
+									<thead>
+										<tr>
+											<th>S.No</th>
+											<th style="padding: 5px;">Lender</th>
+											<th style="padding: 5px;">Program</th>
+											<th style="padding: 5px;">Borrower</th>
+											<th style="padding:5px">Anchor RefNo</th>
+											<th style="white-space: nowrap; padding:5px">LOS Id</th>
+											<th style="white-space:nowrap; padding: 5px;">LOD Id</th>
+											<th style="white-space: nowrap; padding: 5px;"> Inv No</th>
+											<th style="white-space: nowrap;padding: 5px;">Inv Date</th>
+											<th style="white-space: nowrap; padding: 5px;">Inv Amt</th>
+											<th style="white-space: nowrap; padding: 5px;">Disb Amt</th>
+											<th style="white-space: nowrap; padding:5px;">Disb Date</th>
+											<th style="white-space: nowrap; padding: 5px;">Credit</th>
+											<th style="white-space: nowrap;">Maturity Date</th>
+											<th style="white-space: nowrap;">Bene Name</th>
+											<th style="white-space: nowrap;">Bene Account</th>
+											<th style="white-space: nowrap;">IFSC code</th>
+											<!-- <th>UTR No</th> -->
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let m  of invoicelist | filter:internallist | paginate: {  id : 'first',itemsPerPage: 10, currentPage: p  };let i = index">
+											<td>{{((p-1)*10)+i+1}}</td>
+											<td>{{m.lenderName}}</td>
+											<td>{{m.programName}}</td>
+											<td>{{m.borrowerName}}</td>
+											<td>{{m.anchorRefNo}}</td>
+											<td>{{m.loanRequestId}}</td>
+											<td>{{m.loanDisbursalId}}</td>
+											<td style="white-space: pre-wrap;">{{m.invoiceNo}}</td>
+											<td style="white-space: nowrap;">{{m.invoiceDate}}</td>
+											<td style="white-space: nowrap;">{{indianCurrency(m.invoiceAmount)}}</td>
+											<td style="white-space: nowrap;">{{indianCurrency(m.disbursedAmount)}}</td>
+											<td style="white-space: nowrap;">{{m.disbursedDate}}</td>
+											<td>{{m.creditPeriod}}</td>
+											<td>{{m.maturityDate}}</td>
+											<td>{{m.beneName}}</td>
+											<td>{{m.beneAccount}}</td>
+											<td>{{m.ifscCode}}</td>
+											<!-- <td>{{m.utrNo}}</td> -->
+											
+										</tr>
+									
+									</tbody>
+								</table>
+						
+							
+							</div>
+							<pagination-controls (pageChange)="p = $event" id="first"></pagination-controls>
+						</div>
+					</div>
+					
+				</div>
+				<div class="row" *ngIf="sellernows">
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<div class="col">
+							
+									
+									<div class="search-hero">
+										
+									<input class="form-control" type="text" name="search" [(ngModel)]="customerslist" autocomplete="off"
+										placeholder="&#61442;  Start searching ">
+										
+								</div>
+								</div>
+								<div style="float: right; margin-right: 50px;" >
+									<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcel()" *ngIf="sellernows"></i>
+									<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcels()" *ngIf="retailernow"></i>
+							</div>
+							<div class="row" style="margin-bottom: 5px;">
+						
+								<input type="month" class="form-control" [(ngModel)]="invoiceDate" style="margin-left: 3px; width: 200px;" max={{maxdate}}>
+							
+								<input type="month" class="form-control" [(ngModel)]="invoiceendDate" style="margin-left: 3px; width:200px" min={{disburseDate}} max={{maxdate}}>
+					
+								<button class=" btn btn-primary" (click)="sellerinvoicedetails()" style="margin-left: 100px;">Search</button>
+							</div>
+					<table id="example" class="table-striped table-bordered table-responsive" style="width:100%" >
+						<thead>
+							<tr>
+								<th>S.No</th>
+								<th style="padding: 5px;">Lender</th>
+								<th style="padding: 5px;">Program</th>
+								<th style="padding: 5px;">Borrower</th>
+								<th style="padding:5px">Anchor RefNo</th>
+								<th style="white-space: nowrap; padding:5px">LOS Id</th>
+								<th style="white-space:nowrap; padding: 5px;">LOD Id</th>
+								<th style="white-space: nowrap; padding: 5px;"> Inv No</th>
+								<th style="white-space: nowrap;padding: 5px;">Inv Date</th>
+								<th style="white-space: nowrap; padding: 5px;">Inv Amt</th>
+								<th style="white-space: nowrap; padding: 5px;">Disb Amt</th>
+								<th style="white-space: nowrap; padding:5px;">Disb Date</th>
+								<th style="white-space: nowrap; padding: 5px;">Credit</th>
+								<th style="white-space: nowrap;">Maturity Date</th>
+								<th style="white-space: nowrap;">Bene Name</th>
+								<th style="white-space: nowrap;">Bene Account</th>
+								<th style="white-space: nowrap;">IFSC code</th>
+							
+							
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let m  of invoicelist | filter:internallist | paginate: { itemsPerPage: 10, currentPage: s,id : 'second' };let i = index">
+								<td>{{((s-1)*10)+i+1}}</td>
+								<td>{{m.lenderName}}</td>
+								<td>{{m.programName}}</td>
+								<td>{{m.borrowerName}}</td>
+								<td>{{m.anchorRefNo}}</td>
+								<td>{{m.loanRequestId}}</td>
+								<td>{{m.loanDisbursalId}}</td>
+								<td style="white-space: pre-wrap;">{{m.invoiceNo}}</td>
+								<td style="white-space: nowrap;">{{m.invoiceDate}}</td>
+								<td style="white-space: nowrap;">{{indianCurrency(m.invoiceAmount)}}</td>
+								<td style="white-space: nowrap;">{{indianCurrency(m.disbursedAmount)}}</td>
+								<td style="white-space: nowrap;">{{m.disbursedDate}}</td>
+								<td>{{m.creditPeriod}}</td>
+								<td>{{m.maturityDate}}</td>
+								<td>{{m.beneName}}</td>
+								<td>{{m.beneAccount}}</td>
+								<td>{{m.ifscCode}}</td>
+								
+							
+								
+							</tr>
+						
+						</tbody>
+					</table>
+				</div>
+				<pagination-controls (pageChange)="s = $event" id="second"></pagination-controls>
+						</div>
+				</div>
+		
+		  <!-- Content Panel Ends -->	
+	</div>
+	<!-- Page Container Ends --->
+	</div>
+	</div>
+	</div>
+	</div>
+	<!-- Footer Starts --->
+
+	<!-- Footer Ends --->
+
+  
+  
+  
+
+  
+ 
+</body>
+

@@ -1,0 +1,181 @@
+
+
+<body>
+	
+	<div class="fin-card mt-10 clearfix">
+		<div style="float:right; margin-right: 40px;" >
+
+			<label style="color:green" (click)="gotoList()" class="pointer">InternalDashboard/</label><label style="color:grey;">{{routelabel}}</label></div>
+		
+		<div class="clearfix fin-heading" style="margin-left: 50px;">{{routelabel}}</div>
+		<div class="table-responsive" style="margin-left: 120px;">
+			<table class="table fin-table-green nowrap" style="margin-bottom:0px;">
+				<tbody>
+					<tr>
+						<td class="summary-icon" ><i class="fas fa-compact-disc green" style="color: red;" ></i> Total Disbursement Amount <span>{{indianCurrency(sum)}}</span></td>
+						<td class="summary-icon" *ngIf="retailernow"><i class="fa fa-compass red" style="color:green"></i> Total number of nodes <span>{{sumnodes}}</span></td>
+						<td class="summary-icon" *ngIf="sellernows"><i class="fa fa-compass red" style="color:green"></i> Total number of Sellers <span>{{lengthretailer}}</span></td>
+						<td class="summary-icon" ><i class="fa fa-compass red" style="color:green"></i> Total number of Disbursements <span>{{disbcount}}</span></td>
+					
+
+					</tr>
+				</tbody>
+			
+			</table>
+		</div>
+	</div>
+  <div class="container-scroller">
+	<!--- Top Header Start -->
+	
+	<!-- Top Header Ends --->
+	
+	
+	<!-- Page Container Starts --->
+	<div class="container-fluid page-body-wrapper">
+	
+		  
+		  <!-- Content Panel Starts -->
+		  <div class="main-panel">
+			<div class="content-wrapper">
+		
+				
+				<div class="row" *ngIf="retailernow">
+					
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+							    <div class="col">
+							
+									
+									<div class="search-hero">
+										
+									<input class="form-control" type="text" name="search" [(ngModel)]="internallist" autocomplete="off"
+										placeholder="&#61442;  Start searching ">
+										
+								</div>
+								</div>
+								<div style="float: right; margin-right: 10px;" >
+									<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcel()" *ngIf="sellernows"></i>
+									<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcels()" *ngIf="retailernow"></i>
+							</div>
+							<div class="row" style="margin-bottom: 5px;">
+						
+							<input type="month" class="form-control" [(ngModel)]="disburseDate" style="margin-left: 3px; width: 200px;" max={{maxdate}}>
+						
+							<input type="month" class="form-control" [(ngModel)]="disburseendDate" style="margin-left: 3px; width:200px" min={{disburseDate}} max={{maxdate}}>
+				
+							<button class=" btn btn-primary" (click)="disbursement()" style="margin-left: 100px;">Search</button>
+						</div>
+						
+								<table id="example" class="table-striped table-bordered" style="width:100%">
+									<thead>
+										<tr>
+											<th>S.No</th>
+											<th>Anchor Name</th>
+											<th>Pan Number</th>
+											<th>No. of Nodes</th>
+											<th>No. of Disbursements</th>
+											<th>Disbursement Amount</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let m  of customerlist | filter:internallist | paginate: {id:'first', itemsPerPage: 10, currentPage: p };let i = index">
+											<td>{{((p-1)*10)+i+1}}</td>
+											<td style="color:green" class="pointer" (click)="invoiceDetails(m.orgId)">{{m.anchorName}}</td>
+											<td>{{m.panNumber}}</td>
+											<td>{{m.noOfNodes}}</td>
+											<td>{{m.noOfDisbursals}}</td>
+											<td>{{indianCurrency(m.disbursementAmt)}}</td>
+											
+										</tr>
+									
+									</tbody>
+								</table>
+						
+							
+							</div>
+							<pagination-controls (pageChange)="p = $event" id="first"></pagination-controls>
+						</div>
+					</div>
+					
+				</div>
+				<div class="row" *ngIf="sellernows">
+					<div class="col-lg-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<div class="col">
+							
+									
+									<div class="search-hero">
+										
+									<input class="form-control" type="text" name="search" [(ngModel)]="customerslist" autocomplete="off"
+										placeholder="&#61442;  Start searching ">
+										
+								</div>
+								</div>
+								<div style="float: right; margin-right: 50px;" >
+									<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcel()" *ngIf="sellernows"></i>
+									<i class="fa fa-file-excel-o pointer" aria-hidden="true" (click)="exportExcels()" *ngIf="retailernow"></i>
+							</div>
+							<div class="row" style="margin-bottom: 5px;">
+						
+								<input type="month" class="form-control" [(ngModel)]="disburseDate" style="margin-left: 3px; width: 200px;" max={{maxdate}}>
+							
+								<input type="month" class="form-control" [(ngModel)]="disburseendDate" style="margin-left: 3px; width:200px" min={{disburseDate}} max={{maxdate}}>
+					
+								<button class=" btn btn-primary" (click)="disbursement()" style="margin-left: 100px;">Search</button>
+							</div>
+					<table id="example" class="table-striped table-bordered" style="width:100%" >
+						<thead>
+							<tr>
+							
+								<th>S.No</th>
+								
+							
+								<th>Seller Name</th>
+								<th>Pan Number</th>
+								<th>No. of Disbursements</th>
+								<th>Disbursement Amount </th>
+							
+							</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let m  of customerlist | filter:customerslist | paginate: { id : 'second',itemsPerPage: 10, currentPage: s } let i = index">
+								<td>{{((s-1)*10)+i+1}}</td>
+							
+
+								<td style="color:green" class="pointer" (click)="sellerdashboard(m.sellerName)">{{m.sellerName}}</td>
+								<td>{{m.panNumber}}</td>
+								<td>{{m.noOfDisbursals}}</td>
+								<td>{{indianCurrency(m.disbursementAmt)}}</td>
+							
+								
+							</tr>
+						
+						</tbody>
+					</table>
+				</div>
+				<pagination-controls (pageChange)="s = $event" id="second"></pagination-controls>
+						</div>
+				</div>
+		
+		  <!-- Content Panel Ends -->	
+	</div>
+	<!-- Page Container Ends --->
+	</div>
+	</div>
+	</div>
+	</div>
+	<!-- Footer Starts --->
+
+	<!-- Footer Ends --->
+
+  
+  
+  
+
+  
+ 
+</body>
+

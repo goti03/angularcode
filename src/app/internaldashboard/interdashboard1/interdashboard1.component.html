@@ -1,0 +1,832 @@
+<!--- Top Header Start -->
+
+<!-- Top Header Ends --->
+
+
+<!-- Page Container Starts --->
+<div class="container-fluid page-body-wrapper">
+	<!-- Content Panel Starts -->
+	<div class="main-panel">
+		<div class="content-wrapper">
+
+
+			<div class="row">
+				<div class="row" style="width:100%;">
+					<div class="col-md-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body dashboard-tabs p-0">
+								<h4 class="new-heading clearfix">
+									New to {{companyNames}}
+									<span style="float: right; margin-right: 5px; padding: 2px;">
+
+										<input type="month" [(ngModel)]="newtofinaggDate" style="height: 55px;"
+											class="form-control" max={{maxdate}} (ngModelChange)="newtofinaggDetails()">
+
+									</span>
+								</h4>
+
+								<mat-tab-group (selectedTabChange)= "onNewtabClick($event)" *ngIf="newcomer" >
+									<mat-tab label="All">
+										<div class="tab-content py-0 px-0">
+
+											<div class="d-flex flex-wrap justify-content-xl-between">
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-users mr-3 icon-lg text-danger pointer"
+														(click)="gotoList()"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">No. of Nodes </small>
+														<h5 class="mr-2 mb-0">{{noOfNodes}}</h5>
+													</div>
+												</div>
+
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-university mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Total Limits</small>
+														<h5 class="mr-2 mb-0">{{newlist.totalLimit}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-eye mr-3 icon-lg text-success"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Utilisation </small>
+														<h5 class="mr-2 mb-0">{{newlist.totalDisbursement}}% -
+															{{newlist.utilization}} </h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-file mr-3 icon-lg text-warning"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues No</small>
+														<h5 class="mr-2 mb-0">{{newlist.overDueNo}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-money mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues Amount</small>
+														<h5 class="mr-2 mb-0">{{newlist.overDueAmount}}</h5>
+													</div>
+												</div>
+											</div>
+										</div>
+									</mat-tab>
+									<mat-tab label="Retailer&Dealer">
+										<div class="tab-content py-0 px-0">
+
+											<div class="d-flex flex-wrap justify-content-xl-between">
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-users mr-3 icon-lg text-danger pointer"
+														(click)="gotoList()"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">No. of Nodes </small>
+														<h5 class="mr-2 mb-0">{{noOfNodes}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-university mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Total Limits</small>
+														<h5 class="mr-2 mb-0">{{newlist.totalLimit}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-eye mr-3 icon-lg text-success"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Utilisation </small>
+														<h5 class="mr-2 mb-0">{{newlist.totalDisbursement}}% -
+															{{newlist.utilization}} </h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-file mr-3 icon-lg text-warning"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues No</small>
+														<h5 class="mr-2 mb-0">{{newlist.overDueNo}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-money mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues Amount</small>
+														<h5 class="mr-2 mb-0">{{newlist.overDueAmount}}</h5>
+													</div>
+												</div>
+											</div>
+										</div>
+									</mat-tab>
+									<mat-tab label="Seller Up">
+										<div class="tab-content py-0 px-0">
+
+											<div class="d-flex flex-wrap justify-content-xl-between">
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-users mr-3 icon-lg text-danger pointer"
+														(click)="gotoList()"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">No. of Nodes </small>
+														<h5 class="mr-2 mb-0">{{noOfNodes}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-university mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Total Limits</small>
+														<h5 class="mr-2 mb-0">{{newlist.totalLimit}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-eye mr-3 icon-lg text-success"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Utilisation </small>
+														<h5 class="mr-2 mb-0">{{newlist.totalDisbursement}}% -
+															{{newlist.utilization}} </h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-file mr-3 icon-lg text-warning"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues No</small>
+														<h5 class="mr-2 mb-0">{{newlist.overDueNo}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-money mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues Amount</small>
+														<h5 class="mr-2 mb-0">{{newlist.overDueAmount}}
+														</h5>
+													</div>
+												</div>
+											</div>
+										</div>
+									</mat-tab>
+								</mat-tab-group>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="col-md-12 grid-margin stretch-card">
+						<div class="card" style="background-color:#f2fff5;">
+							<div class="card-body dashboard-tabs p-0">
+								<h4 class="new-heading clearfix">Total in {{companyNames}}
+
+								</h4>
+
+								<mat-tab-group (selectedTabChange)="onTotaltabClicks($event)" *ngIf="totalcomer">
+									<mat-tab label="All">
+										<div class="tab-content py-0 px-0">
+
+											<div class="d-flex flex-wrap justify-content-xl-between">
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-users mr-3 icon-lg text-info pointer"
+														(click)="gotoList()"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">No. of Nodes </small>
+														<h5 class="mr-2 mb-0">{{totaldata.noOfNodes}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Total Limits</small>
+														<h5 class="mr-2 mb-0">{{totaldata.totalLimit}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-eye mr-3 icon-lg text-dark"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Utilization </small>
+														<h5 class="mr-2 mb-0">{{totaldata.totalDisbursement}}%-
+															{{totaldata.utilization}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-file mr-3 icon-lg text-danger"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues No</small>
+														<h5 class="mr-2 mb-0">{{totaldata.overDueNo}}</h5>
+													</div>
+												</div>
+												<div
+													class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+													<i class="fa fa-money mr-3 icon-lg text-warning"></i>
+													<div class="d-flex flex-column justify-content-around">
+														<small class="mb-1 text-muted">Overdues Amount</small>
+														<h5 class="mr-2 mb-0">{{totaldata.overDueAmount}}</h5>
+													</div>
+												</div>
+											</div>
+										</div>
+									</mat-tab>
+									<mat-tab label="Retailer&Dealer">
+										<div class="d-flex flex-wrap justify-content-xl-between">
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-users mr-3 icon-lg text-info pointer"
+													(click)="gotoList()"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">No. of Nodes </small>
+													<h5 class="mr-2 mb-0">{{totaldata.noOfNodes}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Total Limits</small>
+													<h5 class="mr-2 mb-0">{{totaldata.totalLimit}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-eye mr-3 icon-lg text-dark"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Utilisation </small>
+													<h5 class="mr-2 mb-0">
+														{{totaldata.totalDisbursement}}%-{{totaldata.utilization}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-file mr-3 icon-lg text-danger"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Overdues No</small>
+													<h5 class="mr-2 mb-0">{{totaldata.overDueNo}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-money mr-3 icon-lg text-warning"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Overdues Amount</small>
+													<h5 class="mr-2 mb-0">{{totaldata.overDueAmount}}</h5>
+												</div>
+											</div>
+										</div>
+
+									</mat-tab>
+									<mat-tab label="Seller Up">
+
+										<div class="d-flex flex-wrap justify-content-xl-between">
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-users mr-3 icon-lg text-info pointer"
+													(click)="gotoList()"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">No. of Nodes </small>
+													<h5 class="mr-2 mb-0">{{totaldata.noOfNodes}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Total Limits</small>
+													<h5 class="mr-2 mb-0">{{totaldata.totalLimit}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-eye mr-3 icon-lg text-dark"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Utilisation </small>
+													<h5 class="mr-2 mb-0">
+														{{totaldata.totalDisbursement}}%-{{totaldata.utilization}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-file mr-3 icon-lg text-danger"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Overdues No</small>
+													<h5 class="mr-2 mb-0">{{totaldata.overDueNo}}</h5>
+												</div>
+											</div>
+											<div
+												class="d-flex py-3 border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+												<i class="fa fa-money mr-3 icon-lg text-warning"></i>
+												<div class="d-flex flex-column justify-content-around">
+													<small class="mb-1 text-muted">Overdues Amount</small>
+													<h5 class="mr-2 mb-0">{{totaldata.overDueAmount}}</h5>
+												</div>
+											</div>
+										</div>
+
+									</mat-tab>
+								</mat-tab-group>
+							</div>
+						</div>
+					</div>
+
+					<table width="100%">
+						<tr>
+							<td style="width:50%;">
+
+								<div class="col-md-12 grid-margin stretch-card">
+									<div class="card">
+										<div class="card-body dashboard-tabs p-0">
+											<h4 class="new-heading clearfix">Live but No Disbursement
+												<span style="float: right; margin-right: 5px;">
+
+													<input type="month" class="form-control"
+														[(ngModel)]="livebutnodisbursementDate" max={{maxdate}}
+														(ngModelChange)="livebutnodisbursementDetails()">
+
+												</span>
+											</h4>
+
+											<mat-tab-group (selectedTabChange)="onLivenodisbursementtabClick($event)" *ngIf="livecomer">
+												<mat-tab label="All">
+
+
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class=" d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{livelist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{livelist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+												<mat-tab label="Retailer&Dealer">
+
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{livelist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{livelist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+												<mat-tab label="Seller Up">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{livelist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{livelist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+											</mat-tab-group>
+										</div>
+									</div>
+								</div>
+
+
+
+							</td>
+							<td style="width:50%;">
+								<div class="col-md-12 " style="padding-top: 0; margin-top: -15px;">
+									<div class="card">
+										<div class="card-body dashboard-tabs p-0">
+											<h4 class="new-heading clearfix">Sanction But Not Live
+												<span style="float: right; margin-right: 5px;">
+
+
+													<input type="month" style="padding: -10px;" class="form-control"
+														[(ngModel)]="sanctionbutnotliveDate" max={{maxdate}}
+														(ngModelChange)="sanctionbutnotliveDetails()">
+
+												</span>
+											</h4>
+
+											<mat-tab-group (selectedTabChange)="onsanctionnolivetabClick($event)" *ngIf="sanctioncomer" >
+
+
+
+												<mat-tab label="All">
+													<div class="tab-pane fade show active" id="overview3"
+														role="tabpanel" aria-labelledby="overview-tab">
+														<div class="d-flex flex-wrap justify-content-xl-between">
+															<div
+																class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+																<i class="fa fa-users mr-3 icon-lg text-success"></i>
+																<div class="d-flex flex-column justify-content-around">
+																	<small class="mb-1 text-muted">No. of Nodes </small>
+																	<h5 class="mr-2 mb-0">{{sanctionlist.noOfNodes}}
+																	</h5>
+																</div>
+															</div>
+															<div
+																class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+																<i
+																	class="fa fa-university mr-3 icon-lg text-secondary"></i>
+																<div class="d-flex flex-column justify-content-around">
+																	<small class="mb-1 text-muted">Total Limits</small>
+																	<h5 class="mr-2 mb-0">
+																		{{sanctionlist.totalLimit}}</h5>
+																</div>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+												<mat-tab label="Retailer&Dealer">
+
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{sanctionlist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{sanctionlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+												<mat-tab label="Seller Up">
+
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{sanctionlist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-secondary"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{sanctionlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+											</mat-tab-group>
+										</div>
+									</div>
+								</div>
+
+							</td>
+						</tr>
+
+						<tr>
+							<td style="width: 50%;">
+
+								<div class="col-md-12 grid-margin stretch-card">
+									<div class="card" style="background-color:#f2fff5;">
+										<div class="card-body dashboard-tabs p-0">
+											<h4 class="new-heading clearfix">Under Sanction
+												<span style="float: right; margin-right: 5px;">
+
+													<input type="month" class="form-control"
+														[(ngModel)]="undersanctionDate" max={{maxdate}}
+														(ngModelChange)="undersanctionDetails()">
+
+												</span>
+											</h4>
+
+											<mat-tab-group (selectedTabChange)="onUndersanctiontabClick($event)" *ngIf="undersanction">
+												<mat-tab label="All">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">
+																	{{undersanctionlist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{undersanctionlist.totalLimit}}
+																</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+												<mat-tab label="Retailer&Dealer">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{undersanctionlist.noOfNodes}}
+																</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{undersanctionlist.totalLimit}}
+																</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+												<mat-tab label="Seller Up">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{undersanctionlist.noOfNodes}}
+																</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{undersanctionlist.totalLimit}}
+																</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+											</mat-tab-group>
+										</div>
+									</div>
+
+								</div>
+
+
+
+							</td>
+							<td style="width: 50%;">
+
+								<div class="col-md-12 grid-margin stretch-card" >
+									<div class="card" style="background-color:#f2fff5;">
+										<div class="card-body dashboard-tabs p-0">
+											<h4 class="new-heading clearfix">Rejected
+												<span style="float: right; margin-right: 5px;">
+
+													<input type="month" class="form-control" [(ngModel)]="rejectionDate"
+														max={{maxdate}} (ngModelChange)="rejectedDetails()">
+
+												</span>
+											</h4>
+
+											<mat-tab-group (selectedTabChange)= "rejectiontabClicks($event)" *ngIf="rejectioncomer">
+												<mat-tab label="All">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{rejectedlist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{rejectedlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+												<mat-tab label="Retailer&Dealer">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{rejectedlist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{rejectedlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+												<mat-tab label="Seller Up">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{rejectedlist.noOfNodes}}</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total Limits</small>
+																<h5 class="mr-2 mb-0">
+																	{{rejectedlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+											</mat-tab-group>
+										</div>
+									</div>
+								</div>
+
+
+							</td>
+						</tr>
+						<tr>
+							<td style="width: 50%;">
+
+								<div class="col-md-12 grid-margin stretch-card">
+									<div class="card" style="background-color:#f2fff5;">
+										<div class="card-body dashboard-tabs p-0">
+											<h4 class="new-heading clearfix">Total Disbursement
+												<span style="float: right; margin-right: 5px;">
+
+													<input type="month" class="form-control"
+														[(ngModel)]="disbursementDate" max={{maxdate}}
+														(ngModelChange)="disbursementDetails()">
+
+												</span>
+											</h4>
+
+											<mat-tab-group (selectedTabChange)="onDisbursementtabClick($event)" *ngIf="disbursementcomer">
+												<mat-tab label="All">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{disbursementlist.noOfNodes}}
+																</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total
+																	Disbursement</small>
+																<h5 class="mr-2 mb-0">
+																	{{disbursementlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+												<mat-tab label="Retailer&Dealer">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning pointer" (click)="gotoretailerList()"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{disbursementlist.noOfNodes}}
+																</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total
+																	Disbursement</small>
+																<h5 class="mr-2 mb-0">
+																	{{disbursementlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+
+												</mat-tab>
+												<mat-tab label="Seller Up">
+													<div class="d-flex flex-wrap justify-content-xl-between">
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-users mr-3 icon-lg text-warning pointer" (click)="gotosellerList()"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">No. of Nodes </small>
+																<h5 class="mr-2 mb-0">{{disbursementlist.noOfNodes}}
+																</h5>
+															</div>
+														</div>
+														<div
+															class="d-flex border-md-right flex-grow-1 align-items-center justify-content-center p-3 item">
+															<i class="fa fa-university mr-3 icon-lg text-success"></i>
+															<div class="d-flex flex-column justify-content-around">
+																<small class="mb-1 text-muted">Total
+																	Disbursement</small>
+																<h5 class="mr-2 mb-0">
+																	{{disbursementlist.totalLimit}}</h5>
+															</div>
+														</div>
+													</div>
+												</mat-tab>
+											</mat-tab-group>
+										</div>
+									</div>
+
+								</div>
+
+
+
+							</td>
+
+						</tr>
+					</table>
+
+
+
+
+
+
+				</div>
+			</div>
+			<!-- Content Panel Ends -->
+
+			<!-- Page Container Ends --->
+
+			<!-- Footer Starts --->
+
+			<!-- Footer Ends --->

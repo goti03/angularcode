@@ -1,0 +1,26 @@
+.bg {
+    color: black;
+    font-weight: 200;
+    padding: 5%;
+}
+
+.otp-box {
+    height: 45px !important;
+    width: 45px !important;
+    flex-grow: 0 !important;
+    outline: black 1px;
+}
+
+.warn {
+    color: red;
+    font-weight: 500;
+}
+
+.small {
+    font-size: 15px;
+}
+
+.big {
+    font-size: 25px;
+}
+

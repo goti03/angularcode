@@ -1,0 +1,95 @@
+<div class="row bg">
+    <div class="col">
+
+        <div class="card">
+            <div class="card-body">
+
+
+                <div class="row">
+                    <div class="col">
+                        <h3>Cash Discount</h3>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col">
+                        Dear <b>{{result.orgName}}</b>,
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <p>Your FinAGG Outstanding as of today <b>{{result.date}}</b> is INR {{result.totalAmountAfterDiscount}}. Please pay outstanding and
+                            save INR {{result.savingAmount}}.You can also pay any amount lower than INR {{result.totalAmountAfterDiscount}} and save.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <h4>For Payment to FinAGG</h4>
+                        <ol>
+                            <li>
+                                <div class="lead">Option 1</div>
+                                <div class="">
+                                    NEFT/RTGS/IMPS - add Your FinAGG Account in your netbanking
+                                </div>
+                                <div>
+                                    Account NO - {{result.accountNo}}.
+                                </div>
+                                <div>
+                                    IFSC CODE - {{result.ifscCode}}. 
+                                </div>
+                            </li>
+                            <li>
+                                <div class="lead">Option 2</div>
+                                <div class="">
+                                    UPI app Like PhonePe/PayTM etc 
+                                </div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tranch Date</th>
+                                <th>Tranch No</th>
+                                <th>Amount</th>
+                                <th>What you Pay</th>
+                                <th>Saving</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let a of result.details; let i = index">
+                                <td>{{a.trancheDate}}</td>
+                                <td>{{a.trancheNo}}</td>
+                                <td>{{a.amount}}</td>
+                                <td>{{a.whatYouPay}}</td>
+                                <td>{{a.saving}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <p>In case of any question, please send email <a href="mailto:hello@finagg.in">hello@finagg.in</a> at or whatsapp +91 89202 01334 </p>
+                    </div>
+                </div>
+
+                <div class="row purple">Regards</div>
+                <div class="row purple">Team</div>
+                <div class="row purple">FinAGG</div>
+
+
+            </div>
+        </div>
+    </div>
+</div>

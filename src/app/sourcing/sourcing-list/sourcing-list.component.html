@@ -1,0 +1,45 @@
+<div class="row">
+  <!-- column -->
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h2>Master Sourcing List</h2>
+          </div>
+          <div class="search-hero">
+            <input class="form-control" type="text" name="search" [(ngModel)]="searchSourcingList" autocomplete="off" placeholder="&#61442;  Start searching ">
+          </div>
+          <div class="panel-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Sourcing Partner Name</th>
+                  <th>Address</th>
+                  <th>Contact Name</th>
+                  <th>Mobile No.</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sourcing of sourcing | filter:searchSourcingList | paginate: { itemsPerPage: 5, currentPage: p }">
+                  <td>{{sourcing.sourcingName}}</td>
+                  <td>{{sourcing.address}}</td>
+                  <td>{{sourcing.contactName}}</td>
+                  <td>{{sourcing.mobileNo}}</td>
+                  <td>
+                    <button (click)="updateSourcing(sourcing.sourcingId)" class="btn" style="margin-left: 10px" *ngIf="!readRole"><i class="fa fa-edit fa-2x" style="color: #1fc1f7;" title="Update"></i></button>
+                    <button (click)="sourcingDetails(sourcing.sourcingId)" class="btn" style="margin-left: 10px"><i class="fa fa fa-eye fa-2x" style="color: #1fad3c;" title="View"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button (click)="sourcingAdd()" class="btn btn-success" *ngIf="!readRole">Add</button>
+          </div>
+        </div>
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+      </div>
+    </div>
+  </div>
+</div>
